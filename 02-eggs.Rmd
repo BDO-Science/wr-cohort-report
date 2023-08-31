@@ -1,0 +1,44 @@
+# Egg to Fry Emergence
+
+This section describes environmental attributes associated with and responses during the egg-to-fry life stage.
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+library(ggplot2) 
+library(dplyr) 
+library(lubridate) 
+library(viridis)
+source("functions.R")
+```
+
+## Habitat Attributes 
+
+1. Redd Dewatering
+  * count by year
+  * location
+  * water depth
+  * flow
+
+## Environmental Drivers
+
+1. Air Temperature
+
+2. DO
+
+3. Shasta Storage/Hydrology
+
+4. Water Temperature
+
+## Biological Response
+
+1. Egg Count
+
+* line plot of potential eggs by year with averages (JPE letter?)
+
+2. Egg to fry survival 
+
+* bar plot of percent survival by year (JPI calculation)
+  * JPI = fry abundance/total viable eggs in JPE letter
+* egg to fry survival by number of mainstem in-river spawners (JPI calculation)
+* egg-to-fry survival from fish model (fish model)
+
+3. Emergence Timing (fish model)

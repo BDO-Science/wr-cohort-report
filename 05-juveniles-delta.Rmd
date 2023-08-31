@@ -1,0 +1,90 @@
+# Sacramento-San Joaquin Delta Juveniles
+
+This section describes environmental attributes associated with and responses during the out-migrating juvenile life stage in the Sacramento-San Joaquin Delta.
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+library(ggplot2) 
+library(dplyr) 
+library(lubridate) 
+library(viridis)
+library(sharpshootR)
+source("functions.R")
+```
+
+## Habitat Attributes
+
+1. Rearing Habitat Capacity (Floodplain Connectivity)
+
+* Weir overtopping
+
+2. Entrainment Risk
+
+3. Food Availability
+
+## Environmental Drivers
+
+1. Shasta Storage/Hydrology
+
+2. Flows: Sacramento River, Delta Outflow
+
+3. Flows: Migration Cues and Routing 
+
+4. Turbidity 
+
+5. Water Temperature
+
+6. DO
+
+
+## Biological Response
+
+Monitoring Sources for abundance, growth/size, migration timing/duration
+
+* Sac Trawl
+* Tisdale Weir
+* Knights Landing
+* GCID
+* DJFMP
+* Yolo Bypass
+* Chipps Island Trawl (Exit)
+* Genetic (Chipps, SWP/CVP, Knights Landing, Yolo Bypass)
+
+1. Abundance (Count) (IEP Monitoring)
+
+2. Condition (IEP Monitoring)
+
+* FL
+
+3. Migration Timing (IEP Monitoring)
+
+* SacPAS style plots of historical and current year?
+
+*Chipps Trawl Timing*
+
+*Sac Trawl Timing*
+
+*Sac Beach Seine Timing*
+
+
+4. Migration Duration
+
+* Calfish Track/ERDDAP
+
+5. Migration Routing
+
+6. Survival 
+
+* Hatchery real-time: Calfish Track/ERDDAP
+* Natural Origin Smolt survival (O Farell et al. 2018)
+* Hatchery Origin Smolt survival
+* Modeled:
+  ** Juvenile: STARS
+  ** Fish Model
+* Survival to Delta: Production (Hatchery JPE, Modeled JPE)
+
+7. Loss and Salvage (Salvage)
+
+* Take Limit
+* Model
+
+

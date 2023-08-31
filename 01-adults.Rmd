@@ -1,0 +1,123 @@
+# Adults
+
+This section describes environmental attributes associated with and responses during the adult life stage (ocean harvest, migration, spawning)
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+library(ggplot2) 
+library(dplyr) 
+library(lubridate) 
+library(viridis)
+library(sharpshootR)
+source("functions.R")
+```
+
+## Habitat Attributes 
+1. Hatchery Influence (Proportion of hatchery return)
+
+2. Hatchery Pathogens/Disease
+
+3. In-River Pathogens/Disease
+
+4. Spawning Habitat Capacity (SIT model)
+
+## Environmental Drivers {#wq}
+
+1. Water Temperature 
+
+Water temperatures were warmer than average in 2020 (Figure \@ref(fig:historicalwtemp-fig)).
+ 
+```{r BSFwtemp-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Sacramento River Water Temperature at Ball's Ferry Bridge TCP (BSF)."}
+temp_data <- readRDS("data_raw/temp_cdec_2011-2023.rdsxz")
+temp_BSF <- temp_data %>%
+  filter(station == "BSF",
+         year == 2021,
+         month>3 & month < 10) %>%
+  group_by(date) %>%
+  summarize(Temperature = mean(Temperature, na.rm = TRUE))
+
+ggplot(temp_BSF) + 
+  geom_line(aes(date, Temperature), color = "steelblue") +
+  geom_hline(yintercept  = 56, linetype = "dashed", color = "gray50") + 
+  scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
+  labs(y = "Water Temperature (°C)") +
+  theme_plots 
+
+```
+
+
+```{r historicalwtemp-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Historical Comparison of Sacramento River Water Temperature at Clear Creek (CCR) and Balls Ferry Bridge (BSF)."}
+temp_years <- temp_data %>%
+  filter(date<as.Date("2022-01-01")) %>%
+  group_by(date, date2, year, month, wy, station) %>%
+  summarize(Temperature = mean(Temperature, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(fyear = factor(year)) %>%
+  dplyr::select(station, date2, Temperature, fyear)
+
+temp_avg <- temp_data %>%
+  filter(date<as.Date("2022-01-01")) %>%
+  group_by(station, date2) %>%
+  summarize(Temperature = mean(Temperature, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(fyear = "mean")
+
+temp_all <- rbind(temp_years, temp_avg) %>%
+  filter(fyear %in% c("mean", "2011", "2020", "2017")) %>%
+  rename(doy = date2)
+
+ggplot(temp_all) + geom_line(aes(doy, Temperature, color = fyear)) +
+  facet_wrap(~station, nrow = 2) + 
+  scale_color_viridis(option = "turbo", discrete = TRUE) + 
+  scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
+  labs(y = "Water Temperature (°C)") +
+  theme_plots 
+```
+
+## Biological Response
+
+1. Ocean Harvest Rates (PFMC)
+
+2. Adults to Hatchery (GrandTab)
+
+3. Estimated Total Mainstem In-River Spawners of Natural and Hatchery Origin (GrandTab)
+
+* Downstream RBDD
+* Upstream RBDD
+* Clear Creek
+* Battle Creek
+
+4. Adult Condition (Carcass Surveys)
+
+* Male Fork Lengths (Histogram)
+* Female Fork Lengths (Histogram)
+* Age Distribution
+* Thiamine Deficiency
+* Pre-spawn mortality (in-text current year and 10-yr average, compare with other years)
+
+5. Spawn Timing (Carcass Surveys)
+
+* Percent spawning by week - line plot of percent of carcasses by week (current year, 10 year and 20 year average)
+* Peak spawning week - line plot of peak spawning week by year (annual, rolling 5-year avg, 10-year avg)
+
+6. Number of Winter-Run Chinook Salmon Redds (aerial redd surveys, Calfish)
+
+* line plot of count by year with average horizontal line 
+
+7. Distribution of Winter-Run Chinook Salmon Redds - location of redds (aerial redd surveys, Calfish)
+
+* map of locations 
+* bar plot of percent redds by location (historical and this year)
+* bar plot of female spawner carcasses by location
+
+8. Hatchery Fecundity (JPE Letters)
+
+* in text, comparison with previous 10 years
+
+9. Hatchery Influence (Hatchery report?)
+
+* in text percentage of hatchery fish/natural spawning pop
+
+10. Cohort Replacement Rate (GrandTab)
+
+* line plot of CRR by year 
+

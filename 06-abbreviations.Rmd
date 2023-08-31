@@ -1,0 +1,4 @@
+# Abbreviations
+
+CM = Conceptual Model
+WRCS = Winter Run Chinook Salmon

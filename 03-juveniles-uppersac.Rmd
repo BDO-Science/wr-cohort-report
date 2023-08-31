@@ -1,4 +1,6 @@
-# Environmental Drivers
+# Upper Sacramento Juveniles
+
+This section describes environmental attributes associated with and responses during the out-migrating juvenile life stage in the Upper Sacramento River.
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library(ggplot2) 
@@ -6,6 +8,7 @@ library(dplyr)
 library(lubridate) 
 library(viridis)
 library(sharpshootR)
+source("functions.R")
 ```
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -19,10 +22,31 @@ theme_plots <- theme_bw() + theme(axis.text = element_text(size = 12),
                                   axis.text.x = element_text(angle = 45, hjust = 0.5, vjust = 0.5))
 ```
 
-## Water Quality {#wq}
+## Habitat Attributes
+
+1. Hatchery Influence (Juvenile Releases)
+
+2. Juvenile Stranding
+
+3. Pathogens/Disease
+
+4. Contaminants
+
+5. Habitat Capacity (Floodplain Connectivity)
+
+6. Habitat Capacity: Depth/Shallow Water
+
+7. In-Stream Habitat Capacity
+
+## Environmental Drivers
+
+1. Shasta Storage/Hydrology
+
+2. Flows: Migration Cues
+
+3. Flows at Keswick 
 
 Flows at Keswick were lower in 2022 (Figure \@ref(fig:KWKflow-fig)).
-
 ```{r KWKflow-fig, echo=FALSE, message=FALSE, warning=FALSE, fig.cap = "Flows at Keswick (KWK), 2019-2022."}
 flow_kwk <- readRDS("data_raw/USGS_NWIS_11370500_flow.rds") %>%
   filter(year>2018 & year<2023) %>%
@@ -38,7 +62,7 @@ ggplot(flow_kwk) + geom_line(aes(date2, flow, color = fyear)) +
   theme(legend.title = element_blank())
 ```
 
-
+4. Turbidity and DO
 ```{r DOTurb-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Dissolved Oxygen and Turbidity at Keswick Dam (KWK) and Sacramento River upstream from Confluence with Clear Creek (CCR)."}
 
 do_data <- readRDS("data_raw/do_cdec_2017-2023.rdsxz")
@@ -62,62 +86,22 @@ ggplot(do_turb_recent) + geom_line(aes(date, value, color = station)) +
   theme(axis.title.y = element_blank())
   
 ```
-
-```{r BSFwtemp-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Sacramento River Water Temperature at Ball's Ferry Bridge TCP (BSF)."}
-temp_data <- readRDS("data_raw/temp_cdec_2011-2023.rdsxz")
-temp_BSF <- temp_data %>%
-  filter(station == "BSF",
-         year == 2021,
-         month>3 & month < 10) %>%
-  group_by(date) %>%
-  summarize(Temperature = mean(Temperature, na.rm = TRUE))
-
-ggplot(temp_BSF) + 
-  geom_line(aes(date, Temperature), color = "steelblue") +
-  geom_hline(yintercept  = 56, linetype = "dashed", color = "gray50") + 
-  scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
-  labs(y = "Water Temperature (°C)") +
-  theme_plots 
-
-```
-
- Water temperatures were warmer than average in 2020 (Figure \@ref(fig:historicalwtemp-fig)).
- 
-```{r historicalwtemp-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Historical Comparison of Sacramento River Water Temperature at Clear Creek (CCR) and Balls Ferry Bridge (BSF)."}
-temp_years <- temp_data %>%
-  filter(date<as.Date("2022-01-01")) %>%
-  group_by(date, date2, year, month, wy, station) %>%
-  summarize(Temperature = mean(Temperature, na.rm = TRUE)) %>%
-  ungroup() %>%
-  mutate(fyear = factor(year)) %>%
-  dplyr::select(station, date2, Temperature, fyear)
-
-temp_avg <- temp_data %>%
-  filter(date<as.Date("2022-01-01")) %>%
-  group_by(station, date2) %>%
-  summarize(Temperature = mean(Temperature, na.rm = TRUE)) %>%
-  ungroup() %>%
-  mutate(fyear = "mean")
-
-temp_all <- rbind(temp_years, temp_avg) %>%
-  filter(fyear %in% c("mean", "2011", "2020", "2017")) %>%
-  rename(doy = date2)
-
-ggplot(temp_all) + geom_line(aes(doy, Temperature, color = fyear)) +
-  facet_wrap(~station, nrow = 2) + 
-  scale_color_viridis(option = "turbo", discrete = TRUE) + 
-  scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
-  labs(y = "Water Temperature (°C)") +
-  theme_plots 
-```
+5. Water Temperature
 
 
+## Biological Response
 
+1. Fry abundance (Fry-equivalent JPI)
 
-## Habitat
+* By year
+* RBDD RST Data 
 
-Weir Overtopping
+2. Condition/ Growth
+* Fork length by year
 
+3. Migration Timing
+* RBDD RST Data
 
-WUA 
+4. Fry-to-Smolt Survival
+* Model?
 

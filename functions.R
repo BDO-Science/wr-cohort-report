@@ -6,6 +6,15 @@ library(cvpiaHabitat)
 library(cvpiaFlow)
 library(sharpshootR)
 
+theme_plots <- theme_bw() + theme(axis.text = element_text(size = 12),
+                                  strip.text = element_text(size = 12),
+                                  legend.text = element_text(size = 12),
+                                  axis.title = element_text(size = 13),
+                                  axis.title.x = element_blank(),
+                                  legend.title = element_blank(),
+                                  legend.position = "top",
+                                  axis.text.x = element_text(angle = 45, hjust = 0.5, vjust = 0.5))
+
 library(rvest)
 #Function adjusted from Trinh Nguyen's code to pull salvage datasets from SacPAS
 pull_salvage <- function(salvageURL = "http://www.cbr.washington.edu/sacramento/data/query_loss_detail.html") {

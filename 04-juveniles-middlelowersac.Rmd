@@ -1,0 +1,80 @@
+# Middle and Lower Sacramento Juveniles
+
+This section describes environmental attributes associated with and responses during the out-migrating juvenile life stage in the Lower and Middle Sacramento River.
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+library(ggplot2) 
+library(dplyr) 
+library(lubridate) 
+library(viridis)
+library(sharpshootR)
+source("functions.R")
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+theme_plots <- theme_bw() + theme(axis.text = element_text(size = 12),
+                                  strip.text = element_text(size = 12),
+                                  legend.text = element_text(size = 12),
+                                  axis.title = element_text(size = 13),
+                                  axis.title.x = element_blank(),
+                                  legend.title = element_blank(),
+                                  legend.position = "top",
+                                  axis.text.x = element_text(angle = 45, hjust = 0.5, vjust = 0.5))
+```
+
+## Habitat Attributes
+
+1. Habitat Capacity (Floodplain Connectivity)
+
+2. Habitat Capacity: Depth/Shallow Water
+
+3. In-Stream Habitat Capacity
+
+## Environmental Drivers
+
+1. Shasta Storage/Hydrology
+
+2. Flows: Migration Cues
+
+3. Flows: In-River Flows
+
+4. Turbidity 
+
+5. Water Temperature
+
+## Biological Response
+
+Monitoring Sources for abundance, growth/size, migration timing/duration
+
+
+* Sac Trawl
+* Tisdale Weir
+* Knights Landing
+* GCID
+* DJFMP
+* Yolo Bypass
+* Chipps Island Trawl (Exit)
+* Genetic (Chipps, SWP/CVP, Knights Landing, Yolo Bypass)
+
+1. Abundance (Count) (IEP Monitoring)
+
+* Natural JPE
+* Hatchery JPE
+* SacPAS Fish Model (emerged fry)
+
+2. Condition
+
+* Growth/ Size
+
+3. Migration Timing 
+
+* SacPAS style plots of historical and current year?
+
+4. Survival 
+
+* Hatchery real-time: Calfish Track/ERDDAP
+* Natural Origin Smolt survival (O Farell et al. 2018)
+* Hatchery Origin Smolt survival
+* Modeled:
+  ** Juvenile: STARS
+  ** Fish Model

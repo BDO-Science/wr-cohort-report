@@ -27,9 +27,20 @@ WRCS historically spawned in cold-water reaches of the McCloud, Pit, and Sacrame
 
 WRCS were listed under the California Endangered Species Act (CESA) in 1989, and were listed under the Federal Endangered Species Act as endangered on January 4, 1994. 
 
+## Spatial Distribution
+
+!["distribution map"](figures/map_sac_river_delta_bay.png)
+
+## Conceptual Model
+Metrics selected in this report are based on a conceptual model developed by Windell et al. (2017).
+
+!["conceptual model"](figures/WRCM.png)
+
+
 
 ## References
 
 * <https://wildlife.ca.gov/Conservation/Fishes/Chinook-Salmon/Winter-run>
 * Moyle P.B. 2002. Inland Fishes of California, University of California Press.
 * National Marine Fisheries Service (NMFS). 2014. Recovery Plan for Evolutionarily Significant Units of Sacramento River Winter-run Chinook Salmon and Central Valley Spring-run Chinook Salmon and the Distinct population Segment of California Central Valley Steelhead. California Central Valley Area Office, July 2014.
+* Windell, S., P.L. Brandes, J.L. Conrad, J.W. Ferguson, P.A.L. Goertler, B.N. Harvey, J. Heublein, J.A. Israel, D.W. Kratville, J.E. Kirsch, R.W. Perry, J. Pisciotto, W.R. Poytress, K. Reece, B.G. Swart, and R.C. Johnson, 2017. Scientific Framework for Assessing Factors Influencing Endangered Sacramento River Winter­Run Chinook Salmon (Oncorhynchus tshawytscha) Across the Life Cycle. NOAA Technical Memorandum NMFS. NOAA-TM-NMFS-SWFSC-586. August 2017. Available at: https://watershed.ucdavis.edu/files/biblio/NOAA-TM-NMFS-SWFSC-586_Final.pdf
