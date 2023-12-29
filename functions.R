@@ -5,6 +5,8 @@ library(lubridate)
 library(cvpiaHabitat)
 library(cvpiaFlow)
 library(sharpshootR)
+library(rvest)
+library(ggplot2)
 
 theme_plots <- theme_bw() + theme(axis.text = element_text(size = 12),
                                   strip.text = element_text(size = 12),
@@ -15,7 +17,7 @@ theme_plots <- theme_bw() + theme(axis.text = element_text(size = 12),
                                   legend.position = "top",
                                   axis.text.x = element_text(angle = 45, hjust = 0.5, vjust = 0.5))
 
-library(rvest)
+
 #Function adjusted from Trinh Nguyen's code to pull salvage datasets from SacPAS
 pull_salvage <- function(salvageURL = "http://www.cbr.washington.edu/sacramento/data/query_loss_detail.html") {
   startingSession <- session(salvageURL)
@@ -43,6 +45,39 @@ pull_salvage <- function(salvageURL = "http://www.cbr.washington.edu/sacramento/
   df
 }
 
+
+# Pull GrandTab ------------------------------------------------------------------
+
+s <- session("https://www.cbr.washington.edu/sacramento/data/php/rpt/grandtab_graph.php?sc=1&outputFormat=default&species=Chinook%3AWinter&type=All&locType=location&location=Sacramento+and+San+Joaquin+River+Systems%3AAll%3AAll")
+
+
+
+
+pull_grandtab <- function(grandtabURL = "https://www.cbr.washington.edu/sacramento/data/query_adult_grandtab.html") {
+  startingSession <- session(grandtabURL)
+  startingForm <- html_form(startingSession)[[1]]
+  vals <- list(outputFormat = "csv",
+               type = "All",
+               species = "Chinook:Winter",
+               location = "value=Sacramento and San Joaquin River Systems:All:All")
+  filledForm <- html_form_set(startingForm, !!!vals)
+
+  submittedFormURL <- suppressMessages(session_submit(x = startingSession,
+                                                    form = filledForm,POST = grandtabURL)$url)
+
+  csvLink <- submittedFormURL
+
+    if (length(csvLink) == 0) {
+      return(NULL)
+    } else {
+      csvDownload <- csvLink
+    }
+
+    df <- csvDownload %>%
+      readr::read_csv()
+  df
+}
+
 # Get NWIS Flow -------------------------------------------------------------------
 # Default is Vernalis
 f_get_NWIS_flow <- function(siteNumbers=11303500, parameterCd = c('00060'), startDate = start, endDate = end, tz = "Etc/GMT+8"){
@@ -62,10 +97,13 @@ f_get_NWIS_flow <- function(siteNumbers=11303500, parameterCd = c('00060'), star
     mutate(date = date(date_time),
            date2 = ymd(paste0("1980-", month(date), "-", day(date))),
            year = year(date),
-           fyear = factor(year))
+           fyear = factor(year)) %>%
+    rename(flow = flow_inst,
+           datetime = date_time) %>%
+    mutate(wy = if_else(month(date) > 9, year + 1, year))
 
   # write out
-  saveRDS(data2, paste0("data_raw/USGS_NWIS_", siteNumbers, "_flow.rds"))
+  saveRDS(data2, paste0("data_raw/USGS_NWIS_", siteNumbers, "_",lubridate::year(start), "_", lubridate::year(end), "_flow.rds"))
 
   # print message!
   print("Data saved in data_raw")
@@ -73,24 +111,69 @@ f_get_NWIS_flow <- function(siteNumbers=11303500, parameterCd = c('00060'), star
 
 # Clean CDEC -------------------------------------------------------------------
 
-clean_cdec <- function(cdec_df)
+clean_cdec <- function(df, param_name) {
 
- data <-cdec_df %>%
+ data <-df %>%
   bind_rows() %>%
   mutate(datetime = as.POSIXct(datetime, tz = "America/Los_Angeles", format = "%Y-%m-%d %H:%M:%S"),
          date = lubridate::date(datetime),
          year = lubridate::year(date),
          month = as.numeric(month),
          date2 = ymd(paste0("1980-", month, "-", lubridate::day(date)))) %>%
-  select(datetime,date, date2, month, wy = water_year, year, station = station_id, parameter=value) %>%
+   rename(!!sym(param_name) := value) %>%
+  select(datetime,date, date2, month, wy = water_year, year, station = station_id, !!sym(param_name)) %>%
   filter(!is.na(station),
          !is.na(date))
+}
 
+# Monthly data
+f_monthly <- function(df, colName) {
+  param = enquo(colName)
+  df %>%
 
+    mutate(month = month(date, label = TRUE, abbr = TRUE),
+           year = year(date)) %>%
+    filter(year == report_year) %>%
+    select(-datetime, -date2, -date, -wy) %>%
+    distinct() %>%
+    group_by(year, month, station) %>%
+    summarize(mean = round(mean(!! param, na.rm = TRUE),1),
+           min = round(min(!! param, na.rm = TRUE),1),
+           max = round(max(!! param, na.rm = TRUE),1)) %>%
+    ungroup() %>%
+    select(-year) %>%
+    arrange(station, month)
+}
 
+# Get daily data to have 10-year mean
 
+f_daily_10year <- function(df, colName) {
+  param = enquo(colName)
+  df %>%
+    group_by(date2, station) %>%
+    mutate(mean_10year = mean(!! param, na.rm = TRUE)) %>%
+    ungroup() %>%
+    group_by(date, date2, mean_10year, station) %>%
+    summarize(mean = mean(!! param, na.rm = TRUE),
+              min = min(!! param, na.rm = TRUE),
+              max = max(!! param, na.rm = TRUE)) %>%
+    ungroup() %>%
+    mutate(fyear = factor(year(date)))
+}
 
+# Filter to means only and long
 
+f_convert_mean_long <- function(df, param_name) {
+  df %>%
+    filter(fyear == report_year) %>%
+    rename(doy = date2) %>%
+    select(doy, mean_10year, station, mean) %>%
+    pivot_longer(cols = c("mean_10year", "mean"),
+                 names_to = "year_type", values_to = param_name) %>%
+    mutate(plot_year = case_when(year_type == "mean_10year" ~ as.character(paste0(report_year-10, "-",report_year)),
+                                 year_type == "mean" ~ as.character(report_year),
+                                  TRUE~ year_type))
+}
 
 
 
