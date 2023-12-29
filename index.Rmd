@@ -11,6 +11,7 @@ description: |
   Winter Run Chinook Salmon Cohort Report for 2021.
 link-citations: yes
 github-repo: rstudio/bookdown-demo
+always_allow_html: true
 ---
 
 # About

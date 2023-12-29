@@ -46,46 +46,8 @@ theme_plots <- theme_bw() + theme(axis.text = element_text(size = 12),
 
 3. Flows at Keswick 
 
-Flows at Keswick were lower in 2022 (Figure \@ref(fig:KWKflow-fig)).
-```{r KWKflow-fig, echo=FALSE, message=FALSE, warning=FALSE, fig.cap = "Flows at Keswick (KWK), 2019-2022."}
-flow_kwk <- readRDS("data_raw/USGS_NWIS_11370500_flow.rds") %>%
-  filter(year>2018 & year<2023) %>%
-  group_by(year, fyear, date, date2) %>%
-  summarize(flow = mean(flow_inst, na.rm = TRUE)) %>%
-  ungroup()
-
-ggplot(flow_kwk) + geom_line(aes(date2, flow, color = fyear)) +
-  scale_color_viridis(discrete = TRUE, option = "turbo") + 
-  scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
-  labs(y = "Flow (cfs)") +
-  theme_plots +
-  theme(legend.title = element_blank())
-```
-
 4. Turbidity and DO
-```{r DOTurb-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Dissolved Oxygen and Turbidity at Keswick Dam (KWK) and Sacramento River upstream from Confluence with Clear Creek (CCR)."}
 
-do_data <- readRDS("data_raw/do_cdec_2017-2023.rdsxz")
-turb_data <- readRDS("data_raw/turbidity_cdec_2017-2023.rdsxz")
-do_turb_data <- left_join(do_data, turb_data %>% dplyr::select(datetime, station, Turbidity))
-do_turb_long <- do_turb_data %>% tidyr::pivot_longer(cols = c(DO, Turbidity),
-                                                     names_to = "parameter",
-                                                     values_to = "value")
-do_turb_recent <- do_turb_long %>%
-  filter(year==2021) %>%
-  group_by(wy, year, month, date, date2, station, parameter) %>%
-  summarize(value = mean(value, na.rm = TRUE))
-
-ggplot(do_turb_recent) + geom_line(aes(date, value, color = station)) +
-  facet_wrap(~parameter, scales = "free_y", nrow = 2,
-             labeller = as_labeller(c(DO = "Dissolved Oxygen\n(mg/L)", Turbidity = "Turbidity (NTU)")),
-             strip.position = "left") + 
-  scale_color_manual(values = c("#E69F00", "#0072B2")) + 
-  scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
-  theme_plots +
-  theme(axis.title.y = element_blank())
-  
-```
 5. Water Temperature
 
 

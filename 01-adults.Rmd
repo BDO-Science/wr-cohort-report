@@ -8,116 +8,264 @@ library(dplyr)
 library(lubridate) 
 library(viridis)
 library(sharpshootR)
+
+library(kableExtra)
+library(flextable)
 source("functions.R")
+source("parameters.R")
 ```
 
-## Habitat Attributes 
-1. Hatchery Influence (Proportion of hatchery return)
+## Habitat Attributes
 
-2. Hatchery Pathogens/Disease
+1.  Hatchery Influence (Proportion of hatchery return)
 
-3. In-River Pathogens/Disease
+2.  Hatchery Pathogens/Disease
 
-4. Spawning Habitat Capacity (SIT model)
+3.  In-River Pathogens/Disease
+
+4.  Spawning Habitat Capacity (SIT model)
 
 ## Environmental Drivers {#wq}
 
-1. Water Temperature 
+- `r report_year` was a `r wytype` water year type.
 
-Water temperatures were warmer than average in 2020 (Figure \@ref(fig:historicalwtemp-fig)).
- 
-```{r BSFwtemp-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Sacramento River Water Temperature at Ball's Ferry Bridge TCP (BSF)."}
-temp_data <- readRDS("data_raw/temp_cdec_2011-2023.rdsxz")
-temp_BSF <- temp_data %>%
-  filter(station == "BSF",
-         year == 2021,
-         month>3 & month < 10) %>%
-  group_by(date) %>%
-  summarize(Temperature = mean(Temperature, na.rm = TRUE))
+### Storage and Flow
 
-ggplot(temp_BSF) + 
-  geom_line(aes(date, Temperature), color = "steelblue") +
-  geom_hline(yintercept  = 56, linetype = "dashed", color = "gray50") + 
+#### Shasta Storage
+
+Flows in the Sacramento River are dependent on Shasta storage. Adult WR Chinook Salmon reply on flows for migration cues.
+
+```{r SHAstor-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Shasta Dam Storage (SHA)."}
+shasta_data <- readRDS(paste0("data_raw/storage_sha_plot_data_", year(start), "-", year(end), ".rds")) %>%
+   mutate(month = month(doy)) %>%
+   filter(month>=1 & month < 8) %>%
+   mutate(Month = month(doy, label = TRUE, abbr = TRUE)) %>%
+  mutate(Storage_TAF = round(Storage/1000000,2))
+  
+
+ggplot(shasta_data) + 
+  geom_line(aes(doy, Storage_TAF, color = plot_year, linetype = plot_year)) + 
   scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
-  labs(y = "Water Temperature (°C)") +
+  scale_color_manual(values = c("black", "steelblue")) +
+  scale_linetype_manual(values = c("dashed", "solid")) +
+  labs(y = "Storage (TAF)") +
   theme_plots 
-
+```
+```{r}
+shasta_max <-  shasta_data %>% filter(plot_year == "2021") 
+max_storage_sha <- max(shasta_max$Storage_TAF)
+max_storage_sha_month <- shasta_max %>% filter(Storage_TAF == max_storage_sha) %>% select(Month)
 ```
 
+__Summary__
+
+- In `r report_year`, storage was consistently below the 10-year average (Figure \@ref(fig:SHAstor-fig)), with peak storage at __`r max_storage_sha`__ TAF in **`r max_storage_sha_month`**. 
+
+#### Flow Conditions on the Sacramento River at Keswick (KWK) and Sacramento River at Bend Bridge (BND)
+
+```{r KWKBNDflow-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Keswick (KWK) and Bend Bridge (BND) Average Flows (cfs) in",report_year, "and over the 10-year average"), fig.width = 6, fig.height = 7}
+flow_kwk_bnd <- readRDS(paste0("data_raw/flow_kwk_bnd_plot_data_", year(start), "-", year(end), ".rds")) 
+
+ggplot(flow_kwk_bnd) + 
+  geom_line(aes(doy, flow, color = plot_year, linetype = plot_year)) +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
+  scale_color_manual(values = c("black", "steelblue")) +
+  scale_linetype_manual(values = c("dashed", "solid")) +
+  facet_wrap(~station, nrow = 2) + 
+  labs(y = "Flow (cfs)") +
+  theme_plots 
+```
+
+```{r KWKBNDflow-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Keswick (KWK) and Bend Bridge (BND) Mean, Maximum, Minimum Monthly Flows (cfs) in", report_year)}
+flow_kwk_bnd_monthly <- readRDS(paste0("data_raw/flow_kwk_bnd_monthly_", year(start), "-", year(end), ".rds"))
+
+
+flextable(flow_kwk_bnd_monthly)%>%
+  add_footer_lines() %>%
+  add_header_lines() %>%
+  width(width = 1, unit = "in") %>%
+  hline(i = 12, part = 'body') %>%
+  vline()%>%
+  border_outer() %>%
+  bold(part = "header") %>%
+  set_header_labels(month = "Month", station = "Station", mean = "Mean (cfs)", max = "Max (cfs)", min =  "Min (cfs)")
+```
+
+```{r echo = FALSE}
+
+
+monthly_kwk <- flow_kwk_bnd_monthly %>% filter(station == "KWK")
+max_flow_kwk <- max(monthly_kwk$max)
+max_mean_flow_kwk <- max(monthly_kwk$mean)
+max_flow_kwk_month <- monthly_kwk %>% filter(max == max_flow_kwk) %>% select(month)
+max_mean_flow_kwk_month <- monthly_kwk %>% filter(mean == max_mean_flow_kwk) %>% select(month)
+
+monthly_bnd <- flow_kwk_bnd_monthly %>% filter(station == "BND")
+max_flow_bnd <- max(monthly_bnd$max)
+max_mean_flow_bnd <- max(monthly_bnd$mean)
+max_flow_bnd_month <- monthly_bnd %>% filter(max == max_flow_bnd) %>% select(month)
+max_mean_flow_bnd_month <- monthly_bnd %>% filter(mean == max_mean_flow_bnd) %>% select(month)
+```
+__Summary__
+
+-   **Keswick:** Peak flows were __`r max_flow_kwk`__ cfs and occurred in **`r max_flow_kwk_month[1]`**. The highest mean flows were **`r max_mean_flow_kwk`** cfs and occurred in **`r max_mean_flow_kwk_month`**.
+-   **Bend Bridge:** Peak flows were **`r max_flow_bnd`** cfs and occurred in **`r max_flow_bnd_month[1]`**. The highest mean flows were **`r max_mean_flow_bnd`** cfs and occurred in **`r max_mean_flow_bnd_month`**.
+
+### Water Temperature
 
 ```{r historicalwtemp-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Historical Comparison of Sacramento River Water Temperature at Clear Creek (CCR) and Balls Ferry Bridge (BSF)."}
-temp_years <- temp_data %>%
-  filter(date<as.Date("2022-01-01")) %>%
-  group_by(date, date2, year, month, wy, station) %>%
-  summarize(Temperature = mean(Temperature, na.rm = TRUE)) %>%
-  ungroup() %>%
-  mutate(fyear = factor(year)) %>%
-  dplyr::select(station, date2, Temperature, fyear)
 
-temp_avg <- temp_data %>%
-  filter(date<as.Date("2022-01-01")) %>%
-  group_by(station, date2) %>%
-  summarize(Temperature = mean(Temperature, na.rm = TRUE)) %>%
-  ungroup() %>%
-  mutate(fyear = "mean")
+wtemp_bsf_ccr_plot_data <- readRDS(paste0("data_raw/temp_CCR_BSF_plot_data", year(start), "-", year(end), ".rds"))
+wtemp_bsf_ccr_monthly <- readRDS(paste0("data_raw/temp_CCR_BSF_monthly", year(start), "-", year(end), ".rds"))
 
-temp_all <- rbind(temp_years, temp_avg) %>%
-  filter(fyear %in% c("mean", "2011", "2020", "2017")) %>%
-  rename(doy = date2)
 
-ggplot(temp_all) + geom_line(aes(doy, Temperature, color = fyear)) +
+ggplot(wtemp_bsf_ccr_plot_data) + geom_line(aes(doy, WaterTemp, color = plot_year, linetype = plot_year)) +
+  geom_hline(yintercept  = 56, linetype = "dotdash", color = "gray50", size  = 0.7) + 
   facet_wrap(~station, nrow = 2) + 
-  scale_color_viridis(option = "turbo", discrete = TRUE) + 
+  viridis::scale_color_viridis(option = "turbo", discrete = TRUE) + 
   scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
-  labs(y = "Water Temperature (°C)") +
+  scale_linetype_manual(values = c("dashed", "solid", "solid"))+
+  labs(y = "Water Temperature (F)") +
   theme_plots 
 ```
+
+```{r BSFCCRwtemp-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Balls Ferry Bridge (BSF) and Clear Creek (CCR) Mean, Maximum, Minimum Monthly Water Temperature (°F) in", report_year)}
+
+flextable(wtemp_bsf_ccr_monthly)%>%
+  add_footer_lines() %>%
+  add_header_lines() %>%
+  width(width = 1, unit = "in") %>%
+  hline(i = 12, part = 'body') %>%
+  vline()%>%
+  border_outer() %>%
+  bold(part = "header") %>%
+  set_header_labels(month = "Month", station = "Station", mean = "Mean (°F)", max = "Max (°F)", min =  "Min (°F)")
+```
+
+```{r echo = FALSE}
+monthly_bsf <- wtemp_bsf_ccr_monthly %>% filter(station == "BSF")
+max_wtemp_bsf <- max(monthly_bsf$max)
+max_mean_wtemp_bsf <- max(monthly_bsf$mean)
+max_wtemp_bsf_month <- monthly_bsf %>% filter(max == max_wtemp_bsf) %>% select(month)
+max_mean_wtemp_bsf_month <- monthly_bsf %>% filter(mean == max_mean_wtemp_bsf) %>% select(month)
+
+monthly_ccr <- wtemp_bsf_ccr_monthly %>% filter(station == "CCR")
+max_wtemp_ccr <- max(monthly_ccr$max)
+max_mean_wtemp_ccr <- max(monthly_ccr$mean)
+max_wtemp_ccr_month <- monthly_ccr %>% filter(max == max_wtemp_ccr) %>% select(month)
+max_mean_wtemp_ccr_month <- monthly_ccr %>% filter(mean == max_mean_wtemp_ccr) %>% select(month)
+```
+
+
+__Summary__
+
+- Water temperatures were warmer than average and warmer than 56°F in 2021 (Figure \@ref(fig:historicalwtemp-fig)).
+-   **Balls Ferry:** Maximum water temperature was __`r max_wtemp_bsf`__ degrees F and occurred in **`r max_wtemp_bsf_month[1]`**. The highest mean water temperature was **`r max_mean_wtemp_bsf`** degrees F and occurred in **`r max_mean_wtemp_bsf_month`**.
+-   **Clear Creek:** Maximum water temperature was **`r max_wtemp_ccr`** degrees F and occurred in **`r max_wtemp_ccr_month[1]`**. The highest mean water temperature was **`r max_mean_wtemp_ccr`** degrees F and occurred in **`r max_mean_wtemp_ccr_month`**.
+
+
+### Dissolved Oxygen
+
+```{r Turb-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Dissolved Oxygen at Keswick Dam (KWK) and Sacramento River upstream from Confluence with Clear Creek (CCR)."}
+
+do_kwk_ccr_plot_data <- readRDS(paste0("data_raw/do_KWK_CCR_plot_data_", year(start), "-", year(end), ".rds"))
+
+ggplot(do_kwk_ccr_plot_data) + geom_line(aes(doy, DO, color = plot_year, linetype = plot_year)) +
+  geom_hline(yintercept  = 9, linetype = "dotdash", color = "gray50", size  = 0.7) + 
+  facet_wrap(~station, nrow = 2) + 
+  viridis::scale_color_viridis(option = "turbo", discrete = TRUE) + 
+  scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
+  scale_linetype_manual(values = c("dashed", "solid", "solid"))+
+  labs(y = "Dissolved Oxygen (mg/L)") +
+  theme_plots 
+```
+```{r CCRKWKdo-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Keswick (KWK) and Clear Creek (CCR) Mean, Maximum, Minimum Monthly Dissolved Oxygen (mg/L) in", report_year)}
+do_kwk_ccr_monthly <- readRDS(paste0("data_raw/do_KWK_CCR_monthly_", year(start), "-", year(end), ".rds"))
+
+flextable(do_kwk_ccr_monthly)%>%
+  add_footer_lines() %>%
+  add_header_lines() %>%
+  width(width = 1, unit = "in") %>%
+  hline(i = 12, part = 'body') %>%
+  vline()%>%
+  border_outer() %>%
+  bold(part = "header") %>%
+  set_header_labels(month = "Month", station = "Station", mean = "Mean (mg/L)", max = "Max (mg/L)", min =  "Min (mg/L)")
+```
+
+```{r echo = FALSE}
+monthly_do <- do_kwk_ccr_monthly %>% filter(station == "KWK")
+min_do_kwk <- min(monthly_kwk$min)
+min_mean_do_kwk <- min(monthly_kwk$mean)
+min_do_kwk_month <- monthly_kwk %>% filter(min == min_do_kwk) %>% select(month)
+min_mean_do_kwk_month <- monthly_kwk %>% filter(mean == min_mean_do_kwk) %>% select(month)
+
+monthly_ccr <- do_kwk_ccr_monthly %>% filter(station == "CCR")
+min_do_ccr <- min(monthly_ccr$min)
+min_mean_do_ccr <- min(monthly_ccr$mean)
+min_do_ccr_month <- monthly_ccr %>% filter(min == min_do_ccr) %>% select(month)
+min_mean_do_ccr_month <- monthly_ccr %>% filter(mean == min_mean_do_ccr) %>% select(month)
+```
+
+
+__Summary__
+
+-   **Keswick:** Minimum dissolved oxygen was __`r min_do_kwk`__ mg/L and occurred in **`r min_do_kwk_month[1]`**. The lowest mean dissolved oxygen was **`r min_mean_do_kwk`** mg/L and occurred in **`r min_mean_do_kwk_month`**.
+-   **Clear Creek:** Minimum dissolved oxygen was **`r min_do_ccr`** mg/L and occurred in **`r min_do_ccr_month[1]`**. The lowest mean dissolved oxygen was **`r min_mean_do_ccr`** mg/L and occurred in **`r min_mean_do_ccr_month`**.
+
 
 ## Biological Response
 
-1. Ocean Harvest Rates (PFMC)
+### Adult Survival
 
-2. Adults to Hatchery (GrandTab)
+In-river escapement decreased after the construction of the Red Bluff Diversion Dam (RBDD) in the 1960s.
 
-3. Estimated Total Mainstem In-River Spawners of Natural and Hatchery Origin (GrandTab)
+```{r}
 
-* Downstream RBDD
-* Upstream RBDD
-* Clear Creek
-* Battle Creek
+```
 
-4. Adult Condition (Carcass Surveys)
+1.  Ocean Harvest Rates (PFMC)
 
-* Male Fork Lengths (Histogram)
-* Female Fork Lengths (Histogram)
-* Age Distribution
-* Thiamine Deficiency
-* Pre-spawn mortality (in-text current year and 10-yr average, compare with other years)
+2.  Adults to Hatchery (GrandTab)
 
-5. Spawn Timing (Carcass Surveys)
+3.  Estimated Total Mainstem In-River Spawners of Natural and Hatchery Origin (GrandTab)
 
-* Percent spawning by week - line plot of percent of carcasses by week (current year, 10 year and 20 year average)
-* Peak spawning week - line plot of peak spawning week by year (annual, rolling 5-year avg, 10-year avg)
+-   Downstream RBDD
+-   Upstream RBDD
+-   Clear Creek
+-   Battle Creek
 
-6. Number of Winter-Run Chinook Salmon Redds (aerial redd surveys, Calfish)
+4.  Adult Condition (Carcass Surveys)
 
-* line plot of count by year with average horizontal line 
+-   Male Fork Lengths (Histogram)
+-   Female Fork Lengths (Histogram)
+-   Age Distribution
+-   Thiamine Deficiency
+-   Pre-spawn mortality (in-text current year and 10-yr average, compare with other years)
 
-7. Distribution of Winter-Run Chinook Salmon Redds - location of redds (aerial redd surveys, Calfish)
+5.  Spawn Timing (Carcass Surveys)
 
-* map of locations 
-* bar plot of percent redds by location (historical and this year)
-* bar plot of female spawner carcasses by location
+-   Percent spawning by week - line plot of percent of carcasses by week (current year, 10 year and 20 year average)
+-   Peak spawning week - line plot of peak spawning week by year (annual, rolling 5-year avg, 10-year avg)
 
-8. Hatchery Fecundity (JPE Letters)
+6.  Number of Winter-Run Chinook Salmon Redds (aerial redd surveys, Calfish)
 
-* in text, comparison with previous 10 years
+-   line plot of count by year with average horizontal line
 
-9. Hatchery Influence (Hatchery report?)
+7.  Distribution of Winter-Run Chinook Salmon Redds - location of redds (aerial redd surveys, Calfish)
 
-* in text percentage of hatchery fish/natural spawning pop
+-   map of locations
+-   bar plot of percent redds by location (historical and this year)
+-   bar plot of female spawner carcasses by location
+
+8.  Hatchery Fecundity (JPE Letters)
+
+-   in text, comparison with previous 10 years
+
+9.  Hatchery Influence (Hatchery report?)
+
+-   in text percentage of hatchery fish/natural spawning pop
 
 10. Cohort Replacement Rate (GrandTab)
 
-* line plot of CRR by year 
-
+-   line plot of CRR by year
