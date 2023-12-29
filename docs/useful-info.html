@@ -23,7 +23,7 @@
 <meta name="author" content="Catarina Pien (Bureau of Reclamation)" />
 
 
-<meta name="date" content="2023-08-30" />
+<meta name="date" content="2023-12-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -52,6 +52,8 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/tabwid-1.1.3/tabwid.css" rel="stylesheet" />
+<script src="libs/tabwid-1.1.3/tabwid.js"></script>
 
 
 <style type="text/css">
@@ -173,8 +175,16 @@ div.csl-indent {
 <li class="chapter" data-level="2" data-path="adults.html"><a href="adults.html"><i class="fa fa-check"></i><b>2</b> Adults</a>
 <ul>
 <li class="chapter" data-level="2.1" data-path="adults.html"><a href="adults.html#habitat-attributes"><i class="fa fa-check"></i><b>2.1</b> Habitat Attributes</a></li>
-<li class="chapter" data-level="2.2" data-path="adults.html"><a href="adults.html#wq"><i class="fa fa-check"></i><b>2.2</b> Environmental Drivers</a></li>
-<li class="chapter" data-level="2.3" data-path="adults.html"><a href="adults.html#biological-response"><i class="fa fa-check"></i><b>2.3</b> Biological Response</a></li>
+<li class="chapter" data-level="2.2" data-path="adults.html"><a href="adults.html#wq"><i class="fa fa-check"></i><b>2.2</b> Environmental Drivers</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="adults.html"><a href="adults.html#storage-and-flow"><i class="fa fa-check"></i><b>2.2.1</b> Storage and Flow</a></li>
+<li class="chapter" data-level="2.2.2" data-path="adults.html"><a href="adults.html#water-temperature"><i class="fa fa-check"></i><b>2.2.2</b> Water Temperature</a></li>
+<li class="chapter" data-level="2.2.3" data-path="adults.html"><a href="adults.html#dissolved-oxygen"><i class="fa fa-check"></i><b>2.2.3</b> Dissolved Oxygen</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="adults.html"><a href="adults.html#biological-response"><i class="fa fa-check"></i><b>2.3</b> Biological Response</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="adults.html"><a href="adults.html#adult-survival"><i class="fa fa-check"></i><b>2.3.1</b> Adult Survival</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="egg-to-fry-emergence.html"><a href="egg-to-fry-emergence.html"><i class="fa fa-check"></i><b>3</b> Egg to Fry Emergence</a>
 <ul>
@@ -326,8 +336,8 @@ and <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</
 <h3><span class="header-section-number">8.4.2</span> Captioned figures and tables<a href="useful-info.html#captioned-figures-and-tables" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Figures and tables <em>with captions</em> can also be cross-referenced from elsewhere in your book using <code>\@ref(fig:chunk-label)</code> and <code>\@ref(tab:chunk-label)</code>, respectively.</p>
 <p>See Figure <a href="useful-info.html#fig:nice-fig">8.1</a>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="useful-info.html#cb1-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, .<span class="dv">1</span>, .<span class="dv">1</span>))</span>
-<span id="cb1-2"><a href="useful-info.html#cb1-2" tabindex="-1"></a><span class="fu">plot</span>(pressure, <span class="at">type =</span> <span class="st">&#39;b&#39;</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="useful-info.html#cb2-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, .<span class="dv">1</span>, .<span class="dv">1</span>))</span>
+<span id="cb2-2"><a href="useful-info.html#cb2-2" tabindex="-1"></a><span class="fu">plot</span>(pressure, <span class="at">type =</span> <span class="st">&#39;b&#39;</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:nice-fig"></span>
 <img src="_main_files/figure-html/nice-fig-1.png" alt="Plot with connected points showing that vapor pressure of mercury increases exponentially as temperature increases." width="80%" />
 <p class="caption">
@@ -335,58 +345,104 @@ Figure 8.1: Here is a nice figure!
 </p>
 </div>
 <p>Don’t miss Table <a href="useful-info.html#tab:nice-tab">8.1</a>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="useful-info.html#cb2-1" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
-<span id="cb2-2"><a href="useful-info.html#cb2-2" tabindex="-1"></a>  <span class="fu">head</span>(pressure, <span class="dv">10</span>), <span class="at">caption =</span> <span class="st">&#39;Here is a nice table!&#39;</span>,</span>
-<span id="cb2-3"><a href="useful-info.html#cb2-3" tabindex="-1"></a>  <span class="at">booktabs =</span> <span class="cn">TRUE</span></span>
-<span id="cb2-4"><a href="useful-info.html#cb2-4" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="useful-info.html#cb3-1" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb3-2"><a href="useful-info.html#cb3-2" tabindex="-1"></a>  <span class="fu">head</span>(pressure, <span class="dv">10</span>), <span class="at">caption =</span> <span class="st">&#39;Here is a nice table!&#39;</span>,</span>
+<span id="cb3-3"><a href="useful-info.html#cb3-3" tabindex="-1"></a>  <span class="at">booktabs =</span> <span class="cn">TRUE</span></span>
+<span id="cb3-4"><a href="useful-info.html#cb3-4" tabindex="-1"></a>)</span></code></pre></div>
 <table>
-<caption><span id="tab:nice-tab">Table 8.1: </span>Here is a nice table!</caption>
+<caption>
+<span id="tab:nice-tab">Table 8.1: </span>Here is a nice table!
+</caption>
 <thead>
-<tr class="header">
-<th align="right">temperature</th>
-<th align="right">pressure</th>
+<tr>
+<th style="text-align:right;">
+temperature
+</th>
+<th style="text-align:right;">
+pressure
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="right">0</td>
-<td align="right">0.0002</td>
+<tr>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0002
+</td>
 </tr>
-<tr class="even">
-<td align="right">20</td>
-<td align="right">0.0012</td>
+<tr>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+0.0012
+</td>
 </tr>
-<tr class="odd">
-<td align="right">40</td>
-<td align="right">0.0060</td>
+<tr>
+<td style="text-align:right;">
+40
+</td>
+<td style="text-align:right;">
+0.0060
+</td>
 </tr>
-<tr class="even">
-<td align="right">60</td>
-<td align="right">0.0300</td>
+<tr>
+<td style="text-align:right;">
+60
+</td>
+<td style="text-align:right;">
+0.0300
+</td>
 </tr>
-<tr class="odd">
-<td align="right">80</td>
-<td align="right">0.0900</td>
+<tr>
+<td style="text-align:right;">
+80
+</td>
+<td style="text-align:right;">
+0.0900
+</td>
 </tr>
-<tr class="even">
-<td align="right">100</td>
-<td align="right">0.2700</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:right;">
+0.2700
+</td>
 </tr>
-<tr class="odd">
-<td align="right">120</td>
-<td align="right">0.7500</td>
+<tr>
+<td style="text-align:right;">
+120
+</td>
+<td style="text-align:right;">
+0.7500
+</td>
 </tr>
-<tr class="even">
-<td align="right">140</td>
-<td align="right">1.8500</td>
+<tr>
+<td style="text-align:right;">
+140
+</td>
+<td style="text-align:right;">
+1.8500
+</td>
 </tr>
-<tr class="odd">
-<td align="right">160</td>
-<td align="right">4.2000</td>
+<tr>
+<td style="text-align:right;">
+160
+</td>
+<td style="text-align:right;">
+4.2000
+</td>
 </tr>
-<tr class="even">
-<td align="right">180</td>
-<td align="right">8.8000</td>
+<tr>
+<td style="text-align:right;">
+180
+</td>
+<td style="text-align:right;">
+8.8000
+</td>
 </tr>
 </tbody>
 </table>
@@ -410,7 +466,7 @@ Figure 8.1: Here is a nice figure!
 <p>Read more about the features of this output format here:</p>
 <p><a href="https://pkgs.rstudio.com/bookdown/reference/gitbook.html" class="uri">https://pkgs.rstudio.com/bookdown/reference/gitbook.html</a></p>
 <p>Or use:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="useful-info.html#cb3-1" tabindex="-1"></a>?bookdown<span class="sc">::</span>gitbook</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="useful-info.html#cb4-1" tabindex="-1"></a>?bookdown<span class="sc">::</span>gitbook</span></code></pre></div>
 </div>
 </div>
 <div id="render-book" class="section level2 hasAnchor" number="8.6">
@@ -421,13 +477,13 @@ Figure 8.1: Here is a nice figure!
 <li><p>Click on <strong>Build Book</strong>, then select your output format, or select “All formats” if you’d like to use multiple formats from the same book source files.</p></li>
 </ol>
 <p>Or build the book from the R console:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="useful-info.html#cb4-1" tabindex="-1"></a>bookdown<span class="sc">::</span><span class="fu">render_book</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="useful-info.html#cb5-1" tabindex="-1"></a>bookdown<span class="sc">::</span><span class="fu">render_book</span>()</span></code></pre></div>
 <p>To render this example to PDF as a <code>bookdown::pdf_book</code>, you’ll need to install XeLaTeX. You are recommended to install TinyTeX (which includes XeLaTeX): <a href="https://yihui.org/tinytex/" class="uri">https://yihui.org/tinytex/</a>.</p>
 </div>
 <div id="preview-book" class="section level2 hasAnchor" number="8.7">
 <h2><span class="header-section-number">8.7</span> Preview book<a href="useful-info.html#preview-book" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>As you work, you may start a local server to live preview this HTML book. This preview will update as you edit the book when you save individual .Rmd files. You can start the server in a work session by using the RStudio add-in “Preview book”, or from the R console:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="useful-info.html#cb5-1" tabindex="-1"></a>bookdown<span class="sc">::</span><span class="fu">serve_book</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="useful-info.html#cb6-1" tabindex="-1"></a>bookdown<span class="sc">::</span><span class="fu">serve_book</span>()</span></code></pre></div>
 </div>
 <div id="footnotes-and-citations-1" class="section level2 hasAnchor" number="8.8">
 <h2><span class="header-section-number">8.8</span> Footnotes and citations<a href="useful-info.html#footnotes-and-citations-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -526,7 +582,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["_main.pdf", "_main.epub"],
+"download": ["_main.pdf"],
 "search": {
 "engine": "fuse",
 "options": null
