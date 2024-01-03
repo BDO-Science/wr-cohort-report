@@ -131,7 +131,7 @@ f_monthly <- function(df, colName) {
   param = enquo(colName)
   df %>%
 
-    mutate(month = month(date, label = TRUE, abbr = TRUE),
+    mutate(month = month(date, label = TRUE, abbr = FALSE),
            year = year(date)) %>%
     filter(year == report_year) %>%
     select(-datetime, -date2, -date, -wy) %>%
