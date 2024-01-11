@@ -8,6 +8,7 @@ library(dplyr)
 library(lubridate) 
 library(viridis)
 library(sharpshootR)
+library(plotly)
 
 library(kableExtra)
 library(flextable)
@@ -27,47 +28,48 @@ source("parameters.R")
 
 ## Environmental Drivers {#wq}
 
-- `r report_year` was a `r wytype` water year type.
+-   `r report_year` was a `r wytype` water year type.
 
 ### Storage and Flow
 
-#### Shasta Storage
+#### Shasta Storage {#shasta-storage}
 
 Flows in the Sacramento River are dependent on Shasta storage. Adult WR Chinook Salmon reply on flows for migration cues.
 
 ```{r SHAstor-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Shasta Dam Storage (SHA)."}
 shasta_data <- readRDS(paste0("data_raw/storage_sha_plot_data_", year(start), "-", year(end), ".rds")) %>%
-   mutate(month = month(doy)) %>%
-   filter(month>=1 & month < 8) %>%
-   mutate(Month = month(doy, label = TRUE, abbr = TRUE)) %>%
+   mutate(month_num = month(date)) %>%
+   filter(month_num>=1 & month_num < 8) %>%
+   mutate(month = month(date, label = TRUE)) %>%
   mutate(Storage_TAF = round(Storage/1000000,2))
   
 
 ggplot(shasta_data) + 
-  geom_line(aes(doy, Storage_TAF, color = plot_year, linetype = plot_year)) + 
+  geom_line(aes(date, Storage_TAF, color = plot_year, linetype = plot_year)) + 
   scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
   scale_color_manual(values = c("black", "steelblue")) +
   scale_linetype_manual(values = c("dashed", "solid")) +
   labs(y = "Storage (TAF)") +
   theme_plots 
 ```
-```{r}
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 shasta_max <-  shasta_data %>% filter(plot_year == "2021") 
 max_storage_sha <- max(shasta_max$Storage_TAF)
-max_storage_sha_month <- shasta_max %>% filter(Storage_TAF == max_storage_sha) %>% select(Month)
+max_storage_sha_month <- shasta_max %>% filter(Storage_TAF == max_storage_sha) %>% select(month)
 ```
 
-__Summary__
+**Summary**
 
-- In `r report_year`, storage was consistently below the 10-year average (Figure \@ref(fig:SHAstor-fig)), with peak storage at __`r max_storage_sha`__ TAF in **`r max_storage_sha_month`**. 
+-   In `r report_year`, storage was consistently below the 10-year average (Figure \@ref(fig:SHAstor-fig)), with peak storage at **`r max_storage_sha`** TAF in **`r max_storage_sha_month`**.
 
-#### Flow Conditions on the Sacramento River at Keswick (KWK) and Sacramento River at Bend Bridge (BND)
+#### Flow Conditions on the Upper Sacramento River 
 
 ```{r KWKBNDflow-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Keswick (KWK) and Bend Bridge (BND) Average Flows (cfs) in",report_year, "and over the 10-year average"), fig.width = 6, fig.height = 7}
 flow_kwk_bnd <- readRDS(paste0("data_raw/flow_kwk_bnd_plot_data_", year(start), "-", year(end), ".rds")) 
 
 ggplot(flow_kwk_bnd) + 
-  geom_line(aes(doy, flow, color = plot_year, linetype = plot_year)) +
+  geom_line(aes(date, flow, color = plot_year, linetype = plot_year)) +
   scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
   scale_color_manual(values = c("black", "steelblue")) +
   scale_linetype_manual(values = c("dashed", "solid")) +
@@ -92,8 +94,6 @@ flextable(flow_kwk_bnd_monthly)%>%
 ```
 
 ```{r echo = FALSE}
-
-
 monthly_kwk <- flow_kwk_bnd_monthly %>% filter(station == "KWK")
 max_flow_kwk <- max(monthly_kwk$max)
 max_mean_flow_kwk <- max(monthly_kwk$mean)
@@ -106,27 +106,45 @@ max_mean_flow_bnd <- max(monthly_bnd$mean)
 max_flow_bnd_month <- monthly_bnd %>% filter(max == max_flow_bnd) %>% select(month)
 max_mean_flow_bnd_month <- monthly_bnd %>% filter(mean == max_mean_flow_bnd) %>% select(month)
 ```
-__Summary__
 
--   **Keswick:** Peak flows were __`r max_flow_kwk`__ cfs and occurred in **`r max_flow_kwk_month[1]`**. The highest mean flows were **`r max_mean_flow_kwk`** cfs and occurred in **`r max_mean_flow_kwk_month`**.
+**Summary**
+
+-   **Keswick:** Peak flows were **`r max_flow_kwk`** cfs and occurred in **`r max_flow_kwk_month[1]`**. The highest mean flows were **`r max_mean_flow_kwk`** cfs and occurred in **`r max_mean_flow_kwk_month`**.
 -   **Bend Bridge:** Peak flows were **`r max_flow_bnd`** cfs and occurred in **`r max_flow_bnd_month[1]`**. The highest mean flows were **`r max_mean_flow_bnd`** cfs and occurred in **`r max_mean_flow_bnd_month`**.
 
 ### Water Temperature
 
+
+#### Temperature Threshold Analysis {#temp-thresholds}
+
+The temperature compliance point (location of compliance to daily average temperature (DAT) of ≤56°F) varies annually based on USBR's Temperature Management Plan.
+
+```{r tempthresholdanalysis-fig,fig.cap = "2021 Sacramento River Temperature Threshold Analysis between Keswick Dam and Bend Bridge"}
+# knitr::include_graphics("https://www.cbr.washington.edu/sacramento/tmp/tc_sacramento_1704298322_382_temp.png")
+```
+
+**Summary**
+
+-   The compliance point at X was met X percent of days (\@ref(fig:tempthresholdanalysis-fig)).
+
+#### Water Temperature at Balls Ferry Bridge and Clear Creek 
+
 ```{r historicalwtemp-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Historical Comparison of Sacramento River Water Temperature at Clear Creek (CCR) and Balls Ferry Bridge (BSF)."}
 
-wtemp_bsf_ccr_plot_data <- readRDS(paste0("data_raw/temp_CCR_BSF_plot_data", year(start), "-", year(end), ".rds"))
-wtemp_bsf_ccr_monthly <- readRDS(paste0("data_raw/temp_CCR_BSF_monthly", year(start), "-", year(end), ".rds"))
+wtemp_bsf_ccr_plot_data <- readRDS(paste0("data_raw/wtemp_CCR_BSF_plot_data_", year(start), "-", year(end), ".rds"))
+wtemp_bsf_ccr_monthly <- readRDS(paste0("data_raw/wtemp_CCR_BSF_monthly_", year(start), "-", year(end), ".rds"))
 
 
-ggplot(wtemp_bsf_ccr_plot_data) + geom_line(aes(doy, WaterTemp, color = plot_year, linetype = plot_year)) +
+(plot_wtemp_bsf_ccr <- ggplot(wtemp_bsf_ccr_plot_data) + geom_line(aes(date, WaterTemp, color = plot_year, linetype = plot_year)) +
   geom_hline(yintercept  = 56, linetype = "dotdash", color = "gray50", size  = 0.7) + 
   facet_wrap(~station, nrow = 2) + 
   viridis::scale_color_viridis(option = "turbo", discrete = TRUE) + 
   scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
   scale_linetype_manual(values = c("dashed", "solid", "solid"))+
-  labs(y = "Water Temperature (F)") +
-  theme_plots 
+  labs(y = "Water Temperature (°F)") +
+  theme_plots )
+
+ggplotly(plot_wtemp_bsf_ccr)
 ```
 
 ```{r BSFCCRwtemp-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Balls Ferry Bridge (BSF) and Clear Creek (CCR) Mean, Maximum, Minimum Monthly Water Temperature (°F) in", report_year)}
@@ -156,21 +174,19 @@ max_wtemp_ccr_month <- monthly_ccr %>% filter(max == max_wtemp_ccr) %>% select(m
 max_mean_wtemp_ccr_month <- monthly_ccr %>% filter(mean == max_mean_wtemp_ccr) %>% select(month)
 ```
 
+**Summary**
 
-__Summary__
-
-- Water temperatures were warmer than average and warmer than 56°F in 2021 (Figure \@ref(fig:historicalwtemp-fig)).
--   **Balls Ferry:** Maximum water temperature was __`r max_wtemp_bsf`__ degrees F and occurred in **`r max_wtemp_bsf_month[1]`**. The highest mean water temperature was **`r max_mean_wtemp_bsf`** degrees F and occurred in **`r max_mean_wtemp_bsf_month`**.
+-   Water temperatures were warmer than average and warmer than 56°F in 2021 (Figure \@ref(fig:historicalwtemp-fig)).
+-   **Balls Ferry:** Maximum water temperature was **`r max_wtemp_bsf`** degrees F and occurred in **`r max_wtemp_bsf_month[1]`**. The highest mean water temperature was **`r max_mean_wtemp_bsf`** degrees F and occurred in **`r max_mean_wtemp_bsf_month`**.
 -   **Clear Creek:** Maximum water temperature was **`r max_wtemp_ccr`** degrees F and occurred in **`r max_wtemp_ccr_month[1]`**. The highest mean water temperature was **`r max_mean_wtemp_ccr`** degrees F and occurred in **`r max_mean_wtemp_ccr_month`**.
 
+### Dissolved Oxygen Conditions at Keswick Dam and Clear Creek
 
-### Dissolved Oxygen
-
-```{r Turb-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Dissolved Oxygen at Keswick Dam (KWK) and Sacramento River upstream from Confluence with Clear Creek (CCR)."}
+```{r KWKCCRDO-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Dissolved Oxygen at Keswick Dam (KWK) and Sacramento River upstream from Confluence with Clear Creek (CCR)."}
 
 do_kwk_ccr_plot_data <- readRDS(paste0("data_raw/do_KWK_CCR_plot_data_", year(start), "-", year(end), ".rds"))
 
-ggplot(do_kwk_ccr_plot_data) + geom_line(aes(doy, DO, color = plot_year, linetype = plot_year)) +
+ggplot(do_kwk_ccr_plot_data) + geom_line(aes(date, DO, color = plot_year, linetype = plot_year)) +
   geom_hline(yintercept  = 9, linetype = "dotdash", color = "gray50", size  = 0.7) + 
   facet_wrap(~station, nrow = 2) + 
   viridis::scale_color_viridis(option = "turbo", discrete = TRUE) + 
@@ -179,6 +195,7 @@ ggplot(do_kwk_ccr_plot_data) + geom_line(aes(doy, DO, color = plot_year, linetyp
   labs(y = "Dissolved Oxygen (mg/L)") +
   theme_plots 
 ```
+
 ```{r CCRKWKdo-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Keswick (KWK) and Clear Creek (CCR) Mean, Maximum, Minimum Monthly Dissolved Oxygen (mg/L) in", report_year)}
 do_kwk_ccr_monthly <- readRDS(paste0("data_raw/do_KWK_CCR_monthly_", year(start), "-", year(end), ".rds"))
 
@@ -194,7 +211,7 @@ flextable(do_kwk_ccr_monthly)%>%
 ```
 
 ```{r echo = FALSE}
-monthly_do <- do_kwk_ccr_monthly %>% filter(station == "KWK")
+monthly_kwk <- do_kwk_ccr_monthly %>% filter(station == "KWK")
 min_do_kwk <- min(monthly_kwk$min)
 min_mean_do_kwk <- min(monthly_kwk$mean)
 min_do_kwk_month <- monthly_kwk %>% filter(min == min_do_kwk) %>% select(month)
@@ -207,22 +224,16 @@ min_do_ccr_month <- monthly_ccr %>% filter(min == min_do_ccr) %>% select(month)
 min_mean_do_ccr_month <- monthly_ccr %>% filter(mean == min_mean_do_ccr) %>% select(month)
 ```
 
+**Summary**
 
-__Summary__
-
--   **Keswick:** Minimum dissolved oxygen was __`r min_do_kwk`__ mg/L and occurred in **`r min_do_kwk_month[1]`**. The lowest mean dissolved oxygen was **`r min_mean_do_kwk`** mg/L and occurred in **`r min_mean_do_kwk_month`**.
+-   **Keswick:** Minimum dissolved oxygen was **`r min_do_kwk`** mg/L and occurred in **`r min_do_kwk_month[1]`**. The lowest mean dissolved oxygen was **`r min_mean_do_kwk`** mg/L and occurred in **`r min_mean_do_kwk_month`**.
 -   **Clear Creek:** Minimum dissolved oxygen was **`r min_do_ccr`** mg/L and occurred in **`r min_do_ccr_month[1]`**. The lowest mean dissolved oxygen was **`r min_mean_do_ccr`** mg/L and occurred in **`r min_mean_do_ccr_month`**.
-
 
 ## Biological Response
 
 ### Adult Survival
 
 In-river escapement decreased after the construction of the Red Bluff Diversion Dam (RBDD) in the 1960s.
-
-```{r}
-
-```
 
 1.  Ocean Harvest Rates (PFMC)
 

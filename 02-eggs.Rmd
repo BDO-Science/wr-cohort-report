@@ -7,38 +7,90 @@ library(ggplot2)
 library(dplyr) 
 library(lubridate) 
 library(viridis)
+library(plotly)
+
+library(kableExtra)
+library(flextable)
 source("functions.R")
+source("parameters.R")
 ```
 
-## Habitat Attributes 
+## Habitat Attributes
 
-1. Redd Dewatering
-  * count by year
-  * location
-  * water depth
-  * flow
+1.  Redd Dewatering
+
+-   count by year
+-   location
+-   water depth
+-   flow
 
 ## Environmental Drivers
 
-1. Air Temperature
+### Storage and Flow
 
-2. DO
+#### Shasta Storage 
 
-3. Shasta Storage/Hydrology
+-   See \@ref(shasta-storage) for summary of storage conditions.
 
-4. Water Temperature
+#### Flow Conditions on the Upper Sacramento River
+
+```{r KWKBNDflowegg-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Keswick (KWK) and Bend Bridge (BND) Mean, Maximum, Minimum Monthly Flows (cfs) in", report_year, "between May and November")}
+flow_kwk_bnd_monthly_egg <- readRDS(paste0("data_raw/flow_kwk_bnd_monthly_", year(start), "-", year(end), ".rds")) %>%
+  filter(!month %in% c("January", "February", "March", "April", "December")) %>%
+  mutate(station = factor(station, levels = c("KWK", "BND"))) %>%
+  select(station, month, everything()) %>%
+  arrange(station)
+
+flextable(flow_kwk_bnd_monthly_egg)%>%
+  add_footer_lines() %>%
+  add_header_lines() %>%
+  width(width = 1, unit = "in") %>%
+  hline(i = 7, part = 'body') %>%
+  vline()%>%
+  border_outer() %>%
+  bold(part = "header") %>%
+  set_header_labels(month = "Month", station = "Station", mean = "Mean (cfs)", max = "Max (cfs)", min =  "Min (cfs)")
+```
+
+### Water Temperature on the Upper Sacramento River
+
+- See \@ref(temp-thresholds) for discussion around temperature threshold analysis.
+
+### Dissolved Oxygen Conditions on the Upper Sacramento River
+
+```{r CCRKWKdoegg-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Keswick (KWK) and Clear Creek (CCR) Mean, Maximum, Minimum Monthly Dissolved Oxygen (mg/L) in", report_year, "between May and November")}
+do_kwk_ccr_monthly_egg <- readRDS(paste0("data_raw/do_KWK_CCR_monthly_", year(start), "-", year(end), ".rds"))%>%
+  filter(!month %in% c("January", "February", "March", "April", "December")) %>%
+  mutate(station = factor(station, levels = c("KWK", "CCR"))) %>%
+  select(station, month, everything()) %>%
+  arrange(station)
+
+flextable(do_kwk_ccr_monthly_egg)%>%
+  add_footer_lines() %>%
+  add_header_lines() %>%
+  width(width = 1, unit = "in") %>%
+  hline(i = 7, part = 'body') %>%
+  vline()%>%
+  border_outer() %>%
+  bold(part = "header") %>%
+  set_header_labels(month = "Month", station = "Station", mean = "Mean (mg/L)", max = "Max (mg/L)", min =  "Min (mg/L)")
+```
+
+### Air Temperature 
+
+- Need to obtain Redding Airport Data
 
 ## Biological Response
 
-1. Egg Count
+1.  Egg Count
 
-* line plot of potential eggs by year with averages (JPE letter?)
+-   line plot of potential eggs by year with averages (JPE letter?)
 
-2. Egg to fry survival 
+2.  Egg to fry survival
 
-* bar plot of percent survival by year (JPI calculation)
-  * JPI = fry abundance/total viable eggs in JPE letter
-* egg to fry survival by number of mainstem in-river spawners (JPI calculation)
-* egg-to-fry survival from fish model (fish model)
+-   bar plot of percent survival by year (JPI calculation)
+    -   JPI = fry abundance/total viable eggs in JPE letter
+-   egg to fry survival by number of mainstem in-river spawners (JPI calculation)
+-   egg-to-fry survival from fish model (fish model)
 
-3. Emergence Timing (fish model)
+3.  Emergence Timing (fish model)

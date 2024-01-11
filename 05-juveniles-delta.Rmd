@@ -8,7 +8,11 @@ library(dplyr)
 library(lubridate) 
 library(viridis)
 library(sharpshootR)
+library(plotly)
+library(flextable)
+library(CDECRetrieve)
 source("functions.R")
+source("parameters.R")
 ```
 
 ## Habitat Attributes
@@ -23,17 +27,123 @@ source("functions.R")
 
 ## Environmental Drivers
 
-1. Shasta Storage/Hydrology
+### Sacramento River Flow and Delta Outflow
 
-2. Flows: Sacramento River, Delta Outflow
+```{r deltaflow-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("FPT (Sacramento River at Freeport), Delta Outflow (DTO), OMR (OMR) Mean, Maximum, Minimum Monthly Flows (cfs) in", report_year, "-", report_year+1)}
+flow_fpt_monthly <- readRDS(paste0("data_raw/flow_fpt_monthly_", year(start), "-", year(end2), ".rds")) %>%
+  filter(month_num %in% c(12, 1, 2, 3, 4, 5, 6))
+flow_OMR_monthly <- readRDS(paste0("data_raw/omr_OMR_monthly_", year(start), "-", year(end2), ".rds")) %>%
+  filter(month_num %in% c(12, 1, 2, 3, 4, 5, 6))
+outflow_monthly <- readRDS(paste0("data_raw/outflow_monthly_", year(start), "-", year(end2), ".rds")) %>%
+  filter(month_num %in% c(12, 1, 2, 3, 4, 5, 6))
 
-3. Flows: Migration Cues and Routing 
+flow_delta_monthly <- rbind(flow_fpt_monthly, outflow_monthly,flow_OMR_monthly) %>%
+  select(-month_num)
 
-4. Turbidity 
+flextable(flow_delta_monthly)%>%
+  add_footer_lines() %>%
+  add_header_lines() %>%
+  width(width = 1, unit = "in") %>%
+  hline(i = c(7, 14, 21), part = 'body') %>%
+  vline()%>%
+  border_outer() %>%
+  bold(part = "header") %>%
+  colformat_num(j = "year", big.mark = "") %>%
+  set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (cfs)", max = "Max (cfs)", min =  "Min (cfs)", flag_days = "Days < 6 mg/L") 
 
-5. Water Temperature
+```
 
-6. DO
+
+```{r FPTflow-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Freeport (FPT) Average Flows (cfs) in",report_year, "and over the 10-year average"), fig.width = 6, fig.height = 5}
+flow_fpt <- readRDS(paste0("data_raw/flow_fpt_plot_data_", year(start), "-", year(end2), ".rds")) %>%
+  filter(month %in% c(12, 1, 2, 3, 4, 5, 6))
+
+ggplot(flow_fpt) + 
+  geom_line(aes(date, flow, color = plot_year, linetype = plot_year)) +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
+  scale_color_manual(values = c("black", "steelblue")) +
+  scale_linetype_manual(values = c("dashed", "solid")) +
+  facet_wrap(~station, nrow = 2) + 
+  labs(y = "Flow (cfs)") +
+  theme_plots 
+```
+```{r DTOflow-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Delta Outflow (DTO) in",report_year, "and over the 10-year average"), fig.width = 6, fig.height = 5}
+outflow<- readRDS(paste0("data_raw/outflow_plot_data_", year(start), "-", year(end2), ".rds")) %>%
+  filter(month %in% c(12, 1, 2, 3, 4, 5, 6))
+
+ggplot(outflow) + 
+  geom_line(aes(date, Outflow, color = plot_year, linetype = plot_year)) +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
+  scale_color_manual(values = c("black", "steelblue")) +
+  scale_linetype_manual(values = c("dashed", "solid")) +
+  facet_wrap(~station, nrow = 2) + 
+  labs(y = "Flow (cfs)") +
+  theme_plots 
+```
+```{r OMRflow-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("OMR Flow (OMR) (cfs) in",report_year, "and over the 10-year average"), fig.width = 6, fig.height = 5}
+omr<- readRDS(paste0("data_raw/omr_OMR_plot_data_", year(start), "-", year(end2), ".rds")) %>%
+  filter(month %in% c(12, 1, 2, 3, 4, 5, 6))
+
+(omr_plot <- ggplot(omr) + 
+  geom_line(aes(date, omr, color = plot_year, linetype = plot_year)) +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
+  scale_color_manual(values = c("black", "steelblue")) +
+  scale_linetype_manual(values = c("dashed", "solid")) +
+  facet_wrap(~station, nrow = 2) + 
+  labs(y = "Flow (cfs)") +
+  theme_plots )
+
+plotly::ggplotly(omr_plot) %>%
+  layout(legend = list(orientation = "h"))
+```
+
+### Water Temperature
+
+```{r FPTSUSSWEGSSMALwtemp-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("FPT (Sacramento River at Freeport), SUS (Steamboat Slough below Sutter Slough), SWE (Sacramento River at Walnut Grove), GSS (Georgiana Slough at Sacramento River), MAL (Sacramento River at Mallard Island) Mean, Maximum, Minimum Monthly Water Temperature (°F) in", report_year, "-", report_year+1)}
+wtemp_delta_df <- readRDS(paste0("data_raw/wtemp_cdec_FPT_SUS_SWE_GSS_MAL_", year(start), "-", year(end2), ".rdsxz")) 
+
+wtemp_delta_monthly_ml <- f_monthly_extrayear_thresh_greater(wtemp_delta_df, WaterTemp, 63) %>%
+  mutate(station = factor(station, levels = c("FPT", "SUS", "SWE", "GSS" ,"MAL"))) %>%
+  filter(month_num %in% c(12, 1, 2, 3, 4, 5,6)) %>%
+  select(-month_num) %>%
+  arrange(station) 
+  
+flextable(wtemp_delta_monthly_ml)%>%
+  add_footer_lines() %>%
+  add_header_lines() %>%
+  width(width = 1, unit = "in") %>%
+  hline(i = c(7, 14, 21, 28), part = 'body') %>%
+  vline()%>%
+  border_outer() %>%
+  bold(part = "header") %>%
+  colformat_num(j = "year", big.mark = "") %>%
+  set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (°F)", max = "Max (°F)", min =  "Min (°F)", flag_days = "Days > 63°F") 
+```
+
+
+### Dissolved Oxygen
+
+```{r SRHSXSBLPMALDO-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("SRH (Sacramento River at Hood), SXS (Steamboat Slough near Sacramento River), BLP (Blind Point), MAL (Sacramento River at Mallard Island) Mean, Maximum, Minimum Monthly DO (mg/L) in", report_year, "-", report_year+1)}
+do_srh_sxs_blp_mal_df <- readRDS(paste0("data_raw/do_cdec_SRH_SXS_BLP_MAL_", year(start), "-", year(end2), ".rdsxz")) 
+
+do_srh_sxs_blp_mal_monthly_ml <- f_monthly_extrayear_thresh(do_srh_sxs_blp_mal_df, DO, 6) %>%
+  mutate(station = factor(station, levels = c("SRH", "SXS", "BLP", "MAL"))) %>%
+  filter(month_num %in% c(12, 1, 2, 3, 4, 5,6)) %>%
+  select(-month_num) %>%
+  arrange(station) 
+  
+flextable(do_srh_sxs_blp_mal_monthly_ml)%>%
+  add_footer_lines() %>%
+  add_header_lines() %>%
+  width(width = 1, unit = "in") %>%
+  hline(i = c(7, 14, 21, 28), part = 'body') %>%
+  vline()%>%
+  border_outer() %>%
+  bold(part = "header") %>%
+  colformat_num(j = "year", big.mark = "") %>%
+  set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (cfs)", max = "Max (cfs)", min =  "Min (cfs)", flag_days = "Days < 6 mg/L") 
+```
+
 
 
 ## Biological Response
