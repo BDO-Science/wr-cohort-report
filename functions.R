@@ -204,7 +204,8 @@ f_monthly <- function(df, colName) {
   param = enquo(colName)
   df %>%
 
-    mutate(month = month(date, label = TRUE, abbr = FALSE),
+    mutate(month_num = month(date),
+           month = month(date, label = TRUE, abbr = FALSE),
            year = year(date)) %>%
     filter(year ==report_year) %>%
     select(-datetime, -date2, -date, -wy) %>%
@@ -246,7 +247,7 @@ f_monthly_extrayear_thresh <- function(df, colName, threshold) {
            month_num = month(date),
            year = year(date)) %>%
     filter(year %in% c(report_year, report_year+1)) %>%
-    filter((year == report_year & month_num %in% c(9, 10, 11, 12)) | (year == report_year+1 & month_num <7)) %>%
+    filter((year == report_year & month_num %in% c(7, 8, 9, 10, 11, 12)) | (year == report_year+1 & month_num <7)) %>%
     mutate(flag = if_else(!!param<threshold, 1L, 0L)) %>%
     group_by(year, month, date, station) %>%
     mutate(flag_hours = sum(flag),

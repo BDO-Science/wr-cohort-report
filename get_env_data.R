@@ -142,6 +142,14 @@ do_KWK_CCR <- lapply(stations_do,
 f_do_data(df = do_KWK_CCR, statext = sta_text_adult, sta = "adult")
 
 ## Juvenile -----------------
+### Upper Sac ------------------------
+sta_do_us <- "BND"
+sta_text_do_us <- "BND"
+
+do_raw_us <- lapply(sta_do_us,
+                    function(x){CDECquery(id = x, sensor = 61, interval = "H",start = start,end = end2)})
+f_do_data(df = do_raw_us, sta_text_do_us, "us")
+
 
 ### Mid-Lower ------------------------
 sta_do_ml <- c("RDB","SRH")
@@ -182,17 +190,28 @@ turb_raw_ef <- lapply(sta_turb_ef,
 f_turb_data(turb_raw_ef, sta_text_turb_ef, "ef")
 
 ## Juvenile --------------------------------------------
+### Upper Sac -------------------------------
+
+sta_turb_us <- c("BND", "RDB")
+sta_text_turb_us <- "BND_RDB"
+turb_raw_BND <- CDECquery(id = "BND", sensor = 27, interval = "H", start = start, end = end) %>%
+  bind_rows()
+turb_raw_RDB <- CDECquery(id = "RDB", sensor = 61, interval = "H", start = start, end = end) %>%
+  bind_rows()
+turb_raw_us <- rbind(turb_raw_BND, turb_raw_RDB)
+
+f_turb_data(turb_raw_us, sta_text_turb_us, "us")
 
 ### Mid-low -------------------------------
 sta_turb_ml <- c("RDB", "FPT")
 sta_text_turb_ml <- "RDB_FPT"
 turb_raw_FPT <- CDECquery(id = "FPT", sensor = 221, interval = "H", start = start, end = end2) %>%
   bind_rows()
-turb_raw_RDB <- CDECquery(id = "RDB", sensor = 61, interval = "H", start = start, end = end2) %>%
+turb_raw_RDB2 <- CDECquery(id = "RDB", sensor = 61, interval = "H", start = start, end = end2) %>%
   bind_rows()
-turb_raw_ml <- rbind(turb_raw_FPT, turb_raw_RDB)
+turb_raw_ml <- rbind(turb_raw_FPT, turb_raw_RDB2)
 
-f_turb_data_test(turb_raw_ml, sta_text_turb_ml, "ml")
+f_turb_data(turb_raw_ml, sta_text_turb_ml, "ml")
 # Water Temperature in F-------------------------------------------------------------------------
 
 ## Adult -----------------------------------------------
@@ -203,6 +222,11 @@ wtemp_raw_adult <- lapply(stations_wtemp_adult,
 f_wtemp_data(wtemp_raw_adult, sta_text_wtemp_adult, "adult")
 
 ## Juvenile ---------------------------
+### Upper Sac-------------------------------
+sta_text_wtemp_us <- "BND"
+
+bnd <- CDECquery("BND", sensor = 25, interval = "H", start = start, end = end)
+f_wtemp_data(bnd, sta_text_wtemp_us, "us")
 
 ### Mid-low ----------------------------------
 sta_text_wtemp_ml <- "WLK"
