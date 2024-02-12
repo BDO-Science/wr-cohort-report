@@ -9,21 +9,12 @@ library(lubridate)
 library(viridis)
 library(sharpshootR)
 library(plotly)
+
+library(kableExtra)
 library(flextable)
 library(CDECRetrieve)
 source("functions.R")
 source("parameters.R")
-```
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-theme_plots <- theme_bw() + theme(axis.text = element_text(size = 12),
-                                  strip.text = element_text(size = 12),
-                                  legend.text = element_text(size = 12),
-                                  axis.title = element_text(size = 13),
-                                  axis.title.x = element_blank(),
-                                  legend.title = element_blank(),
-                                  legend.position = "top",
-                                  axis.text.x = element_text(angle = 45, hjust = 0.5, vjust = 0.5))
 ```
 
 ## Habitat Attributes
@@ -34,7 +25,7 @@ theme_plots <- theme_bw() + theme(axis.text = element_text(size = 12),
 
 3.  In-Stream Habitat Capacity
 
-## Environmental Drivers
+### Storage and Flows
 
 1.  Shasta Storage/Hydrology
 
@@ -42,12 +33,13 @@ theme_plots <- theme_bw() + theme(axis.text = element_text(size = 12),
 
 #### Flow Conditions on the Middle and Lower Sacramento River
 
-```{r HMCWLKVONflow-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Hamilton City (HMC), Wilkins Slough (WLK) and Verona (VON) Average Flows (cfs) in",report_year, "and over the 10-year average"), fig.width = 8, fig.height = 7}
+```{r HMCWLKVONflow-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Flows (cfs) at Sacramento River at Hamilton City (HMC), Sacramento River at Wilkins Slough (WLK) and Sacramento River at Verona (VON) from September",report_year, "through March", report_year+1, "and over the 10-year average"), fig.width = 8, fig.height = 7}
 flow_hmc_wlk_von <- readRDS(paste0("data_raw/flow_hmc_wlk_von_plot_data_", lubridate::year(start), "-", lubridate::year(end2), ".rds")) %>%
   mutate(station = factor(station, levels = c("HMC", "WLK", "VON"))) %>%
+  filter(!month%in%c("April", "May", "June")) %>%
   arrange(station)
 
-ggplot(flow_hmc_wlk_von) + 
+plot_flow_hmc_wlk_von <- ggplot(flow_hmc_wlk_von) + 
   geom_line(aes(date, flow, color = plot_year, linetype = plot_year)) +
   scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
   scale_color_manual(values = c("black", "steelblue")) +
@@ -55,9 +47,11 @@ ggplot(flow_hmc_wlk_von) +
   facet_wrap(~station, nrow = 3) + 
   labs(y = "Flow (cfs)") +
   theme_plots 
+
+plotly::ggplotly(plot_flow_hmc_wlk_von)
 ```
 
-```{r HMCWLKVONflow-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Hamilton City (HMC), Wilkins Slough (WLK) and Verona (VON) Mean, Maximum and Minimum Flows (cfs) in", report_year, "-", report_year+1)}
+```{r HMCWLKVONflow-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Mean, Maximum and Minimum Monthly Flows (cfs) at Sacramento River at Hamilton City (HMC), Sacramento River at Wilkins Slough (WLK) and Sacramento River at Verona (VON) from September", report_year, " through March", report_year+1)}
 flow_hmc_wlk_von_df <- readRDS(paste0("data_raw/flow_hmc_wlk_von_df_", year(start), "-", year(end2), ".rdsxz"))
 
 flow_hmc_wlk_von_monthly_ml <- f_monthly_extrayear(flow_hmc_wlk_von_df, flow) %>%
@@ -106,9 +100,11 @@ max_mean_flow_von_month <- monthly_von %>% filter(mean == max_mean_flow_von) %>%
 
 -   **Verona:** Peak flows were **`r max_flow_von`** cfs and occurred in **`r max_flow_von_month[1]`**. The highest mean flows were **`r max_mean_flow_von`** cfs and occurred in **`r max_mean_flow_von_month`**.
 
-### Turbidity
+### Environmental Drivers
 
-```{r RDBFPTDO-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste0("Turbidity at Red Bluff Diversion Dam (RDB) and Sacramento River at Freeport (FPT) from September ", report_year, "through March ", report_year + 1)}
+#### Turbidity
+
+```{r RDBFPTDO-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Turbidity at Red Bluff Diversion Dam (RDB) and Sacramento River at Freeport (FPT) from September", report_year, "through March", report_year+1)}
 
 turb_rdb_fpt_plot_data <- readRDS(paste0("data_raw/turb_RDB_FPT_plot_data_", year(start), "-", year(end2), ".rds")) %>%
   filter(month %in% c(9,10,11,12,1,2,3))
@@ -123,7 +119,7 @@ ggplot(turb_rdb_fpt_plot_data) + geom_line(aes(date, Turbidity, color = plot_yea
   theme_plots 
 ```
 
-```{r RDBFPTTurb-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("RDB (Red Bluff Diversion Dam) and Sacramento River at Freeport (FPT) Mean, Maximum, Minimum Monthly Flows (cfs) in", report_year, "-", report_year+1)}
+```{r RDBFPTTurb-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Mean, Maximum, Minimum Monthly Flows (cfs) at Red Bluff Diversion Dam (RDB) and Sacramento River at Freeport (FPT) from September", report_year, "through March", report_year+1)}
 turb_rdb_fpt_df <- readRDS(paste0("data_raw/turb_cdec_RDB_FPT_", year(start), "-", year(end2), ".rdsxz")) 
 
 turb_rdb_fpt_monthly_ml <- f_monthly_extrayear(turb_rdb_fpt_df, Turbidity) %>%
@@ -136,7 +132,7 @@ flextable(turb_rdb_fpt_monthly_ml)%>%
   add_footer_lines() %>%
   add_header_lines() %>%
   width(width = 1, unit = "in") %>%
-  hline(i = c(7,14), part = 'body') %>%
+  hline(i = 7, part = 'body') %>%
   vline()%>%
   border_outer() %>%
   bold(part = "header") %>%
@@ -144,11 +140,13 @@ flextable(turb_rdb_fpt_monthly_ml)%>%
   set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (FNU)", max = "Max (FNU)", min =  "Min (FNU)") 
 ```
 
-### Water Temperature
+#### Water Temperature
 
-```{r WLKwtemp-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("WLK (Sacramento River Below Wilkins Slough) Mean, Maximum, Minimum Monthly Water Temperature (°F) in", report_year, "-", report_year+1)}
+```{r WLKwtemp-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Mean, Maximum, Minimum Monthly Water Temperature (°F) at Sacramento River Below Wilkins Slough (WLK) in September", report_year, "through March", report_year+1, ". Days > 63°F indicates the number of days per month that experienced at least 1 hour where Water Temperature was greater than 63°F.")}
+
 wtemp_wlk_df <- readRDS(paste0("data_raw/wtemp_cdec_WLK_", year(start), "-", year(end2), ".rdsxz")) 
 wtemp_wlk_monthly_ml <- f_monthly_extrayear_thresh_greater(wtemp_wlk_df, WaterTemp, 63) %>%
+  filter(month_num %in% c(9,10,11,12,1,2,3)) %>%
   select(-month_num)
 
 flextable(wtemp_wlk_monthly_ml)%>%
@@ -164,14 +162,16 @@ flextable(wtemp_wlk_monthly_ml)%>%
 ```
 
 
-### Dissolved Oxygen
+#### Dissolved Oxygen
 
-```{r RBDSRHDO-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("RBD (Red Bluff Diversion Dam) and Sacramento River at Hood (SRH) Mean, Maximum, Minimum Monthly Flows (cfs) in", report_year, "-", report_year+1)}
+```{r RBDSRHDO-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Mean, Maximum, Minimum Monthly Flows (cfs) at Red Bluff Diversion Dam (RBD) and Sacramento River at Hood (SRH) in", report_year, "-", report_year+1, ". Days less than 6 mg/L indicates the number of days per month that experienced at least 1 hour where DO was less than 6 mg/L.")}
 do_rdb_srh_df <- readRDS(paste0("data_raw/do_cdec_RDB_SRH_", year(start), "-", year(end2), ".rdsxz")) 
 
 do_rdb_srh_monthly_ml <- f_monthly_extrayear_thresh(do_rdb_srh_df, DO, 6) %>%
   mutate(station = factor(station, levels = c("RDB", "SRH"))) %>%
-  arrange(station)
+  filter(month_num %in% c(9,10,11,12,1,2,3)) %>%
+  arrange(station) %>%
+  select(-month_num)
 
 flextable(do_rdb_srh_monthly_ml)%>%
   add_footer_lines() %>%

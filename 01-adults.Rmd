@@ -36,7 +36,7 @@ source("parameters.R")
 
 Flows in the Sacramento River are dependent on Shasta storage. Adult WR Chinook Salmon reply on flows for migration cues.
 
-```{r SHAstor-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Shasta Dam Storage (SHA)."}
+```{r SHAstor-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Shasta Dam Storage (SHA) in",report_year,"and over the 10-year average.")}
 shasta_data <- readRDS(paste0("data_raw/storage_sha_plot_data_", year(start), "-", year(end), ".rds")) %>%
    mutate(month_num = month(date)) %>%
    filter(month_num>=1 & month_num < 8) %>%
@@ -65,7 +65,7 @@ max_storage_sha_month <- shasta_max %>% filter(Storage_TAF == max_storage_sha) %
 
 #### Flow Conditions on the Upper Sacramento River 
 
-```{r KWKBNDflow-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Keswick (KWK) and Bend Bridge (BND) Average Flows (cfs) in",report_year, "and over the 10-year average"), fig.width = 6, fig.height = 7}
+```{r KWKBNDflow-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Flows (cfs) at Sacramento Rier at Keswick (KWK) and Sacramento River at Bend Bridge (BND) in",report_year, "and over the 10-year average"), fig.width = 6, fig.height = 7}
 flow_kwk_bnd <- readRDS(paste0("data_raw/flow_kwk_bnd_plot_data_", year(start), "-", year(end), ".rds")) 
 
 ggplot(flow_kwk_bnd) + 
@@ -78,7 +78,7 @@ ggplot(flow_kwk_bnd) +
   theme_plots 
 ```
 
-```{r KWKBNDflow-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Keswick (KWK) and Bend Bridge (BND) Mean, Maximum, Minimum Monthly Flows (cfs) in", report_year)}
+```{r KWKBNDflow-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Mean, Maximum, Minimum Monthly Flows (cfs) at Sacramento River at Keswick (KWK) and Sacramento River at Bend Bridge (BND)  in", report_year)}
 flow_kwk_bnd_monthly <- readRDS(paste0("data_raw/flow_kwk_bnd_monthly_", year(start), "-", year(end), ".rds"))
 
 
@@ -90,6 +90,7 @@ flextable(flow_kwk_bnd_monthly)%>%
   vline()%>%
   border_outer() %>%
   bold(part = "header") %>%
+  colformat_num(j = "year", big.mark = "") %>%
   set_header_labels(month = "Month", station = "Station", mean = "Mean (cfs)", max = "Max (cfs)", min =  "Min (cfs)")
 ```
 
@@ -114,7 +115,6 @@ max_mean_flow_bnd_month <- monthly_bnd %>% filter(mean == max_mean_flow_bnd) %>%
 
 ### Water Temperature
 
-
 #### Temperature Threshold Analysis {#temp-thresholds}
 
 The temperature compliance point (location of compliance to daily average temperature (DAT) of ≤56°F) varies annually based on USBR's Temperature Management Plan.
@@ -129,11 +129,9 @@ The temperature compliance point (location of compliance to daily average temper
 
 #### Water Temperature at Balls Ferry Bridge and Clear Creek 
 
-```{r historicalwtemp-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Historical Comparison of Sacramento River Water Temperature at Clear Creek (CCR) and Balls Ferry Bridge (BSF)."}
+```{r historicalwtemp-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Water Temperature at Sacramento River at Clear Creek (CCR) and Sacramento River at Balls Ferry Bridge (BSF) in", report_year, "and over the 10-year average")}
 
 wtemp_bsf_ccr_plot_data <- readRDS(paste0("data_raw/wtemp_CCR_BSF_plot_data_", year(start), "-", year(end), ".rds"))
-wtemp_bsf_ccr_monthly <- readRDS(paste0("data_raw/wtemp_CCR_BSF_monthly_", year(start), "-", year(end), ".rds"))
-
 
 (plot_wtemp_bsf_ccr <- ggplot(wtemp_bsf_ccr_plot_data) + geom_line(aes(date, WaterTemp, color = plot_year, linetype = plot_year)) +
   geom_hline(yintercept  = 56, linetype = "dotdash", color = "gray50", size  = 0.7) + 
@@ -147,7 +145,8 @@ wtemp_bsf_ccr_monthly <- readRDS(paste0("data_raw/wtemp_CCR_BSF_monthly_", year(
 ggplotly(plot_wtemp_bsf_ccr)
 ```
 
-```{r BSFCCRwtemp-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Balls Ferry Bridge (BSF) and Clear Creek (CCR) Mean, Maximum, Minimum Monthly Water Temperature (°F) in", report_year)}
+```{r BSFCCRwtemp-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Mean, Maximum, Minimum Monthly Water Temperature (°F) at Sacramento River at Balls Ferry Bridge (BSF) and Sacramento River upstream from Confluence with Clear Creek (CCR) in", report_year)}
+wtemp_bsf_ccr_monthly <- readRDS(paste0("data_raw/wtemp_CCR_BSF_monthly_", year(start), "-", year(end), ".rds"))
 
 flextable(wtemp_bsf_ccr_monthly)%>%
   add_footer_lines() %>%
@@ -182,7 +181,7 @@ max_mean_wtemp_ccr_month <- monthly_ccr %>% filter(mean == max_mean_wtemp_ccr) %
 
 ### Dissolved Oxygen Conditions at Keswick Dam and Clear Creek
 
-```{r KWKCCRDO-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Dissolved Oxygen at Keswick Dam (KWK) and Sacramento River upstream from Confluence with Clear Creek (CCR)."}
+```{r KWKCCRDO-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Daily Dissolved Oxygen (mg/L) at Sacramento River at Keswick Dam (KWK) and Sacramento River upstream from Confluence with Clear Creek (CCR)."}
 
 do_kwk_ccr_plot_data <- readRDS(paste0("data_raw/do_KWK_CCR_plot_data_", year(start), "-", year(end), ".rds"))
 
@@ -196,7 +195,7 @@ ggplot(do_kwk_ccr_plot_data) + geom_line(aes(date, DO, color = plot_year, linety
   theme_plots 
 ```
 
-```{r CCRKWKdo-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Keswick (KWK) and Clear Creek (CCR) Mean, Maximum, Minimum Monthly Dissolved Oxygen (mg/L) in", report_year)}
+```{r CCRKWKdo-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Mean, Maximum, Minimum Monthly Dissolved Oxygen (mg/L) at Sacrmaneto River at Keswick (KWK) and Sacramento River upstream from Confluence with Clear Creek (CCR)  in", report_year)}
 do_kwk_ccr_monthly <- readRDS(paste0("data_raw/do_KWK_CCR_monthly_", year(start), "-", year(end), ".rds"))
 
 flextable(do_kwk_ccr_monthly)%>%

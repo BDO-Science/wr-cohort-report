@@ -7,10 +7,12 @@ library(ggplot2)
 library(dplyr) 
 library(lubridate) 
 library(viridis)
+library(sharpshootR)
 library(plotly)
 
 library(kableExtra)
 library(flextable)
+library(CDECRetrieve)
 source("functions.R")
 source("parameters.R")
 ```
@@ -34,11 +36,11 @@ source("parameters.R")
 
 #### Flow Conditions on the Upper Sacramento River
 
-```{r KWKBNDflowegg-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Keswick (KWK) and Bend Bridge (BND) Mean, Maximum, Minimum Monthly Flows (cfs) in", report_year, "between May and November")}
+```{r KWKBNDflowegg-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Mean, Maximum, Minimum Monthly Flows (cfs) at Sacramento River at Keswick (KWK) and Sacramento River at Bend Bridge (BND) between May and November", report_year)}
 flow_kwk_bnd_monthly_egg <- readRDS(paste0("data_raw/flow_kwk_bnd_monthly_", year(start), "-", year(end), ".rds")) %>%
   filter(!month %in% c("January", "February", "March", "April", "December")) %>%
   mutate(station = factor(station, levels = c("KWK", "BND"))) %>%
-  select(station, month, everything()) %>%
+  select(Year=year, station, month, everything()) %>%
   arrange(station)
 
 flextable(flow_kwk_bnd_monthly_egg)%>%
@@ -49,6 +51,7 @@ flextable(flow_kwk_bnd_monthly_egg)%>%
   vline()%>%
   border_outer() %>%
   bold(part = "header") %>%
+  colformat_num(j = "Year", big.mark = "") %>%
   set_header_labels(month = "Month", station = "Station", mean = "Mean (cfs)", max = "Max (cfs)", min =  "Min (cfs)")
 ```
 
@@ -58,11 +61,12 @@ flextable(flow_kwk_bnd_monthly_egg)%>%
 
 ### Dissolved Oxygen Conditions on the Upper Sacramento River
 
-```{r CCRKWKdoegg-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Keswick (KWK) and Clear Creek (CCR) Mean, Maximum, Minimum Monthly Dissolved Oxygen (mg/L) in", report_year, "between May and November")}
+```{r CCRKWKdoegg-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Mean, Maximum, Minimum Monthly Dissolved Oxygen (mg/L) at Sacramento River at Keswick (KWK) and Sacramento River upstream from Confluence with Clear Creek (CCR) between May and November", report_year)}
+
 do_kwk_ccr_monthly_egg <- readRDS(paste0("data_raw/do_KWK_CCR_monthly_", year(start), "-", year(end), ".rds"))%>%
   filter(!month %in% c("January", "February", "March", "April", "December")) %>%
   mutate(station = factor(station, levels = c("KWK", "CCR"))) %>%
-  select(station, month, everything()) %>%
+  select(Year = year, station, month, everything()) %>%
   arrange(station)
 
 flextable(do_kwk_ccr_monthly_egg)%>%
@@ -73,6 +77,7 @@ flextable(do_kwk_ccr_monthly_egg)%>%
   vline()%>%
   border_outer() %>%
   bold(part = "header") %>%
+  colformat_num(j = "Year", big.mark = "") %>%
   set_header_labels(month = "Month", station = "Station", mean = "Mean (mg/L)", max = "Max (mg/L)", min =  "Min (mg/L)")
 ```
 
@@ -88,9 +93,103 @@ flextable(do_kwk_ccr_monthly_egg)%>%
 
 2.  Egg to fry survival
 
--   bar plot of percent survival by year (JPI calculation)
-    -   JPI = fry abundance/total viable eggs in JPE letter
--   egg to fry survival by number of mainstem in-river spawners (JPI calculation)
+```{r JPI-fig, message = FALSE, warning = FALSE, echo = FALSE,fig.cap = paste("Annual JPI from 2002 to",report_year)}
+
+library(scales)
+jpi <- read.csv("data_raw/JPI_2002_2023.csv") %>%
+  rename(JPI = Fry.Equivalent.JPI,
+         ETF_Survival = ETF.Survival.Rate....) %>%
+  select(BY, JPI, ETF_Survival) %>%
+  mutate(JPI = JPI/1000000,
+         JPI_lab = round(JPI, 2),
+         ETF_Survival_lab = round(ETF_Survival)) %>%
+  mutate(BY = factor(BY))
+
+avg.JPI = mean(jpi$JPI)
+
+(plot_jpi <- ggplot(jpi) + 
+  geom_col(aes(BY, JPI), fill = "#C69214", alpha = 0.8, width = 0.8) +
+  geom_text(aes(BY, JPI+0.15, label = JPI_lab), size = 3) + 
+  geom_hline(yintercept = avg.JPI, linetype = "dashed") + 
+  labs(y = "Juvenile Production Index (millions)") +
+  scale_y_continuous() + 
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 0.5, vjust = 0.5, size = 12),
+        axis.text.y = element_text(size = 12),
+        axis.title.x = element_blank()))
+```
+
+```{r TDM-etf-fig, message = FALSE, warning = FALSE, echo = FALSE, fig.cap = paste("Annual Percent of Egg to Fry Survival, Temperature-Dependent Mortality, and Unattributed Survival from 2002 to",report_year)}
+tdm <- read.csv("data_raw/ETF_TDM_2002_2023.csv") %>%
+  mutate(unexplained_mortality = 100-ETF_Survival-TDM_NOAA_percent) %>%
+  rename(ETF_survival = ETF_Survival) %>%
+  mutate(Brood.Year = factor(Brood.Year))%>%
+  mutate(color = case_when(Sac.Val.Year.Type == "C" ~ "#D55E00",
+                           Sac.Val.Year.Type == "D" ~ "#E69F00",
+                           Sac.Val.Year.Type == "AN" ~ "#009E73",
+                           Sac.Val.Year.Type == "BN" ~  "black",
+                           Sac.Val.Year.Type == "W" ~ "#0072B2")) %>%
+  mutate(Brood.Year.Type = paste0(Brood.Year, " (", Sac.Val.Year.Type, ")" ))
+
+tdm_long <- tdm %>%
+  select(Brood.Year.Type, color,
+         `Temperature Attributed Mortality` = TDM_NOAA_percent, 
+         `Egg-to-Fry Survival` = ETF_survival, 
+         `Unattributed Mortality` = unexplained_mortality) %>%
+  pivot_longer(cols = `Temperature Attributed Mortality`:`Unattributed Mortality`, names_to = "Fate", values_to = "Percent") %>%
+  mutate(Percent_label = round(Percent))
+
+yrcolors <- rev(tdm$color)
+
+(plot_tdm <- ggplot(tdm_long, aes(Brood.Year.Type, Percent, fill = Fate)) + 
+  geom_col(width = 0.65, alpha = 0.9) +
+  geom_text(aes(label = Percent_label), position = position_stack(vjust = 0.5), size = 4.5) +
+  scale_fill_manual(values = c("goldenrod","steelblue" ,"gray70")) + 
+  labs(x = "Brood Year") + 
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 0.5, vjust = 0.5, size = 11.5, colour = yrcolors),
+        axis.text.y = element_text(size = 12),
+        legend.position = "bottom",
+        legend.title = element_blank()))
+
+```
+
+```{r ETFSurv-fig, eval = FALSE, echo = FALSE}
+avg.ETF = mean(jpi$ETF_Survival)
+
+(plot_etf <- ggplot(jpi) + 
+  geom_col(aes(BY, ETF_Survival), fill = "#007396", alpha = 0.8, width = 0.8) +
+    geom_text(aes(BY, ETF_Survival +1, label = ETF_Survival_lab), size =  3) + 
+  geom_hline(yintercept = avg.ETF, linetype = "dashed") + 
+  labs(y = "Egg-to-Fry Survival (%)") +
+    # scale_y_continuous(expand = c(0,0)) + 
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 0.5, vjust = 0.5, size = 12),
+        axis.text.y = element_text(size = 12),
+        axis.title.x = element_blank()))
+```
+
+```{r, eval = FALSE, echo = FALSE}
+png(filename = "figures/jpi.png",
+    width = 8,
+    height = 5,
+    units = "in",
+    res = 300)
+plot_jpi
+dev.off()
+
+png(filename = here("figures", "etf_survival.png"), width = 8, height = 5, units = "in", pointsize = 10, family = "sans", res = 300)
+plot_etf
+dev.off()
+
+
+png(filename = here("figures", "tdm_etf_survival.png"), width = 8, height = 5.5, units = "in", pointsize = 10, family = "sans", res = 300)
+plot_tdm
+dev.off()
+
+```
+
+
 -   egg-to-fry survival from fish model (fish model)
 
 3.  Emergence Timing (fish model)
