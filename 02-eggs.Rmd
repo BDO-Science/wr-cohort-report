@@ -9,6 +9,8 @@ library(lubridate)
 library(viridis)
 library(sharpshootR)
 library(plotly)
+library(readr)
+library(here)
 
 library(kableExtra)
 library(flextable)
@@ -55,6 +57,24 @@ flextable(flow_kwk_bnd_monthly_egg)%>%
   set_header_labels(month = "Month", station = "Station", mean = "Mean (cfs)", max = "Max (cfs)", min =  "Min (cfs)")
 ```
 
+
+```{r echo = FALSE}
+monthly_kwk_egg <- flow_kwk_bnd_monthly_egg %>% filter(station == "KWK")
+max_flow_kwk_egg <- max(monthly_kwk_egg$max)
+max_mean_flow_kwk_egg <- max(monthly_kwk_egg$mean)
+max_flow_kwk_month_egg <- monthly_kwk_egg %>% filter(max == max_flow_kwk_egg) %>% select(month)
+max_mean_flow_kwk_month_egg <- monthly_kwk_egg %>% filter(mean == max_mean_flow_kwk_egg) %>% select(month)
+
+monthly_bnd_egg <- flow_kwk_bnd_monthly_egg %>% filter(station == "BND")
+max_flow_bnd_egg <- max(monthly_bnd_egg$max)
+max_mean_flow_bnd_egg <- max(monthly_bnd_egg$mean)
+max_flow_bnd_month_egg <- monthly_bnd_egg %>% filter(max == max_flow_bnd_egg) %>% select(month)
+max_mean_flow_bnd_month_egg <- monthly_bnd_egg %>% filter(mean == max_mean_flow_bnd_egg) %>% select(month)
+```
+
+-   **Keswick:** Peak flows were **`r max_flow_kwk_egg`** cfs and occurred in **`r max_flow_kwk_month_egg[1]`**. The highest mean flows were **`r max_mean_flow_kwk_egg`** cfs and occurred in **`r max_mean_flow_kwk_month_egg`**.
+-   **Bend Bridge:** Peak flows were **`r max_flow_bnd_egg`** cfs and occurred in **`r max_flow_bnd_month_egg[1]`**. The highest mean flows were **`r max_mean_flow_bnd_egg`** cfs and occurred in **`r max_mean_flow_bnd_month_egg`**.
+
 ### Water Temperature on the Upper Sacramento River
 
 - See \@ref(temp-thresholds) for discussion around temperature threshold analysis.
@@ -81,9 +101,54 @@ flextable(do_kwk_ccr_monthly_egg)%>%
   set_header_labels(month = "Month", station = "Station", mean = "Mean (mg/L)", max = "Max (mg/L)", min =  "Min (mg/L)")
 ```
 
+```{r echo = FALSE}
+monthly_kwk_egg <- do_kwk_ccr_monthly_egg %>% filter(station == "KWK")
+min_do_kwk_egg <- min(monthly_kwk_egg$min)
+min_mean_do_kwk_egg <- min(monthly_kwk_egg$mean)
+min_do_kwk_egg_month <- monthly_kwk_egg %>% filter(min == min_do_kwk_egg) %>% select(month)
+min_mean_do_kwk_egg_month <- monthly_kwk_egg %>% filter(mean == min_mean_do_kwk_egg) %>% select(month)
+
+monthly_ccr_egg <- do_kwk_ccr_monthly_egg %>% filter(station == "CCR")
+min_do_ccr_egg <- min(monthly_ccr_egg$min)
+min_mean_do_ccr_egg <- min(monthly_ccr_egg$mean)
+min_do_ccr_egg_month <- monthly_ccr_egg %>% filter(min == min_do_ccr_egg) %>% select(month)
+min_mean_do_ccr_egg_month <- monthly_ccr_egg %>% filter(mean == min_mean_do_ccr_egg) %>% select(month)
+```
+
+**Summary**
+
+-   **Keswick:** Minimum dissolved oxygen was **`r min_do_kwk_egg`** mg/L and occurred in **`r min_do_kwk_egg_month[1]`**. The lowest mean dissolved oxygen was **`r min_mean_do_kwk_egg`** mg/L and occurred in **`r min_mean_do_kwk_egg_month`**.
+-   **Clear Creek:** Minimum dissolved oxygen was **`r min_do_ccr_egg`** mg/L and occurred in **`r min_do_ccr_egg_month[1]`**. The lowest mean dissolved oxygen was **`r min_mean_do_ccr_egg`** mg/L and occurred in **`r min_mean_do_ccr_egg_month`**.
+
+
 ### Air Temperature 
 
-- Need to obtain Redding Airport Data
+```{r KRDDatemp-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Air Temperature (deg F) at Redding Municipal Airport from May",report_year, "through November", report_year, "and maximum and minimum temperatures since 2003"), fig.width = 8, fig.height = 4.5}
+airtemp_krdd_allyears <- read_csv(here("data_raw", paste0("atemp_daily_krdd_allyears.csv"))) %>%
+  select(-date) %>%
+  filter(year == report_year) %>%
+  filter(month_num>5 & month_num<12)
+
+min <- airtemp_krdd_allyears %>%
+  filter(var == "min") %>%
+  rename(min = atemp)
+max <- airtemp_krdd_allyears %>%
+  filter(var == "max") %>%
+  rename(max = atemp)
+fill <- left_join(min %>% select(date2, min), max %>%select(date2, max))
+
+plotly::ggplotly(ggplot() + 
+  geom_line(data = airtemp_krdd_allyears,aes(date2, atemp, linetype = var)) +
+  geom_line(data = airtemp_krdd_allyears %>%filter(var!="mean"),aes(date2, extreme, linetype = var), color = "brown") +
+  geom_ribbon(data = fill, aes(x = date2, ymin= min, ymax = max), fill = "steelblue4", alpha = 0.5) +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
+  # scale_color_manual(values = c("black", "steelblue")) +
+  # scale_linetype_manual(values = c("dashed", "solid")) +
+  labs(y = "Air Temperature (degrees F)") +
+  theme_plots +
+    theme(legend.title = element_blank()))
+```
+
 
 ## Biological Response
 
@@ -97,6 +162,7 @@ flextable(do_kwk_ccr_monthly_egg)%>%
 
 library(scales)
 jpi <- read.csv("data_raw/JPI_2002_2023.csv") %>%
+  filter(BY <= report_year) %>%
   rename(JPI = Fry.Equivalent.JPI,
          ETF_Survival = ETF.Survival.Rate....) %>%
   select(BY, JPI, ETF_Survival) %>%
@@ -106,6 +172,7 @@ jpi <- read.csv("data_raw/JPI_2002_2023.csv") %>%
   mutate(BY = factor(BY))
 
 avg.JPI = mean(jpi$JPI)
+current.JPI = jpi$JPI[1]
 
 (plot_jpi <- ggplot(jpi) + 
   geom_col(aes(BY, JPI), fill = "#C69214", alpha = 0.8, width = 0.8) +
@@ -123,6 +190,7 @@ avg.JPI = mean(jpi$JPI)
 tdm <- read.csv("data_raw/ETF_TDM_2002_2023.csv") %>%
   mutate(unexplained_mortality = 100-ETF_Survival-TDM_NOAA_percent) %>%
   rename(ETF_survival = ETF_Survival) %>%
+  filter(Brood.Year <= report_year) %>%
   mutate(Brood.Year = factor(Brood.Year))%>%
   mutate(color = case_when(Sac.Val.Year.Type == "C" ~ "#D55E00",
                            Sac.Val.Year.Type == "D" ~ "#E69F00",
@@ -137,7 +205,7 @@ tdm_long <- tdm %>%
          `Egg-to-Fry Survival` = ETF_survival, 
          `Unattributed Mortality` = unexplained_mortality) %>%
   pivot_longer(cols = `Temperature Attributed Mortality`:`Unattributed Mortality`, names_to = "Fate", values_to = "Percent") %>%
-  mutate(Percent_label = round(Percent))
+  mutate(Percent_label = round(Percent)) 
 
 yrcolors <- rev(tdm$color)
 
@@ -190,6 +258,20 @@ dev.off()
 ```
 
 
+```{r echo = FALSE}
+avg.ETF = mean(jpi$ETF_Survival)
+current.ETF = jpi$ETF_Survival[1]
+
+dir_jpi <- ifelse(current.JPI<avg.JPI, "below", "above")
+dir_etf <- ifelse(current.ETF<avg.ETF, "below", "above")
+```
+
+**Summary**
+
+-   **Juvenile Production Index** JPI in `r report_year` was `r dir_jpi` the average JPI between 2002 and `r report_year` at `r current.JPI`.
+-   **Egg to Fry Survival** ETF in `r report_year` was `r dir_etf` the average ETF between 2002 and `r report_year` at `r current.ETF`.
+
+   
 -   egg-to-fry survival from fish model (fish model)
 
 3.  Emergence Timing (fish model)
