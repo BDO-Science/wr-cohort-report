@@ -39,16 +39,14 @@ flow_hmc_wlk_von <- readRDS(paste0("data_raw/flow_hmc_wlk_von_plot_data_", lubri
   filter(!month%in%c("April", "May", "June")) %>%
   arrange(station)
 
-plot_flow_hmc_wlk_von <- ggplot(flow_hmc_wlk_von) + 
+ggplotly(ggplot(flow_hmc_wlk_von) + 
   geom_line(aes(date, flow, color = plot_year, linetype = plot_year)) +
   scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
   scale_color_manual(values = c("black", "steelblue")) +
   scale_linetype_manual(values = c("dashed", "solid")) +
   facet_wrap(~station, nrow = 3) + 
   labs(y = "Flow (cfs)") +
-  theme_plots 
-
-plotly::ggplotly(plot_flow_hmc_wlk_von)
+  theme_plots) 
 ```
 
 ```{r HMCWLKVONflow-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Mean, Maximum and Minimum Monthly Flows (cfs) at Sacramento River at Hamilton City (HMC), Sacramento River at Wilkins Slough (WLK) and Sacramento River at Verona (VON) from September", report_year, " through March", report_year+1)}
@@ -104,19 +102,19 @@ max_mean_flow_von_month <- monthly_von %>% filter(mean == max_mean_flow_von) %>%
 
 #### Turbidity
 
-```{r RDBFPTDO-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Turbidity at Red Bluff Diversion Dam (RDB) and Sacramento River at Freeport (FPT) from September", report_year, "through March", report_year+1)}
+```{r RDBFPTDO-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Turbidity at Red Bluff Diversion Dam (RDB) and Sacramento River at Freeport (FPT) from September", report_year, "through March", report_year+1), fig.width = 8, fig.height = 7}
 
 turb_rdb_fpt_plot_data <- readRDS(paste0("data_raw/turb_RDB_FPT_plot_data_", year(start), "-", year(end2), ".rds")) %>%
   filter(month %in% c(9,10,11,12,1,2,3))
 
-ggplot(turb_rdb_fpt_plot_data) + geom_line(aes(date, Turbidity, color = plot_year, linetype = plot_year)) +
+ggplotly(ggplot(turb_rdb_fpt_plot_data) + geom_line(aes(date, Turbidity, color = plot_year, linetype = plot_year)) +
   geom_hline(yintercept  = 9, linetype = "dotdash", color = "gray50", size  = 0.7) + 
   facet_wrap(~station, nrow = 2, scales = "free_y") + 
   viridis::scale_color_viridis(option = "turbo", discrete = TRUE) + 
   scale_x_date(date_breaks = "2 weeks", date_labels = "%b %d") +
   scale_linetype_manual(values = c("dashed", "solid", "solid"))+
   labs(y = "Turbidity (FNU)") +
-  theme_plots 
+  theme_plots )
 ```
 
 ```{r RDBFPTTurb-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Mean, Maximum, Minimum Monthly Flows (cfs) at Red Bluff Diversion Dam (RDB) and Sacramento River at Freeport (FPT) from September", report_year, "through March", report_year+1)}
@@ -140,6 +138,26 @@ flextable(turb_rdb_fpt_monthly_ml)%>%
   set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (FNU)", max = "Max (FNU)", min =  "Min (FNU)") 
 ```
 
+
+```{r echo = FALSE}
+monthly_fpt_turb_ml <- turb_rdb_fpt_monthly_ml %>% filter(station == "FPT")
+min_turb_fpt_ml <- min(monthly_fpt_turb_ml$min)
+min_mean_turb_fpt_ml <- min(monthly_fpt_turb_ml$mean)
+min_turb_fpt_ml_month <- monthly_fpt_turb_ml %>% filter(min == min_turb_fpt_ml) %>% select(month)
+min_mean_turb_fpt_ml_month <- monthly_fpt_turb_ml %>% filter(mean == min_mean_turb_fpt_ml) %>% select(month)
+
+monthly_rdb_turb_ml <- turb_rdb_fpt_monthly_ml %>% filter(station == "RDB")
+min_turb_rdb_ml <- min(monthly_rdb_turb_ml$min)
+min_mean_turb_rdb_ml <- min(monthly_rdb_turb_ml$mean)
+min_turb_rdb_ml_month <- monthly_rdb_turb_ml %>% filter(min == min_turb_rdb_ml) %>% select(month)
+min_mean_turb_rdb_ml_month <- monthly_rdb_turb_ml %>% filter(mean == min_mean_turb_rdb_ml) %>% select(month)
+```
+
+**Summary**
+
+-   **Red Bluff Diversion Dam:** Minimum turbidity was **`r min_turb_rdb_ml`** FNU and occurred in **`r min_turb_rdb_ml_month`**. The lowest mean turbidity was **`r min_mean_turb_rdb_ml`** FNU and occurred in **`r min_mean_turb_rdb_ml_month`**. 
+-   **Sacramento River at Freeport:** Minimum turbidity was **`r min_turb_fpt_ml`** FNU and occurred in **`r min_turb_fpt_ml_month`**. The lowest mean turbidity was **`r min_mean_turb_fpt_ml`** FNU and occurred in **`r min_mean_turb_fpt_ml_month`**. 
+
 #### Water Temperature
 
 ```{r WLKwtemp-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Mean, Maximum, Minimum Monthly Water Temperature (°F) at Sacramento River Below Wilkins Slough (WLK) in September", report_year, "through March", report_year+1, ". Days > 63°F indicates the number of days per month that experienced at least 1 hour where Water Temperature was greater than 63°F.")}
@@ -161,12 +179,25 @@ flextable(wtemp_wlk_monthly_ml)%>%
   set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (°F)", max = "Max (°F)", min =  "Min (°F)", flag_days = "Days > 63°F") 
 ```
 
+```{r echo = FALSE}
+monthly_wtemp_wlk_ml <- wtemp_wlk_monthly_ml %>% filter(station == "WLK")
+max_wtemp_wlk_ml <- max(monthly_wtemp_wlk_ml$max)
+max_mean_wtemp_wlk_ml <- max(monthly_wtemp_wlk_ml$mean)
+max_wtemp_exceed_wlk_ml <- max(monthly_wtemp_wlk_ml$flag_days)
+max_wtemp_wlk_ml_month <- monthly_wtemp_wlk_ml %>% filter(max == max_wtemp_wlk_ml) %>% select(month)
+max_mean_wtemp_wlk_ml_month <- monthly_wtemp_wlk_ml %>% filter(mean == max_mean_wtemp_wlk_ml) %>% select(month)
+max_wtemp_exceed_wlk_ml_month <- monthly_wtemp_wlk_ml %>% filter(flag_days == max_wtemp_exceed_wlk_ml) %>% select(month)
+```
+
+**Summary**
+
+- Maximum water temperature was **`r max_wtemp_wlk_ml`** degrees F and occurred in **`r max_wtemp_wlk_ml_month`**. The highest mean water temperature was **`r max_mean_wtemp_wlk_ml`** degrees F and occurred in **`r max_mean_wtemp_wlk_ml_month`**.
+- The month with greatest days exceeding 63 degrees F (**`r max_wtemp_exceed_wlk_ml`** days) was **`r max_wtemp_exceed_wlk_ml_month`**.
 
 #### Dissolved Oxygen
 
-```{r RBDSRHDO-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Mean, Maximum, Minimum Monthly Flows (cfs) at Red Bluff Diversion Dam (RBD) and Sacramento River at Hood (SRH) in", report_year, "-", report_year+1, ". Days less than 6 mg/L indicates the number of days per month that experienced at least 1 hour where DO was less than 6 mg/L.")}
+```{r RDBSRHDO-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Mean, Maximum, Minimum Monthly Flows (cfs) at Red Bluff Diversion Dam (RDB) and Sacramento River at Hood (SRH) in", report_year, "-", report_year+1, ". Days less than 6 mg/L indicates the number of days per month that experienced at least 1 hour where DO was less than 6 mg/L.")}
 do_rdb_srh_df <- readRDS(paste0("data_raw/do_cdec_RDB_SRH_", year(start), "-", year(end2), ".rdsxz")) 
-
 do_rdb_srh_monthly_ml <- f_monthly_extrayear_thresh(do_rdb_srh_df, DO, 6) %>%
   mutate(station = factor(station, levels = c("RDB", "SRH"))) %>%
   filter(month_num %in% c(9,10,11,12,1,2,3)) %>%
@@ -184,6 +215,25 @@ flextable(do_rdb_srh_monthly_ml)%>%
   colformat_num(j = "year", big.mark = "") %>%
   set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (cfs)", max = "Max (cfs)", min =  "Min (cfs)", flag_days = "Days < 6 mg/L") 
 ```
+
+```{r echo = FALSE}
+monthly_do_rdb_ml <- do_rdb_srh_monthly_ml %>% filter(station == "RDB")
+min_do_rdb_ml <- min(monthly_do_rdb_ml$min)
+min_mean_do_rdb_ml <- min(monthly_do_rdb_ml$mean)
+min_do_rdb_ml_month <- monthly_do_rdb_ml %>% filter(min == min_do_rdb_ml) %>% select(month)
+min_mean_do_rdb_ml_month <- monthly_do_rdb_ml %>% filter(mean == min_mean_do_rdb_ml) %>% select(month)
+
+monthly_do_srh_ml <- do_rdb_srh_monthly_ml %>% filter(station == "SRH")
+min_do_srh_ml <- min(monthly_do_srh_ml$min)
+min_mean_do_srh_ml <- min(monthly_do_srh_ml$mean)
+min_do_srh_ml_month <- monthly_do_srh_ml %>% filter(min == min_do_srh_ml) %>% select(month)
+min_mean_do_srh_ml_month <- monthly_do_srh_ml %>% filter(mean == min_mean_do_srh_ml) %>% select(month)
+```
+
+**Summary**
+
+-   **Sacramento River at Bend Bridge:** Minimum dissolved oxygen was **`r min_do_rdb_ml`** mg/L and occurred in **`r min_do_rdb_ml_month[1]`**. The lowest mean dissolved oxygen was **`r min_mean_do_rdb_ml`** mg/L and occurred in **`r min_mean_do_rdb_ml_month`**.
+-   **Sacramento River at Hood:** Minimum dissolved oxygen was **`r min_do_srh_ml`** mg/L and occurred in **`r min_do_srh_ml_month[1]`**. The lowest mean dissolved oxygen was **`r min_mean_do_srh_ml`** mg/L and occurred in **`r min_mean_do_srh_ml_month`**.
 
 ## Biological Response
 
