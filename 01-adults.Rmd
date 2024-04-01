@@ -9,6 +9,8 @@ library(lubridate)
 library(viridis)
 library(sharpshootR)
 library(plotly)
+library(here)
+library(readr)
 
 library(kableExtra)
 library(flextable)
@@ -36,7 +38,7 @@ source("parameters.R")
 
 Flows in the Sacramento River are dependent on Shasta storage. Adult WR Chinook Salmon rely on flows for migration cues.
 
-```{r SHAstor-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Shasta Dam Storage (SHA) in",report_year,"and over the 10-year average.")}
+```{r SHAstor-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Shasta Dam Storage (SHA) in",report_year,"and over the 10-year average."), fig.width = 8, fig.height = 4.5}
 shasta_data <- readRDS(paste0("data_raw/storage_sha_plot_data_", year(start), "-", year(end), ".rds")) %>%
    mutate(month_num = month(date)) %>%
    filter(month_num>=1 & month_num < 8) %>%
@@ -55,7 +57,7 @@ ggplotly(ggplot(shasta_data) +
 
 #### Flow Conditions on the Upper Sacramento River 
 
-```{r KWKBNDflow-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Flows (cfs) at Sacramento Rier at Keswick (KWK) and Sacramento River at Bend Bridge (BND) in",report_year, "and over the 10-year average"), fig.width = 6, fig.height = 7}
+```{r KWKBNDflow-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Flows (cfs) at Sacramento Rier at Keswick (KWK) and Sacramento River at Bend Bridge (BND) in",report_year, "and over the 10-year average"), fig.width = 8, fig.height = 6}
 flow_kwk_bnd <- readRDS(paste0("data_raw/flow_kwk_bnd_plot_data_", year(start), "-", year(end), ".rds")) 
 
 ggplotly(ggplot(flow_kwk_bnd) + 
@@ -123,7 +125,7 @@ The temperature compliance point (location of compliance to daily average temper
 
 #### Water Temperature at Balls Ferry Bridge and Clear Creek 
 
-```{r historicalwtemp-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Water Temperature at Sacramento River at Clear Creek (CCR) and Sacramento River at Balls Ferry Bridge (BSF) in", report_year, "and over the 10-year average")}
+```{r historicalwtemp-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Water Temperature at Sacramento River at Clear Creek (CCR) and Sacramento River at Balls Ferry Bridge (BSF) in", report_year, "and over the 10-year average"), fig.width = 8, fig.height = 6}
 
 wtemp_bsf_ccr_plot_data <- readRDS(paste0("data_raw/wtemp_CCR_BSF_plot_data_", year(start), "-", year(end), ".rds"))
 
@@ -173,7 +175,7 @@ max_mean_wtemp_ccr_month <- monthly_ccr %>% filter(mean == max_mean_wtemp_ccr) %
 
 ### Dissolved Oxygen Conditions at Keswick Dam and Clear Creek
 
-```{r KWKCCRDO-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Daily Dissolved Oxygen (mg/L) at Sacramento River at Keswick Dam (KWK) and Sacramento River upstream from Confluence with Clear Creek (CCR)."}
+```{r KWKCCRDO-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Daily Dissolved Oxygen (mg/L) at Sacramento River at Keswick Dam (KWK) and Sacramento River upstream from Confluence with Clear Creek (CCR).", fig.width = 8, fig.height = 6}
 
 do_kwk_ccr_plot_data <- readRDS(paste0("data_raw/do_KWK_CCR_plot_data_", year(start), "-", year(end), ".rds"))
 
