@@ -47,12 +47,24 @@ pull_salvage <- function(salvageURL = "http://www.cbr.washington.edu/sacramento/
 
 
 # Pull GrandTab ------------------------------------------------------------------
+library(rvest)
+library(dplyr)
 
-s <- session("https://www.cbr.washington.edu/sacramento/data/php/rpt/grandtab_graph.php?sc=1&outputFormat=default&species=Chinook%3AWinter&type=All&locType=location&location=Sacramento+and+San+Joaquin+River+Systems%3AAll%3AAll")
+## trinh's code -------------------
+webpage <- session(url = "https://www.cbr.washington.edu/sacramento/data/query_adult_grandtab.html")
+formToFill <- webpage %>%
+  html_form() %>%
+  .[[1]]
 
+formToFill$fields[c(1:2, 7, 13)] <- NULL
 
+formToFill %>%
+  html_form_set(location = "Sacramento River System:Sacramento River:Mainstem - Downstream of RBDD") %>%
+  session_submit(x = webpage) %>%
+  .$url %>%
+  download.file("grandTab.png", mode = "wb")
 
-
+##########
 pull_grandtab <- function(grandtabURL = "https://www.cbr.washington.edu/sacramento/data/query_adult_grandtab.html") {
   startingSession <- session(grandtabURL)
   startingForm <- html_form(startingSession)[[1]]
