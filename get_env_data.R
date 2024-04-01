@@ -3,6 +3,7 @@ library(sharpshootR)
 library(lubridate)
 library(dplyr)
 library(readr)
+library(here)
 source("functions.R")
 source("parameters.R")
 
@@ -277,3 +278,52 @@ f_wtemp_data(wtemp_raw_delta, sta_text_wtemp_delta, "delta")
 
 
 ##
+
+# Air Temperature -------------------------------------------------------------------------
+
+## Egg to Fry
+temp_mean_url <- paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/basin_cond_allyears_hist.php?sc=1&outputFormat=csv&hafilter=SR&proj=KRDD&wparam=TEMPERATURE%2C+AIR&gformat=heatmap&gscale=auto&datamin=&datamax=&gcolors=default&ythreshold=&startmonth=10&endmonth=9")
+temp_min_url <- paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/basin_cond_allyears_hist.php?sc=1&outputFormat=csv&hafilter=SR&proj=KRDD&wparam=TEMPERATURE%2C+AIR+MINIMUM&gformat=heatmap&gscale=auto&datamin=&datamax=&gcolors=default&ythreshold=&startmonth=10&endmonth=9")
+temp_max_url <- paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/basin_cond_allyears_hist.php?sc=1&outputFormat=csv&hafilter=SR&proj=KRDD&wparam=TEMPERATURE%2C+AIR+MAXIMUM&gformat=heatmap&gscale=auto&datamin=&datamax=&gcolors=default&ythreshold=&startmonth=10&endmonth=9")
+
+atemp_krdd_mean <- read_csv(temp_mean_url) %>% pivot_longer(cols = -day, names_to = "WY", values_to = "atemp") %>%
+  mutate(var = "mean")
+atemp_krdd_max <- read_csv(temp_max_url)%>% pivot_longer(cols = -day, names_to = "WY", values_to = "atemp") %>%
+  mutate(var = "max")
+atemp_krdd_min <- read_csv(temp_min_url)%>% pivot_longer(cols = -day, names_to = "WY", values_to = "atemp") %>%
+  mutate(var = "min")
+
+atemp_krdd <- rbind(atemp_krdd_mean, atemp_krdd_max, atemp_krdd_min) %>%
+  filter(!is.na(atemp)) %>%
+  rename(dowy = day) %>%
+  mutate(wy = stringr::str_extract(WY, "(\\d)+$"),
+         dowy = as.numeric(dowy)) %>%
+  mutate(date=as.Date(dowy-1-92, origin = paste0(wy, "-01-01")),
+         month_num = month(date),
+         day = day(date),
+         year = year(date)) %>%
+  select(date, year, month_num, day, var, atemp)
+
+atemp_krdd_wide <-  atemp_krdd %>% pivot_wider(values_from = "atemp", names_from = "var")
+atemp_daily_years <- atemp_krdd %>%
+  filter(year > 2002 & year <= report_year+1) %>%
+  mutate(date2 = ymd(paste0("1980-", month_num, "-", lubridate::day(date)))) %>%
+  group_by(date2, var) %>%
+  mutate(allyears = mean(atemp, na.rm = TRUE),
+         extreme = if_else(var == "max", max(atemp, na.rm = TRUE),
+                           if_else(var == "min", min(atemp, na.rm = TRUE),
+                           mean(atemp, na.rm = TRUE))))   %>%
+  ungroup()
+
+write_csv(atemp_daily_years, here("data_raw", paste0("atemp_daily_krdd_allyears.csv")))
+
+
+# atemp_krdd <- rbind(atemp_krdd_mean, atemp_krdd_max, atemp_krdd_min) %>%
+#   select(`mm-dd`, year, location, value, var) %>%
+#   filter(!is.na(value)) %>%
+#   pivot_wider(names_from = "var") %>%
+#   separate(`mm-dd`, c("month_num", "day"), remove = T) %>%
+#   mutate(date = lubridate::mdy(paste0(month_num, "-", day, "-",  year)),
+#          month = month(date, label = TRUE, abbr = FALSE))
+
+write_csv(atemp_krdd, here("data_raw", paste0("atemp_daily_krdd_", report_year, ".csv")))
