@@ -9,8 +9,11 @@ library(lubridate)
 library(viridis)
 library(sharpshootR)
 library(plotly)
+library(here)
+library(readr)
+
+library(kableExtra)
 library(flextable)
-library(CDECRetrieve)
 source("functions.R")
 source("parameters.R")
 ```
@@ -54,38 +57,39 @@ flextable(flow_delta_monthly)%>%
 ```
 
 
-```{r FPTflow-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Freeport (FPT) Average Flows (cfs) in",report_year, "and over the 10-year average"), fig.width = 6, fig.height = 5}
+```{r FPTflow-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Freeport (FPT) Average Flows (cfs) in",report_year, "and over the 10-year average"), fig.width = 8, fig.height = 4.5}
 flow_fpt <- readRDS(paste0("data_raw/flow_fpt_plot_data_", year(start), "-", year(end2), ".rds")) %>%
   filter(month %in% c(12, 1, 2, 3, 4, 5, 6))
 
-ggplot(flow_fpt) + 
+ggplotly(ggplot(flow_fpt) + 
   geom_line(aes(date, flow, color = plot_year, linetype = plot_year)) +
   scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
   scale_color_manual(values = c("black", "steelblue")) +
   scale_linetype_manual(values = c("dashed", "solid")) +
   facet_wrap(~station, nrow = 2) + 
   labs(y = "Flow (cfs)") +
-  theme_plots 
+  theme_plots )
 ```
-```{r DTOflow-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Delta Outflow (DTO) in",report_year, "and over the 10-year average"), fig.width = 6, fig.height = 5}
+```{r DTOflow-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Delta Outflow (DTO) in",report_year, "and over the 10-year average"), fig.width = 8, fig.height = 4.5}
 outflow<- readRDS(paste0("data_raw/outflow_plot_data_", year(start), "-", year(end2), ".rds")) %>%
   filter(month %in% c(12, 1, 2, 3, 4, 5, 6))
 
-ggplot(outflow) + 
+ggplotly(ggplot(outflow) + 
   geom_line(aes(date, Outflow, color = plot_year, linetype = plot_year)) +
   scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
   scale_color_manual(values = c("black", "steelblue")) +
   scale_linetype_manual(values = c("dashed", "solid")) +
   facet_wrap(~station, nrow = 2) + 
   labs(y = "Flow (cfs)") +
-  theme_plots 
+  theme_plots )
 ```
-```{r OMRflow-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("OMR Flow (OMR) (cfs) in",report_year, "and over the 10-year average"), fig.width = 6, fig.height = 5}
+```{r OMRflow-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("OMR Flow (OMR) (cfs) in",report_year, "and over the 10-year average"), fig.width = 8, fig.height = 4.5}
 omr<- readRDS(paste0("data_raw/omr_OMR_plot_data_", year(start), "-", year(end2), ".rds")) %>%
   filter(month %in% c(12, 1, 2, 3, 4, 5, 6))
 
-(omr_plot <- ggplot(omr) + 
+ggplotly(ggplot(omr) + 
   geom_line(aes(date, omr, color = plot_year, linetype = plot_year)) +
+   geom_hline(yintercept = 0, linetype = "dotted") + 
   scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
   scale_color_manual(values = c("black", "steelblue")) +
   scale_linetype_manual(values = c("dashed", "solid")) +
@@ -93,22 +97,51 @@ omr<- readRDS(paste0("data_raw/omr_OMR_plot_data_", year(start), "-", year(end2)
   labs(y = "Flow (cfs)") +
   theme_plots )
 
-plotly::ggplotly(omr_plot) %>%
-  layout(legend = list(orientation = "h"))
+# plotly::ggplotly(omr_plot) %>%
+#   layout(legend = list(orientation = "h"))
 ```
+
+```{r ,echo = FALSE}
+monthly_fpt <- flow_delta_monthly %>% filter(station == "FPT")
+max_flow_fpt <- max(monthly_fpt$max)
+max_mean_flow_fpt <- max(monthly_fpt$mean)
+max_flow_fpt_month <- monthly_fpt %>% filter(max == max_flow_fpt) %>% select(month)
+max_mean_flow_fpt_month <- monthly_fpt %>% filter(mean == max_mean_flow_fpt) %>% select(month)
+
+monthly_dto <- flow_delta_monthly %>% filter(station == "DTO")
+max_flow_dto <- max(monthly_dto$max)
+max_mean_flow_dto <- max(monthly_dto$mean)
+max_flow_dto_month <- monthly_dto %>% filter(max == max_flow_dto) %>% select(month)
+max_mean_flow_dto_month <- monthly_dto %>% filter(mean == max_mean_flow_dto) %>% select(month)
+
+monthly_omr <- flow_delta_monthly %>% filter(station == "OMR") 
+min_flow_omr <- min(monthly_omr$min)
+min_mean_flow_omr <- min(monthly_omr$mean)
+min_flow_omr_month <- monthly_omr %>% filter(min == min_flow_omr) %>% select(month)
+min_mean_flow_omr_month <- monthly_omr %>% filter(mean == min_mean_flow_omr) %>% select(month)
+```
+
+**Summary**
+
+-   **Sacramento River at Freeport:** Peak flows were **`r max_flow_fpt`** cfs and occurred in **`r max_flow_fpt_month[1]`**. The highest mean flows were **`r max_mean_flow_fpt`** cfs and occurred in **`r max_mean_flow_fpt_month`**. Flow was generally lower than average.
+
+-   **Delta Outflow:** Peak Delta outflow was **`r max_flow_dto`** cfs and occurred in **`r max_flow_dto_month[1]`**. The highest mean Delta outflow was **`r max_mean_flow_dto`** cfs and occurred in **`r max_mean_flow_dto_month`**. Flow was generally lower than average. 
+
+-   **OMR:** The most negative OMR flows were **`r min_flow_omr`** cfs and occurred in **`r min_flow_omr_month[1]`**. The most negative mean OMR flows were **`r min_mean_flow_omr`** cfs and occurred in **`r min_mean_flow_omr_month`**. OMR was generally similar to average. 
+
 
 ### Water Temperature
 
 ```{r FPTSUSSWEGSSMALwtemp-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("FPT (Sacramento River at Freeport), SUS (Steamboat Slough below Sutter Slough), SWE (Sacramento River at Walnut Grove), GSS (Georgiana Slough at Sacramento River), MAL (Sacramento River at Mallard Island) Mean, Maximum, Minimum Monthly Water Temperature (°F) in", report_year, "-", report_year+1)}
 wtemp_delta_df <- readRDS(paste0("data_raw/wtemp_cdec_FPT_SUS_SWE_GSS_MAL_", year(start), "-", year(end2), ".rdsxz")) 
 
-wtemp_delta_monthly_ml <- f_monthly_extrayear_thresh_greater(wtemp_delta_df, WaterTemp, 63) %>%
+wtemp_delta_monthly <- f_monthly_extrayear_thresh_greater(wtemp_delta_df, WaterTemp, 63) %>%
   mutate(station = factor(station, levels = c("FPT", "SUS", "SWE", "GSS" ,"MAL"))) %>%
   filter(month_num %in% c(12, 1, 2, 3, 4, 5,6)) %>%
   select(-month_num) %>%
   arrange(station) 
   
-flextable(wtemp_delta_monthly_ml)%>%
+flextable(wtemp_delta_monthly)%>%
   add_footer_lines() %>%
   add_header_lines() %>%
   width(width = 1, unit = "in") %>%
@@ -120,19 +153,51 @@ flextable(wtemp_delta_monthly_ml)%>%
   set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (°F)", max = "Max (°F)", min =  "Min (°F)", flag_days = "Days > 63°F") 
 ```
 
+```{r echo = FALSE}
+monthly_wtemp_fpt_delta <- wtemp_delta_monthly %>% filter(station == "FPT")
+max_wtemp_fpt_delta <- max(monthly_wtemp_fpt_delta$max)
+max_mean_wtemp_fpt_delta <- max(monthly_wtemp_fpt_delta$mean)
+max_wtemp_fpt_delta_month <- monthly_wtemp_fpt_delta %>% filter(max == max_wtemp_fpt_delta) %>% select(month)
+max_mean_wtemp_fpt_delta_month <- monthly_wtemp_fpt_delta %>% filter(mean == max_mean_wtemp_fpt_delta) %>% select(month)
+
+monthly_wtemp_sus_delta <- wtemp_delta_monthly %>% filter(station == "SUS")
+max_wtemp_sus_delta <- max(monthly_wtemp_sus_delta$max)
+max_mean_wtemp_sus_delta <- max(monthly_wtemp_sus_delta$mean)
+max_wtemp_sus_delta_month <- monthly_wtemp_sus_delta %>% filter(max == max_wtemp_sus_delta) %>% select(month)
+max_mean_wtemp_sus_delta_month <- monthly_wtemp_sus_delta %>% filter(mean == max_mean_wtemp_sus_delta) %>% select(month)
+
+monthly_wtemp_gss_delta <- wtemp_delta_monthly %>% filter(station == "GSS")
+max_wtemp_gss_delta <- max(monthly_wtemp_gss_delta$max)
+max_mean_wtemp_gss_delta <- max(monthly_wtemp_gss_delta$mean)
+max_wtemp_gss_delta_month <- monthly_wtemp_gss_delta %>% filter(max == max_wtemp_gss_delta) %>% select(month)
+max_mean_wtemp_gss_delta_month <- monthly_wtemp_gss_delta %>% filter(mean == max_mean_wtemp_gss_delta) %>% select(month)
+
+monthly_wtemp_mal_delta <- wtemp_delta_monthly %>% filter(station == "MAL")
+max_wtemp_mal_delta <- max(monthly_wtemp_mal_delta$max)
+max_mean_wtemp_mal_delta <- max(monthly_wtemp_mal_delta$mean)
+max_wtemp_mal_delta_month <- monthly_wtemp_mal_delta %>% filter(max == max_wtemp_mal_delta) %>% select(month)
+max_mean_wtemp_mal_delta_month <- monthly_wtemp_mal_delta %>% filter(mean == max_mean_wtemp_mal_delta) %>% select(month)
+```
+
+**Summary**
+
+- Maximum water temperature was **`r max_wtemp_fpt_delta`** degrees F and occurred in **`r max_wtemp_fpt_delta_month`**. The highest mean water temperature was **`r max_mean_wtemp_fpt_delta`** degrees F and occurred in **`r max_mean_wtemp_fpt_delta_month`**.
+- Maximum water temperature was **`r max_wtemp_sus_delta`** degrees F and occurred in **`r max_wtemp_sus_delta_month`**. The highest mean water temperature was **`r max_mean_wtemp_sus_delta`** degrees F and occurred in **`r max_mean_wtemp_sus_delta_month`**.
+- Maximum water temperature was **`r max_wtemp_gss_delta`** degrees F and occurred in **`r max_wtemp_gss_delta_month`**. The highest mean water temperature was **`r max_mean_wtemp_gss_delta`** degrees F and occurred in **`r max_mean_wtemp_gss_delta_month`**.
+- Maximum water temperature was **`r max_wtemp_mal_delta`** degrees F and occurred in **`r max_wtemp_mal_delta_month`**. The highest mean water temperature was **`r max_mean_wtemp_mal_delta`** degrees F and occurred in **`r max_mean_wtemp_mal_delta_month`**.
 
 ### Dissolved Oxygen
 
 ```{r SRHSXSBLPMALDO-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("SRH (Sacramento River at Hood), SXS (Steamboat Slough near Sacramento River), BLP (Blind Point), MAL (Sacramento River at Mallard Island) Mean, Maximum, Minimum Monthly DO (mg/L) in", report_year, "-", report_year+1)}
-do_srh_sxs_blp_mal_df <- readRDS(paste0("data_raw/do_cdec_SRH_SXS_BLP_MAL_", year(start), "-", year(end2), ".rdsxz")) 
+do_delta_df <- readRDS(paste0("data_raw/do_cdec_SRH_SXS_BLP_MAL_", year(start), "-", year(end2), ".rdsxz")) 
 
-do_srh_sxs_blp_mal_monthly_ml <- f_monthly_extrayear_thresh(do_srh_sxs_blp_mal_df, DO, 6) %>%
+do_delta_monthly <- f_monthly_extrayear_thresh(do_delta_df, DO, 6) %>%
   mutate(station = factor(station, levels = c("SRH", "SXS", "BLP", "MAL"))) %>%
   filter(month_num %in% c(12, 1, 2, 3, 4, 5,6)) %>%
   select(-month_num) %>%
   arrange(station) 
   
-flextable(do_srh_sxs_blp_mal_monthly_ml)%>%
+flextable(do_delta_monthly)%>%
   add_footer_lines() %>%
   add_header_lines() %>%
   width(width = 1, unit = "in") %>%
@@ -141,10 +206,41 @@ flextable(do_srh_sxs_blp_mal_monthly_ml)%>%
   border_outer() %>%
   bold(part = "header") %>%
   colformat_num(j = "year", big.mark = "") %>%
-  set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (cfs)", max = "Max (cfs)", min =  "Min (cfs)", flag_days = "Days < 6 mg/L") 
+  set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (mg/L)", max = "Max (mg/L)", min =  "Min (mg/L)", flag_days = "Days < 6 mg/L") 
 ```
 
+```{r echo = FALSE}
+monthly_do_srh_delta <- do_delta_monthly %>% filter(station == "SRH")
+max_do_srh_delta <- max(monthly_do_srh_delta$max)
+max_mean_do_srh_delta <- max(monthly_do_srh_delta$mean)
+max_do_srh_delta_month <- monthly_do_srh_delta %>% filter(max == max_do_srh_delta) %>% select(month)
+max_mean_do_srh_delta_month <- monthly_do_srh_delta %>% filter(mean == max_mean_do_srh_delta) %>% select(month)
 
+monthly_do_sxs_delta <- do_delta_monthly %>% filter(station == "SXS")
+max_do_sxs_delta <- max(monthly_do_sxs_delta$max)
+max_mean_do_sxs_delta <- max(monthly_do_sxs_delta$mean)
+max_do_sxs_delta_month <- monthly_do_sxs_delta %>% filter(max == max_do_sxs_delta) %>% select(month)
+max_mean_do_sxs_delta_month <- monthly_do_sxs_delta %>% filter(mean == max_mean_do_sxs_delta) %>% select(month)
+
+monthly_do_blp_delta <- do_delta_monthly %>% filter(station == "BLP")
+max_do_blp_delta <- max(monthly_do_blp_delta$max)
+max_mean_do_blp_delta <- max(monthly_do_blp_delta$mean)
+max_do_blp_delta_month <- monthly_do_blp_delta %>% filter(max == max_do_blp_delta) %>% select(month)
+max_mean_do_blp_delta_month <- monthly_do_blp_delta %>% filter(mean == max_mean_do_blp_delta) %>% select(month)
+
+monthly_do_mal_delta <- do_delta_monthly %>% filter(station == "MAL")
+max_do_mal_delta <- max(monthly_do_mal_delta$max)
+max_mean_do_mal_delta <- max(monthly_do_mal_delta$mean)
+max_do_mal_delta_month <- monthly_do_mal_delta %>% filter(max == max_do_mal_delta) %>% select(month)
+max_mean_do_mal_delta_month <- monthly_do_mal_delta %>% filter(mean == max_mean_do_mal_delta) %>% select(month)
+```
+
+**Summary**
+
+- Maximum water temperature was **`r max_do_srh_delta`** degrees F and occurred in **`r max_do_srh_delta_month`**. The highest mean water temperature was **`r max_mean_do_srh_delta`** degrees F and occurred in **`r max_mean_do_srh_delta_month`**.
+- Maximum water temperature was **`r max_do_sxs_delta`** degrees F and occurred in **`r max_do_sxs_delta_month[1,]`** and **`r max_do_sxs_delta_month[2,]`**. The highest mean water temperature was **`r max_mean_do_sxs_delta`** degrees F and occurred in **`r max_mean_do_sxs_delta_month`**.
+- Maximum water temperature was **`r max_do_blp_delta`** degrees F and occurred in **`r max_do_blp_delta_month`**. The highest mean water temperature was **`r max_mean_do_blp_delta`** degrees F and occurred in **`r max_mean_do_blp_delta_month`**.
+- Maximum water temperature was **`r max_do_mal_delta`** degrees F and occurred in **`r max_do_mal_delta_month`**. The highest mean water temperature was **`r max_mean_do_mal_delta`** degrees F and occurred in **`r max_mean_do_mal_delta_month`**.
 
 ## Biological Response
 
