@@ -23,27 +23,26 @@ source("parameters.R")
 
 ### Flow
 
-```{r KWKBNDflowjuv-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Flows (cfs) at Sacramento River at Keswick (KWK) and Sacramento River at Bend Bridge (BND) in July through September",report_year, "and over the 10-year average"), fig.width = 6, fig.height = 7}
+```{r KWKBNDflowjuv-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Flows (cfs) at Sacramento River at Keswick (KWK) and Sacramento River at Bend Bridge (BND) in July through September",report_year, "and over the 10-year average"), fig.width = 8, fig.height = 6}
 flow_kwk_bnd_juv <- readRDS(paste0("data_raw/flow_kwk_bnd_plot_data_", year(start), "-", year(end), ".rds")) %>%
   filter(month %in% c("July", "August", "September", "October", "November", "December"))
 
-ggplot(flow_kwk_bnd_juv) + 
+ggplotly(ggplot(flow_kwk_bnd_juv) + 
   geom_line(aes(date, flow, color = plot_year, linetype = plot_year)) +
   scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
   scale_color_manual(values = c("black", "steelblue")) +
   scale_linetype_manual(values = c("dashed", "solid")) +
   facet_wrap(~station, nrow = 2) + 
   labs(y = "Flow (cfs)") +
-  theme_plots 
+  theme_plots )
 ```
 
 ```{r KWKBNDflowjuv-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Mean, Maximum, Minimum Monthly Flows (cfs) at Sacramento River at Keswick (KWK) and Sacramento River at Bend Bridge (BND) in July through Decemeber", report_year)}
-flow_kwk_bnd_monthly_juv <- readRDS(paste0("data_raw/flow_kwk_bnd_monthly_", 
+flow_kwk_bnd_monthly_us <- readRDS(paste0("data_raw/flow_kwk_bnd_monthly_", 
                                            year(start), "-", year(end), ".rds")) %>%
   filter(month %in% c("July", "August", "September", "October", "November", "December"))
 
-
-flextable(flow_kwk_bnd_monthly_juv)%>%
+flextable(flow_kwk_bnd_monthly_us)%>%
   add_footer_lines() %>%
   add_header_lines() %>%
   width(width = 1, unit = "in") %>%
@@ -55,48 +54,90 @@ flextable(flow_kwk_bnd_monthly_juv)%>%
   set_header_labels(month = "Month", station = "Station", mean = "Mean (cfs)", max = "Max (cfs)", min =  "Min (cfs)")
 ```
 
+```{r echo = FALSE}
+monthly_kwk_us <- flow_kwk_bnd_monthly_us %>% filter(station == "KWK")
+max_flow_kwk_us <- max(monthly_kwk_us$max)
+max_mean_flow_kwk_us <- max(monthly_kwk_us$mean)
+max_flow_kwk_month_us <- monthly_kwk_us %>% filter(max == max_flow_kwk_us) %>% select(month)
+max_mean_flow_kwk_month_us <- monthly_kwk_us %>% filter(mean == max_mean_flow_kwk_us) %>% select(month)
+
+monthly_bnd_us <- flow_kwk_bnd_monthly_us %>% filter(station == "BND")
+max_flow_bnd_us <- max(monthly_bnd_us$max)
+max_mean_flow_bnd_us <- max(monthly_bnd_us$mean)
+max_flow_bnd_month_us <- monthly_bnd_us %>% filter(max == max_flow_bnd_us) %>% select(month)
+max_mean_flow_bnd_month_us <- monthly_bnd_us %>% filter(mean == max_mean_flow_bnd_us) %>% select(month)
+```
+
+-   **Keswick:** Peak flows were **`r max_flow_kwk_us`** cfs and occurred in **`r max_flow_kwk_month_us[1]`**. The highest mean flows were **`r max_mean_flow_kwk_us`** cfs and occurred in **`r max_mean_flow_kwk_month_us`**.
+-   **Bend Bridge:** Peak flows were **`r max_flow_bnd_us`** cfs and occurred in **`r max_flow_bnd_month_us[1]`**. The highest mean flows were **`r max_mean_flow_bnd_us`** cfs and occurred in **`r max_mean_flow_bnd_month_us`**.
+
 ### Stranding
 
 ### Water Temperature
 
-```{r wtempBND-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Water Temperature (degF) at Sacramento River at Bend (BND) in",report_year,"and 10-year average between July and December.")}
+```{r wtempBND-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Water Temperature (degF) at Sacramento River at Bend (BND) in",report_year,"and 10-year average between July and December.") , fig.width = 8, fig.height = 4.5}
 
 wtemp_bnd_plot_data <- readRDS(paste0("data_raw/wtemp_BND_plot_data_", year(start), "-", year(end), ".rds")) %>%
   filter(month >=7 & month<=12)
 
-plot_wtemp_bnd <- ggplot(wtemp_bnd_plot_data) + geom_line(aes(date, WaterTemp, color = plot_year, linetype = plot_year)) +
+ggplotly(ggplot(wtemp_bnd_plot_data) + geom_line(aes(date, WaterTemp, color = plot_year, linetype = plot_year)) +
   geom_hline(yintercept  = 56, linetype = "dotdash", color = "gray50", size  = 0.7) + 
   facet_wrap(~station, nrow = 2) + 
   viridis::scale_color_viridis(option = "turbo", discrete = TRUE) + 
   scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
   scale_linetype_manual(values = c("dashed", "solid", "solid"))+
   labs(y = "Water Temperature (°F)") +
-  theme_plots 
-
-plotly::ggplotly(plot_wtemp_bnd)
+  theme_plots )
 
 ```
+```{r wtempBNDjuv-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Mean, Maximum, Minimum Monthly Water Temperature (degF) at Sacramento River at Bend Bridge (BND) in July through December", report_year)}
+wtemp_bnd_monthly_us <- readRDS(paste0("data_raw/wtemp_BND_monthly_", 
+                                           year(start), "-", year(end), ".rds")) %>% filter(month %in% c("July", "August", "September", "October", "November", "December"))
+
+flextable(wtemp_bnd_monthly_us)%>%
+  add_footer_lines() %>%
+  add_header_lines() %>%
+  width(width = 1, unit = "in") %>%
+  vline()%>%
+  border_outer() %>%
+  bold(part = "header") %>%
+  colformat_num(j = "year", big.mark = "") %>%
+  set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (degF)", max = "Max (degF)", min =  "Min (degF)")
+```
+
+```{r echo = FALSE}
+monthly_wtemp_bnd_us <- wtemp_bnd_monthly_us %>% filter(station == "BND")
+max_wtemp_bnd_us <- max(monthly_wtemp_bnd_us$max)
+max_mean_wtemp_bnd_us <- max(monthly_wtemp_bnd_us$mean)
+max_wtemp_bnd_us_month <- monthly_wtemp_bnd_us %>% filter(max == max_wtemp_bnd_us) %>% select(month)
+max_mean_wtemp_bnd_us_month <- monthly_wtemp_bnd_us %>% filter(mean == max_mean_wtemp_bnd_us) %>% select(month)
+```
+
+**Summary**
+
+- In `r report_year` water temperature was below average for most of the season between July and December. 
+- **Sacramento River at Bend Bridge:** Maximum water temperature was **`r max_wtemp_bnd_us`** degrees F and occurred in **`r max_wtemp_bnd_us_month`**. The highest mean water temperature was **`r max_mean_wtemp_bnd_us`** degrees F and occurred in **`r max_mean_wtemp_bnd_us_month`**.
 
 
 ### Dissolved Oxygen
 
-```{r doBNDjuv-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Dissolved Oxygen (mg/L) at Sacramento River at Bend Bridge (BND) in July through December",report_year,"and 10-year average.")}
+```{r doBNDjuv-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Dissolved Oxygen (mg/L) at Sacramento River at Bend Bridge (BND) in July through December",report_year,"and 10-year average."), fig.width = 8, fig.height = 4.5}
 
 do_bnd_plot_data <- readRDS(paste0("data_raw/do_BND_plot_data_", year(start), "-", year(end2), ".rds")) %>%
   filter(month >=7 & month<=12)
 
-ggplot(do_bnd_plot_data) + geom_line(aes(date, DO, color = plot_year, linetype = plot_year)) +
+ggplotly(ggplot(do_bnd_plot_data) + geom_line(aes(date, DO, color = plot_year, linetype = plot_year)) +
   geom_hline(yintercept  = 6, linetype = "dotdash", color = "gray50", size  = 0.7) + 
   facet_wrap(~station, nrow = 2) + 
   viridis::scale_color_viridis(option = "turbo", discrete = TRUE) + 
   scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
   scale_linetype_manual(values = c("dashed", "solid", "solid"))+
   labs(y = "Dissolved Oxygen (mg/L)") +
-  theme_plots 
+  theme_plots )
 ```
 
 ```{r doBNDjuv-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Mean, Maximum, Minimum Monthly Dissolved Oxygen (mg/L) at Sacramento River at Bend Bridge (BND) in July through December", report_year, ". Days less than 6 mg/L indicates the number of days per month that experienced at least 1 hour where DO was less than 6 mg/L.")}
-do_bnd_monthly_juv <- readRDS(paste0("data_raw/do_bnd_monthly_", 
+do_bnd_monthly_us <- readRDS(paste0("data_raw/do_bnd_monthly_", 
                                            year(start), "-", year(end2), ".rds"))
 
 do_bnd_df <- readRDS(paste0("data_raw/do_cdec_BND_", year(start), "-", year(end2), ".rdsxz")) %>%
@@ -113,17 +154,30 @@ flextable(do_bnd_monthly_us)%>%
   border_outer() %>%
   bold(part = "header") %>%
   colformat_num(j = "year", big.mark = "") %>%
-  set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (cfs)", max = "Max (cfs)", min =  "Min (cfs)", flag_days = "Days < 6 mg/L")
+  set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (cfs)", max = "Max (mg/L)", min =  "Min (mg/L)", flag_days = "Days < 6 mg/L")
 ```
 
+```{r echo = FALSE}
+monthly_bnd_us <- do_bnd_monthly_us %>% filter(station == "BND")
+min_do_bnd_us <- min(monthly_bnd_us$min)
+min_mean_do_bnd_us <- min(monthly_bnd_us$mean)
+min_do_bnd_us_month <- monthly_bnd_us %>% filter(min == min_do_bnd_us) %>% select(month)
+min_mean_do_bnd_us_month <- monthly_bnd_us %>% filter(mean == min_mean_do_bnd_us) %>% select(month)
+```
+
+**Summary**
+
+-   **Sacramento River at Bend Bridge:** Minimum dissolved oxygen was **`r min_do_bnd_us`** mg/L and occurred in **`r min_do_bnd_us_month[1]`**. The lowest mean dissolved oxygen was **`r min_mean_do_bnd_us`** mg/L and occurred in **`r min_mean_do_bnd_us_month`**.
+
+
 ### Turbidity
-```{r TurbBNDRDB-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Turbidity at Sacramento River at Bend Bridge (BND) and Red Bluff Diversion Dam (RDB) in",report_year, "and 10-year average between July and December. Turbidity data have not undergone QC, other than values filtered to less than 300 NTU.")}
+```{r TurbBNDRDB-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Turbidity at Sacramento River at Bend Bridge (BND) and Red Bluff Diversion Dam (RDB) in",report_year, "and 10-year average between July and December. Turbidity data have not undergone QC, other than values filtered to less than 300 NTU."), fig.width = 8, fig.height = 5}
 
 turb_bnd_rdb_plot_data <- readRDS(paste0("data_raw/turb_BND_RDB_plot_data_", year(start), "-", year(end), ".rds")) %>%
   filter(Turbidity < 300)%>%
   filter(month >=7 & month<=12)
 
-ggplot(turb_bnd_rdb_plot_data) + 
+ggplotly(ggplot(turb_bnd_rdb_plot_data) + 
   geom_line(aes(date, Turbidity, color = plot_year, linetype = plot_year)) +
   # geom_point(aes(date, Turbidity, color = plot_year))+
   facet_wrap(~station, nrow = 2, scales = "free_y") + 
@@ -131,15 +185,15 @@ ggplot(turb_bnd_rdb_plot_data) +
   scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
   scale_linetype_manual(values = c("dashed", "solid", "solid"))+
   labs(y = "Turbidity (NTU)") +
-  theme_plots 
+  theme_plots )
 ```
 
 ```{r turbBNDjuv-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Mean, Maximum, Minimum Monthly Turbidity (NTU) at Sacramento River at Bend Bridge (BND) and Red Bluff Diversion Dam (RDB) in July through December", report_year)}
-turb_bnd_rdb_monthly_juv <- readRDS(paste0("data_raw/turb_BND_RDB_monthly_", 
+turb_bnd_rdb_monthly_us <- readRDS(paste0("data_raw/turb_BND_RDB_monthly_", 
                                            year(start), "-", year(end), ".rds")) %>%
   filter(month %in% c("July", "August", "September", "October", "November", "December"))
 
-flextable(turb_bnd_rdb_monthly_juv)%>%
+flextable(turb_bnd_rdb_monthly_us)%>%
   add_footer_lines() %>%
   add_header_lines() %>%
   width(width = 1, unit = "in") %>%
@@ -150,6 +204,32 @@ flextable(turb_bnd_rdb_monthly_juv)%>%
   colformat_num(j = "year", big.mark = "") %>%
   set_header_labels(month = "Month", station = "Station", mean = "Mean (cfs)", max = "Max (cfs)", min =  "Min (cfs)")
 ```
+
+```{r echo = FALSE}
+monthly_bnd_turb_us <- turb_bnd_rdb_monthly_us %>% filter(station == "BND")
+min_turb_bnd_us <- min(monthly_bnd_turb_us$min)
+min_mean_turb_bnd_us <- min(monthly_bnd_turb_us$mean)
+min_turb_bnd_us_month <- monthly_bnd_turb_us %>% filter(min == min_turb_bnd_us) %>% select(month)
+min_mean_turb_bnd_us_month <- monthly_bnd_turb_us %>% filter(mean == min_mean_turb_bnd_us) %>% select(month)
+
+monthly_rdb_turb_us <- turb_bnd_rdb_monthly_us %>% filter(station == "RDB")
+min_turb_rdb_us <- min(monthly_rdb_turb_us$min)
+min_mean_turb_rdb_us <- min(monthly_rdb_turb_us$mean)
+min_turb_rdb_us_month <- monthly_rdb_turb_us %>% filter(min == min_turb_rdb_us) %>% select(month)
+min_mean_turb_rdb_us_month <- monthly_rdb_turb_us %>% filter(mean == min_mean_turb_rdb_us) %>% select(month)
+```
+
+**Summary**
+
+-   **Sacramento River at Bend Bridge:** Minimum turbidity was **`r min_turb_bnd_us`** FNU and occurred in **`r min_turb_bnd_us_month[1,]`** and **`r min_turb_bnd_us_month[2,]`**. The lowest mean turbidity was **`r min_mean_turb_bnd_us`** FNU and occurred in **`r min_mean_turb_bnd_us_month`**. Turbidity was below average in parts of August and September and similar at other times of the season. 
+-   **Red Bluff Diversion Dam:** Minimum turbidity was **`r min_turb_rdb_us`** FNU and occurred in **`r min_turb_rdb_us_month`**. The lowest mean turbidity was **`r min_mean_turb_rdb_us`** FNU and occurred in **`r min_mean_turb_rdb_us_month`**. Turbidity was below average between September and mid-December and similar at other times of the season 
+
+
+
+
+
+
+
 ## Biological Response
 
 1. Fry abundance (Fry-equivalent JPI)
