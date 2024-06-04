@@ -1,5 +1,10 @@
 # Adults
 
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, echo = FALSE)
+```
+
+
 This section describes environmental attributes associated with and responses during the adult life stage (ocean harvest, migration, spawning)
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
@@ -11,6 +16,7 @@ library(sharpshootR)
 library(plotly)
 library(here)
 library(readr)
+library(forcats)
 
 library(kableExtra)
 library(flextable)
@@ -224,52 +230,444 @@ min_mean_do_ccr_month <- monthly_ccr %>% filter(mean == min_mean_do_ccr) %>% sel
 
 ## Biological Response
 
+**Data Sources** 
+
+* Sex and age class distribution, % spawned, spawn origin, spawn timing: Carcass Survey Data (link)
+* Pre-spawn mortality: JPE Letters and USFWS Reports (link) 
+* Redd abundance and distribution: Aerial redd data 
+* Carcass abundance and distribution: Carcass data
+
 ### Adult Survival
 
 In-river escapement decreased after the construction of the Red Bluff Diversion Dam (RBDD) in the 1960s.
 
-1.  Ocean Harvest Rates (PFMC)
+```{r}
+hatchery_transfer <- read_csv("data_raw/hatchery_transfer.csv")
+escapement <- read_csv("data_raw/escapement.csv")
+esc_reach <- read_csv("data_raw/escapement_by_reach.csv") 
 
-2.  Adults to Hatchery (GrandTab)
+# need to update this once I get hatchery escapement
+# esc_all <- bind_rows(esc_hatchery, esc_reach)
+esc_all_summary <- esc_reach %>% 
+  group_by(Year) %>%
+  summarize(Escapement = sum(Escapement))
 
-3.  Estimated Total Mainstem In-River Spawners of Natural and Hatchery Origin (GrandTab)
+esc_all_10year <- esc_all_summary %>% filter(Year > report_year -10) %>% mutate(group = "10year")
+esc_all_20year <- esc_all_summary %>% filter(Year > report_year -20) %>% mutate(group = "20year")
+esc_all_group <- bind_rows(esc_all_10year, esc_all_20year) %>%
+  group_by(group) %>%
+  summarize(mean = round(mean(Escapement, na.rm = TRUE),0))
 
--   Downstream RBDD
--   Upstream RBDD
--   Clear Creek
--   Battle Creek
+# mainstem 
+esc_sacriver <- esc_reach %>% filter(Reach %in% c("DST", "UST")) %>%
+  group_by(Year) %>%
+  summarize(Escapement = sum(Escapement))
 
-4.  Adult Condition (Carcass Surveys)
+esc_sac_10year <- esc_sacriver %>% filter(Year > report_year -10) %>% mutate(group = "10year")
+esc_sac_20year <- esc_sacriver %>% filter(Year > report_year -20) %>% mutate(group = "20year")
+esc_sac_group <- bind_rows(esc_sac_10year, esc_sac_20year) %>%
+  group_by(group) %>%
+  summarize(mean = round(mean(Escapement, na.rm = TRUE),0))
+```
 
--   Male Fork Lengths (Histogram)
--   Female Fork Lengths (Histogram)
--   Age Distribution
--   Thiamine Deficiency
--   Pre-spawn mortality (in-text current year and 10-yr average, compare with other years)
+```{r }
+carcass <- read_csv("data_raw/carcass_data.csv")
+fecundity <- read_csv("data_raw/fecundity_data.csv")
 
-5.  Spawn Timing (Carcass Surveys)
+# Percent spawn origin 
+spawn_origin <- carcass %>%
+  filter(spawn == "Spawned",
+         clip!= "Unknown") %>%
+  group_by(year) %>%
+  mutate(total = n()) %>%
+  ungroup() %>%
+  group_by(clip, year, total) %>%
+  summarize(n = n())%>%
+  ungroup() %>%
+  mutate(percent = round(n/total*100,1)) 
+spawn_origin_current <- spawn_origin %>% filter(year == report_year)
 
--   Percent spawning by week - line plot of percent of carcasses by week (current year, 10 year and 20 year average)
--   Peak spawning week - line plot of peak spawning week by year (annual, rolling 5-year avg, 10-year avg)
+# Current Year
+carcass_current <- carcass %>% 
+  filter(year == report_year,
+         !is.na(sex)) %>%
+  mutate(sex_label = case_when(sex == "M" ~ "Male",
+                               sex == "F" ~ "Female"),
+         Size = case_when(forklength >= 610 & forklength < 950 & sex == "F" ~ "Female Adult",
+                          forklength < 610 & sex == "F" ~ "Jill",
+                          forklength >= 680 & sex == "M" ~ "Male Adult",
+                          forklength < 680 & sex == "M" ~ "Jack"))
 
-6.  Number of Winter-Run Chinook Salmon Redds (aerial redd surveys, Calfish)
+# Historical 
+carcass_hist <- carcass %>%
+  filter(year > report_year-20,
+         !sex == "F") %>%
+  mutate(dummy_date = ymd(paste0("1920-", month(surveydate), "-", day(surveydate))))
 
--   line plot of count by year with average horizontal line
+# Pre-spawn mortality
+spawned <- carcass_current %>%
+  filter(spawn%in%c("Spawned", "Unspawned"))%>%
+  mutate(total = nrow(.))%>%
+  group_by(spawn, total) %>%
+  summarize(n = n()) %>%
+  mutate(percent = round(n/total*100,1))
 
-7.  Distribution of Winter-Run Chinook Salmon Redds - location of redds (aerial redd surveys, Calfish)
+# Fecundity
+# JPE page
+fec_10year <- fecundity %>%
+  filter(brood_year <= report_year & brood_year > report_year-10) %>%
+  mutate(group = "10year")
+fec_20year <- fecundity %>%
+  filter(brood_year <= report_year & brood_year > report_year-20)%>%
+  mutate(group = "20year")
+fec_current <- fecundity %>%
+  filter(brood_year == report_year) %>%
+  mutate(group = "Current")
 
--   map of locations
--   bar plot of percent redds by location (historical and this year)
--   bar plot of female spawner carcasses by location
+fec_avg <- bind_rows(fec_10year, fec_20year, fec_current) %>%
+  group_by(group) %>%
+  summarize(mean = round(mean(fecundity, na.rm = TRUE),0))
 
-8.  Hatchery Fecundity (JPE Letters)
+# Age classes
+percent_ageclass <- carcass_current %>%
+  mutate(total = nrow(.)) %>%
+  filter(!is.na(Size)) %>%
+  group_by(Size, total) %>%
+  summarize(n = n())%>%
+  mutate(percent = round(n/total*100,1))
+```
 
--   in text, comparison with previous 10 years
 
-9.  Hatchery Influence (Hatchery report?)
+* Sacramento River system-wide total adult escapement: `r esc_all_summary$Escapement[esc_all_summary$Year == report_year]`
+  - 10-year average: `r esc_all_group$mean[esc_all_group$group == "10year"]`
+  - 20-year average: `r esc_all_group$mean[esc_all_group$group == "20year"]`
+* Total mainstem in-river spawner estimate (Killam): `r esc_sacriver$Escapement[esc_sacriver$Year == report_year]`, 90% Confidence Interval: []
+  - 10-year average: `r esc_sac_group$mean[esc_sac_group$group == "10year"]`
+  - 20-year average: `r esc_sac_group$mean[esc_sac_group$group == "20year"]`
+* Mainstem natural-origin spawners (Killam): `r spawn_origin_current$percent[spawn_origin_current$clip == "No Clip"]` %
+* Mainstem hatchery-origin spawners (Killam):`r spawn_origin_current$percent[spawn_origin_current$clip == "Clipped"]` %
+  - 10-year average: 
+* Fish to hatchery broodstock (Killam):
+  - In-river mainstem transferred to Livingston Stone National Fish Hatchery (LSNFH): `r hatchery_transfer$Escapement[(hatchery_transfer$Year == report_year) & (hatchery_transfer$Reach == "LSTON")]`
+  - In-river mainstem transferred to Coleman National Fish Hatchery (CNFH): `r hatchery_transfer$Escapement[(hatchery_transfer$Year == report_year) & (hatchery_transfer$Reach == "CNFH")]`
+* Tributary in-river spawners (Killam): 
+  - Battle Creek:`r esc_reach$Escapement[(esc_reach$Year == report_year) & (esc_reach$Reach == "BAT")]`
+  - Clear Creek: `r esc_reach$Escapement[(esc_reach$Year == report_year) & (esc_reach$Reach == "CCK")]`
 
--   in text percentage of hatchery fish/natural spawning pop
 
-10. Cohort Replacement Rate (GrandTab)
+```{r echo = FALSE, fig.cap = paste0("Estimated Total Mainstem In-River Spawners in", report_year, "by reach. Data from SacPAS.")}
+ggplot(esc_reach) + geom_col(aes(Year, Escapement, fill = Reach_text)) + 
+  scale_fill_viridis(option = "turbo", discrete = TRUE) + 
+  scale_x_continuous(breaks = seq(1970, report_year, by = 5))+
+  labs(fill = "Reach") +
+  theme_plots +
+  theme(legend.position = "top")
 
--   line plot of CRR by year
+```
+Placeholder for Annual Replacement Rate Plot
+```{r}
+
+```
+
+
+```{r, include = FALSE}
+esc_reach_wide <- esc_reach %>%
+  select(-Reach) %>%
+  mutate(Escapement = as.numeric(Escapement)) %>%
+  pivot_wider(names_from = "Reach_text", values_from = "Escapement") %>%
+  rowwise() %>%
+  mutate(Total = sum(`Downstream RBDD`, `Upstream RBDD`, `Clear Creek`, `Battle Creek`, na.rm = TRUE))
+flextable(esc_reach_wide)%>%
+  add_footer_lines() %>%
+  add_header_lines() %>%
+  width(width = 1, unit = "in") %>%
+  vline()%>%
+  border_outer() %>%
+  bold(part = "header") %>%
+  colformat_num(j = "Year", big.mark = "") 
+```
+
+### Fish Condition and Age Class
+
+* Pre-spawn mortality: `r paste0(spawned$percent[spawned$spawn == "Unspawned"],"%")`
+  - 10-year average:
+  - 10-year maximum: 
+  - 20-year average:
+  - 20-year maximum:
+* Fecundity: `r paste(fecundity$fecundity[fecundity$brood_year == report_year],"eggs per female")`
+  - 10-year average: `r paste(fec_avg$mean[fec_avg$group == "10year"],"eggs per female")`
+  - 20-year average: `r paste(fec_avg$mean[fec_avg$group == "20year"],"eggs per female")` (only goes to 2005)
+* Age classes based on size: 
+  - Jacks and Jills = Age-2 fish
+  - Percent Adult Female (>=610 millimeters [mm]): `r paste0(percent_ageclass$percent[percent_ageclass$Size == "Female Adult"], "%")`
+  - Percent Jills (<610 mm): `r paste0(percent_ageclass$percent[percent_ageclass$Size == "Jill"], "%")`
+  - Percent Adult Male (>=680 mm): `r paste0(percent_ageclass$percent[percent_ageclass$Size == "Male Adult"],"%")`
+  - Percent Jacks (<680 mm): `r paste0(percent_ageclass$percent[percent_ageclass$Size == "Jack"], "%")`
+
+```{r carcass-tab,tab.cap = "Carcass Data Summary. Fork length cutoffs are 610 mm for Females and 680 mm for Males based on Killam 2021"}
+carcass_size_table <- carcass_current %>%
+  filter(!is.na(Size)) %>%
+  group_by(Size) %>%
+  summarize(Count = n(),
+            Mean = round(mean(forklength, na.rm = TRUE)),
+            SD = round(sd(forklength, na.rm = TRUE)),
+            Min = round(min(forklength, na.rm = TRUE)),
+            Max = round(max(forklength, na.rm = TRUE))) %>%
+  select(`Age Class` = Size,
+         Count, `Mean FL (mm)` = Mean, SD, `Min FL (mm)` = Min, `Max FL (mm)` = Max)
+
+flextable(carcass_size_table) %>%
+  add_footer_lines() %>%
+  add_header_lines() %>%
+  width(width = 1.2, unit = "in") %>%
+  vline()%>%
+  border_outer() %>%
+  bold(part = "header") %>%
+  align(align = "center", part = "header")
+```
+
+
+```{r carcassFL-fig,fig.cap = "Carcass Data Fork Length Distribution. Plots are separated by Males and Females."}
+ggplot(carcass_current) + geom_histogram(aes(forklength, fill = sex), color = "black") +
+  facet_wrap(~sex_label, nrow = 2, scales = "free_y") +
+  scale_fill_manual(values = c("goldenrod3","steelblue4"))+
+  labs(y = "Count") + 
+  theme_bw() +
+  theme(legend.position = "none")
+```
+
+### Migration and Spawn Timing
+
+
+#### Spawn Timing
+
+```{r}
+# Data frame with the first day of each week
+dates <- data.frame(date = seq(ymd(min(carcass_hist$dummy_date)), ymd(max(carcass_hist$dummy_date)), by = 7)) %>%
+  mutate(dateend = lubridate::ymd(date),
+    week = lubridate::week(date),
+    datestart = lag(date,1))
+
+# classify data into specific weeks
+spawn_timing <- carcass_current %>%
+  filter(sex == "F") %>%
+  mutate(count = 1,
+         total = nrow(.)) %>%
+  mutate(week = lubridate::week(surveydate)) %>%
+  left_join(dates) %>%
+  group_by(week, datestart, total) %>%
+  summarize(count = sum(count)) %>%
+  ungroup() %>%
+  mutate(percent = count/total*100)
+
+
+spawn_timing_hist <- carcass_hist %>%
+  mutate(count = 1,
+         total = nrow(.)) %>%
+  mutate(week = lubridate::week(dummy_date)) %>%
+  left_join(dates) %>%
+  group_by(year, week, datestart, total) %>%
+  summarize(count = sum(count)) %>%
+  ungroup() %>%
+  mutate(percent = count/total*100,
+         year_fac = factor(year),
+         current = if_else(year == report_year, "Y", "N"))
+
+```
+
+
+```{r spawntiming-fig, fig.cap = paste0("Spawn Timing in", report_year)}
+ggplot(spawn_timing_hist)+
+  geom_line(aes(datestart, percent, color = year_fac, linetype = current)) +
+  labs(y = "Percent of Total Female Carcasses", x = "Period") +
+  scale_x_date(date_breaks = "1 week", date_labels = "%m/%d") + 
+  scale_color_viridis(discrete = TRUE, option = "turbo") +
+  scale_linetype_manual( values = c("dashed", "solid"), guide = "none")  + 
+  theme_plots
+```
+
+Add 10-year and 20-year average to this plot. 
+
+```{r spawnweek-fig,fig.cap = paste("Peak Spawning Week from 2000 to" , report_year)}
+# Peak spawning week - line plot of peak spawning week by year (annual, rolling 5-year avg, 10-year avg)
+
+peak_spawning <- spawn_timing_hist %>%
+  group_by(year_fac) %>%
+  arrange(desc(percent)) %>%
+  slice(1)
+
+ggplot(peak_spawning) + geom_col(aes(year_fac, week), fill = "steelblue4") +
+  geom_hline(yintercept = median(peak_spawning$week), linetype = "dashed") +
+  labs(y = "Peak Spawning Week") +
+  theme_plots
+```
+  Expand data to include more years (should have 10-year median and 20-year median)
+  
+### Carcass and Redd Abundance and Distribution
+
+```{r}
+redd <- read_csv("data_raw/redd_data.csv")
+
+redd_table <- redd %>%
+  group_by(year) %>%
+  mutate(total = n()) %>%
+  ungroup() %>%
+  group_by(year, RiverSection, riversectioncode, total) %>%
+  summarize(Counts = n()) %>%
+  mutate(Percent = round(Counts/total*100,1)) %>%
+  ungroup() %>%
+  select(-total) %>%
+  rename(Year = year,
+         Section = riversectioncode) %>%
+  mutate(Section = factor(Section),
+         Yearf = factor(Year)) %>%
+  arrange(Year, Section)
+
+redd_hist_avg <- redd_table %>%
+  mutate(Year_type = if_else(Year == report_year, as.character(report_year), "Average")) %>%
+  group_by(Yearf) %>%
+  mutate(Total = sum(Counts)) %>%
+  group_by(Year_type, Section, RiverSection, Total) %>%
+  summarize(Counts = sum(Counts),
+         Percent = round(Counts/Total*100)) %>%
+  ungroup() %>%
+  distinct() %>%
+  group_by(Year_type, Section, RiverSection) %>%
+  summarize(Count = mean(Counts),
+            Percent = round(mean(Percent)))
+
+redd_hist_table <- redd_hist_avg %>%
+  pivot_wider(names_from = "Year_type", values_from = c("Count", "Percent")) %>%
+  arrange(Section)
+
+redd_current <- redd_table %>%filter(Year == report_year)
+
+redd_bylocation <- redd_table %>%
+  mutate(Year_type = if_else(Year == report_year, as.character(report_year), "Average")) %>%
+  group_by(Section, RiverSection, Year_type) %>%
+    summarize(Percent = mean(Percent, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(RiverSection = factor(RiverSection))
+
+
+# Carcass
+carcass_table <- carcass_hist %>%
+  group_by(year) %>%
+  mutate(total = n()) %>%
+  ungroup() %>%
+  group_by(year, section, total) %>%
+  summarize(Counts = n()) %>%
+  mutate(Percent = round(Counts/total*100,1)) %>%
+  ungroup() %>%
+  select(-total) %>%
+  mutate(Section = factor(section),
+         Yearf = factor(year)) %>%
+  arrange(year, Section)
+
+carcass_hist_avg <- carcass_table %>%
+  mutate(Year_type = if_else(year == report_year, as.character(report_year), "Average")) %>%
+  group_by(Yearf) %>%
+  mutate(Total = sum(Counts)) %>%
+  group_by(Year_type, Section, Total) %>%
+  summarize(Counts = sum(Counts),
+         Percent = round(Counts/Total*100)) %>%
+  ungroup() %>%
+  distinct() %>%
+  group_by(Year_type, Section) %>%
+  summarize(Count = mean(Counts),
+            Percent = round(mean(Percent)))
+
+carcass_hist_table <- carcass_hist_avg %>%
+  pivot_wider(names_from = "Year_type", values_from = c("Count", "Percent")) %>%
+  arrange(Section)%>%
+  mutate(Section_Name = case_when(Section == 1 ~ "Keswick to ACID (RM 302-298)",
+                   Section == 2 ~ "ACID to Hwy 44 Bridge (RM 298-296)",
+                   Section == 3 ~ "Hwy 44 Bridge to Clear Creek PLs (RM 296-288)",
+                   Section == 4 ~ "Clear Creek PLs to Balls Ferry Bridge (RM 288-276)")) %>%
+  select(Section_Name, everything())
+
+
+female_carcasses <- carcass %>% 
+  filter(sex=="F") %>%
+   group_by(year) %>%
+  mutate(total = n()) %>%
+  ungroup() %>%
+  mutate(Year = year(surveydate),
+         Year_type = if_else(Year == report_year, as.character(report_year), "Average")) %>%
+  group_by(year, Year_type,section, total) %>%
+  summarize(totalcount = sum(count),
+    Percent = round(totalcount/total*100,1)) %>%
+  ungroup() %>%
+  group_by(section, Year_type) %>%
+    summarize(Percent_carcasses = mean(Percent, na.rm = TRUE)) %>%
+  ungroup()  %>%
+  mutate(Section_Name = case_when(section == 1 ~ "Keswick to ACID (RM 302-298)",
+                   section == 2 ~ "ACID to Hwy 44 Bridge (RM 298-296)",
+                   section == 3 ~ "Hwy 44 Bridge to Clear Creek PLs (RM 296-288)",
+                   section == 4 ~ "Clear Creek PLs to Balls Ferry Bridge (RM 288-276)"))
+```
+
+#### Redd Abundance
+```{r}
+flextable(redd_hist_table %>%
+    select(-Count_Average)) %>%
+  add_footer_lines() %>%
+  add_header_lines() %>%
+  width(width = 1.2, unit = "in") %>%
+  vline()%>%
+  border_outer() %>%
+  bold(part = "header") %>%
+  align(align = "center", part = "header")
+```
+
+#### Carcass Abundance
+```{r}
+flextable(carcass_hist_table %>%
+    select(-Count_Average)) %>%
+  add_footer_lines() %>%
+  add_header_lines() %>%
+  width(width = 1.2, unit = "in") %>%
+  vline()%>%
+  border_outer() %>%
+  bold(part = "header") %>%
+  align(align = "center", part = "header")
+```
+
+
+
+```{r redds-fig, fig.cap = paste("Redd Counts by Year. Dashed line indicates average from 2013 to", report_year)}
+ggplotly(ggplot(redd_table) + 
+           geom_col(aes(x = Yearf, y = Counts, fill = Section)) +
+           geom_hline(yintercept = mean(redd_hist_avg$Total, na.rm = TRUE), linetype = "dashed") + 
+  labs(x = "Year", y = "Number of Redds") +
+  scale_fill_viridis(discrete = TRUE) + 
+  theme_bw())
+```
+
+include average horizontal line
+
+#### Redd Distribution
+```{r, redddistrib-fig, fig.cap = "Distribution of Winter Run Redds"}
+ggplot(redd_bylocation)+ 
+  geom_col(aes(x = fct_inorder(RiverSection), y = Percent, fill = Year_type), position = "dodge2") + 
+  scale_fill_manual(values = c("steelblue4", "goldenrod")) + 
+  scale_x_discrete(labels = function(x) stringr::str_wrap(x, width = 12)) +
+  labs(y = "Percent Redds") + 
+  theme_bw() +
+  theme(axis.title.x = element_blank(),
+        legend.position = "top",
+        legend.title = element_blank()) 
+```
+
+####  Carcass Distribution
+```{r carcassdistrib-fig, fig.cap = paste("Female Carcass Distribution for", report_year, "and Average from 2017 to", report_year)}
+ggplot(female_carcasses) + 
+  geom_col(aes(x = fct_inorder(Section_Name), Percent_carcasses, fill = Year_type), position = "dodge2") +
+    scale_fill_manual(values = c("steelblue4", "goldenrod")) + 
+   scale_x_discrete(labels = function(x) stringr::str_wrap(x, width = 12)) +
+  labs(y = "Percent Female Carcasses") + 
+  theme_bw() +
+  theme(axis.title.x = element_blank(),
+        legend.position = "top",
+        legend.title = element_blank())
+```
