@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2024.2.12)  4 JUN 2024 01:59
+This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2024.2.12)  4 JUN 2024 21:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2570,11 +2570,6 @@ Package fontspec Info: Arial scale = 0.8311536146592658.
 Package fontspec Info: Arial scale = 0.8311536146592658.
 
 
-Overfull \hbox (2.75328pt too wide) in paragraph at lines 1058--1058
- []|[]\TU/Arial(0)/b/n/11 Percent_Average[]| 
- []
-
-
 Overfull \hbox (94.61885pt too wide) in alignment at lines 1052--1060
  [] [] [] [] [] 
  []
@@ -2673,11 +2668,6 @@ Package fontspec Info: Arial scale = 0.8311536146592658.
 
 
 Package fontspec Info: Arial scale = 0.8311536146592658.
-
-
-Overfull \hbox (2.75328pt too wide) in paragraph at lines 1127--1127
- []|[]\TU/Arial(0)/b/n/11 Percent_Average[]| 
- []
 
 
 Overfull \hbox (94.61885pt too wide) in alignment at lines 1121--1129

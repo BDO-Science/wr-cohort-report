@@ -476,9 +476,9 @@ spawn_timing_hist <- carcass_hist %>%
 ```
 
 
-```{r spawntiming-fig, fig.cap = paste0("Spawn Timing in", report_year)}
+```{r spawntiming-fig, fig.cap = paste("Spawn Timing, 2017 through", report_year)}
 ggplot(spawn_timing_hist)+
-  geom_line(aes(datestart, percent, color = year_fac, linetype = current)) +
+  geom_line(aes(datestart, percent, color = year_fac, linetype = current), size = 1) +
   labs(y = "Percent of Total Female Carcasses", x = "Period") +
   scale_x_date(date_breaks = "1 week", date_labels = "%m/%d") + 
   scale_color_viridis(discrete = TRUE, option = "turbo") +
@@ -488,7 +488,7 @@ ggplot(spawn_timing_hist)+
 
 Add 10-year and 20-year average to this plot. 
 
-```{r spawnweek-fig,fig.cap = paste("Peak Spawning Week from 2000 to" , report_year)}
+```{r spawnweek-fig,fig.cap = paste("Peak Spawning Week from 2000 to " , report_year)}
 # Peak spawning week - line plot of peak spawning week by year (annual, rolling 5-year avg, 10-year avg)
 
 peak_spawning <- spawn_timing_hist %>%
@@ -496,7 +496,7 @@ peak_spawning <- spawn_timing_hist %>%
   arrange(desc(percent)) %>%
   slice(1)
 
-ggplot(peak_spawning) + geom_col(aes(year_fac, week), fill = "steelblue4") +
+ggplot(peak_spawning) + geom_point(aes(year_fac, week), fill = "steelblue4", size = 3, shape = 23, color = "navy" ) +
   geom_hline(yintercept = median(peak_spawning$week), linetype = "dashed") +
   labs(y = "Peak Spawning Week") +
   theme_plots
@@ -534,11 +534,17 @@ redd_hist_avg <- redd_table %>%
   distinct() %>%
   group_by(Year_type, Section, RiverSection) %>%
   summarize(Count = mean(Counts),
-            Percent = round(mean(Percent)))
+            Percent = round(mean(Percent))) %>%
+  ungroup()
 
 redd_hist_table <- redd_hist_avg %>%
   pivot_wider(names_from = "Year_type", values_from = c("Count", "Percent")) %>%
-  arrange(Section)
+  arrange(Section) %>%
+  select(-Count_Average) %>%
+  rename(`Section Name` = RiverSection,
+          Count = Count_2021,
+          Percent = Percent_2021,
+          Average = Percent_Average)
 
 redd_current <- redd_table %>%filter(Year == report_year)
 
@@ -580,11 +586,15 @@ carcass_hist_avg <- carcass_table %>%
 carcass_hist_table <- carcass_hist_avg %>%
   pivot_wider(names_from = "Year_type", values_from = c("Count", "Percent")) %>%
   arrange(Section)%>%
-  mutate(Section_Name = case_when(Section == 1 ~ "Keswick to ACID (RM 302-298)",
+  mutate(`Section Name` = case_when(Section == 1 ~ "Keswick to ACID (RM 302-298)",
                    Section == 2 ~ "ACID to Hwy 44 Bridge (RM 298-296)",
                    Section == 3 ~ "Hwy 44 Bridge to Clear Creek PLs (RM 296-288)",
                    Section == 4 ~ "Clear Creek PLs to Balls Ferry Bridge (RM 288-276)")) %>%
-  select(Section_Name, everything())
+  rename( Count = Count_2021,
+          Percent = Percent_2021,
+          Average = Percent_Average) %>%
+  select(`Section Name`, everything()) %>%
+  select(-Count_Average)
 
 
 female_carcasses <- carcass %>% 
@@ -610,27 +620,33 @@ female_carcasses <- carcass %>%
 #### Redd Abundance
 ```{r}
 flextable(redd_hist_table %>%
-    select(-Count_Average)) %>%
+            mutate(Percent = Percent/100,
+                   Average = Average/100)) %>%
   add_footer_lines() %>%
   add_header_lines() %>%
   width(width = 1.2, unit = "in") %>%
   vline()%>%
   border_outer() %>%
   bold(part = "header") %>%
-  align(align = "center", part = "header")
+  align(align = "center", part = "all") %>%
+  mk_par(j = 5, part = "body", value = as_paragraph(as_chunk(Average, formatter = fmt_pct)))%>%
+  mk_par(j = 4, part = "body", value = as_paragraph(as_chunk(Percent, formatter = fmt_pct)))
 ```
 
 #### Carcass Abundance
 ```{r}
 flextable(carcass_hist_table %>%
-    select(-Count_Average)) %>%
+            mutate(Percent = Percent/100,
+                   Average = Average/100)) %>%
   add_footer_lines() %>%
   add_header_lines() %>%
   width(width = 1.2, unit = "in") %>%
   vline()%>%
   border_outer() %>%
   bold(part = "header") %>%
-  align(align = "center", part = "header")
+  align(align = "center", part = "all")%>%
+  mk_par(j = 5, part = "body", value = as_paragraph(as_chunk(Average, formatter = fmt_pct))) %>%
+  mk_par(j = 4, part = "body", value = as_paragraph(as_chunk(Percent, formatter = fmt_pct)))
 ```
 
 
@@ -647,7 +663,7 @@ ggplotly(ggplot(redd_table) +
 include average horizontal line
 
 #### Redd Distribution
-```{r, redddistrib-fig, fig.cap = "Distribution of Winter Run Redds"}
+```{r, redddistrib-fig, fig.cap = paste("Distribution of Winter Run Redds in", report_year, "and Average between 2013 and", report_year) }
 ggplot(redd_bylocation)+ 
   geom_col(aes(x = fct_inorder(RiverSection), y = Percent, fill = Year_type), position = "dodge2") + 
   scale_fill_manual(values = c("steelblue4", "goldenrod")) + 
