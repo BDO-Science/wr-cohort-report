@@ -51,18 +51,18 @@ library(rvest)
 library(dplyr)
 
 ## trinh's code -------------------
-webpage <- session(url = "https://www.cbr.washington.edu/sacramento/data/query_adult_grandtab.html")
-formToFill <- webpage %>%
-  html_form() %>%
-  .[[1]]
-
-formToFill$fields[c(1:2, 7, 13)] <- NULL
-
-formToFill %>%
-  html_form_set(location = "Sacramento River System:Sacramento River:Mainstem - Downstream of RBDD") %>%
-  session_submit(x = webpage) %>%
-  .$url %>%
-  download.file("grandTab.png", mode = "wb")
+# webpage <- session(url = "https://www.cbr.washington.edu/sacramento/data/query_adult_grandtab.html")
+# formToFill <- webpage %>%
+#   html_form() %>%
+#   .[[1]]
+#
+# formToFill$fields[c(1:2, 7, 13)] <- NULL
+#
+# formToFill %>%
+#   html_form_set(location = "Sacramento River System:Sacramento River:Mainstem - Downstream of RBDD") %>%
+#   session_submit(x = webpage) %>%
+#   .$url %>%
+#   download.file("grandTab.png", mode = "wb")
 
 ##########
 pull_grandtab <- function(grandtabURL = "https://www.cbr.washington.edu/sacramento/data/query_adult_grandtab.html") {
