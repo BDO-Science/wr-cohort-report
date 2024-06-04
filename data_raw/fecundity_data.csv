@@ -1,0 +1,19 @@
+brood_year,value,component,origin,jpe_letter_date,footnote,references_contributors,lower_95_percent_ci,upper_95_percent_ci,fecundity
+2005,5500,Average fecundity,Natural,2006-02-10,"""4/ Eggs per adult female (n= 47), based on 2005 adult returns to Livingston Stone National Fish Hatchery.""",LSNFH,NaN,NaN,5500
+2006,5484,Average fecundity,Natural,2007-02-15,"""4/ Eggs per adult female (n= 50), based on 2006 spawning at Livingston Stone National Fish Hatchery.""",LSNFH,NaN,NaN,5484
+2008,5424,Average fecundity,Natural,2009-01-12,"""4/ Average eggs/female, 2008 returns to Livingston Stone National Fish Hatchery (n=48, STD 911).""",LSNFH,NaN,NaN,5424
+2009,5519,Average fecundity,Natural,2010-02-24,"""4/ Average eggs/female, 2009 hatchery returns (n=48) Table 2, USFWS pre-release report 1/25/10).""",LSNFH,NaN,NaN,5519
+2010,5161,Average fecundity,Natural,2011-01-12,"""4/ Average eggs/female, from 2010 returns to Livingston Stone National Fish Hatchery, John Rueth.""",LSNFH,NaN,NaN,5161
+2011,4832,Average fecundity,Natural,2012-01-26,"""4/ Average eggs/female, based on 2011 return (n=45) to LSNFH from Kevin Niemela, FWS, 1/10/12.""",LSNFH,NaN,NaN,4832
+2012,4518,Average fecundity,Natural,2013-01-31,"""4/ Average # eggs/female, from 2012 returns (n=47) to LSNFH, email from John Rueth, USFWS.""",LSNFH,NaN,NaN,4518
+2013,4596,Average fecundity,Natural,2014-02-21,"""4/ Average # eggs/female, from 2013 returns to LSNFH (n=50), John Rueth, USFWS, email 12/13/13.""",LSNFH,NaN,NaN,4596
+2014,5308,Average fecundity,Natural,2015-01-16,"""4/ Average # eggs/female from 175 females (including females less than 3 years old) collected from the 2014 returns to Livingston Stone""",LSNFH,NaN,NaN,5308
+2015,4819,Average fecundity,Natural,2016-01-28,"""4/ Average # eggs/female from 175 females (including females less than 3 years old) collected from the 2015 returns to Livingston Stone National Fish Hatchery.""",LSNFH,NaN,NaN,4819
+2016,3907,Average fecundity,Natural,2017-02-03,"""4/ Average # eggs/female from weighted estimate based on two year and three old fish spawned at Livingston Stone Hatchery and in the carcass survey(Attachment A).""",LSNFH,NaN,NaN,3907
+2017,4109,Average fecundity,Natural,2018-01-08,"""4/ Preliminary (subject to change) average # of eggs/female from weighted estimate based on two year and three year old fish spawned at Livingston Stone Hatchery and from the carcass survey.""",LSNFH,NaN,NaN,4109
+2018,5141,Average fecundity,Natural,2019-02-01,"""4/ Preliminary (subject to change) average number of eggs/female from 49 fish spawned at LSNFH""",LSNFH,NaN,NaN,5141
+2019,5424,Average fecundity,Natural,2020-01-23,"""4/ Preliminary (subject to change) average number of eggs per female from 56 female fish spawned at LSNFH (unpublished data).""",LSNFH,NaN,NaN,5424
+2020,4991,Average fecundity,Natural,2021-01-15,"""4/ Preliminary (subject to change) average number of eggs per female from 75 female fish spawned at LSNFH (Taylor Lipscomb, USFWS pers. comm.).""",LSNFH,NaN,NaN,4991
+2021,5312,Average fecundity,Natural,2022-01-14,"""4/ Preliminary (subject to change) average number of eggs per female from 118 female fish spawned at LSNFH (Kaitlin Gooding, USFWS pers. comm.).""",LSNFH,NaN,NaN,5312
+2022,5505,Average fecundity,Natural,2023-01-13,"""4/ Preliminary (subject to change) average number of eggs per female from fish spawned (n=169) at LSNFH (Kaitlin Dunham, USFWS pers. comm.).""",LSNFH,NaN,NaN,5505
+2023,5510,Average fecundity,Natural,2024-01-12,"""4/ Preliminary (subject to change) average number of eggs per female from fish spawned (n=179) at LSNFH (Kaitlin Dunham, USFWS pers. comm.).""",LSNFH,NaN,NaN,5510
