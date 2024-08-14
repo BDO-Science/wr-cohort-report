@@ -1,0 +1,590 @@
+brood_year,value,component,origin,JPE_letter_date,footnote,references_contributors,lower_95_CI,upper_95_CI
+1992,246157,Total natural production entering the Delta,Natural,1993-02-09,NA,NA,NA,NA
+1992,1092,Total Sacramento River escapement,Natural,1993-02-09,NA,"CDFW, USFWS",NA,NA
+1992,546,Adult female estimate,Natural,1993-02-09,NA,"CDFW, USFWS",NA,NA
+1992,519,AFE minus pre-spawn mortality,Natural,1993-02-09,NA,"CDFW, USFWS",NA,NA
+1992,3353,Average fecundity,Natural,1993-02-09,NA,LSNFH,NA,NA
+1992,1668859,Total eggs,Natural,1993-02-09,NA,"CDFW, LSNFH, USFWS",NA,NA
+1992,0.25,Estimated egg-to-fry survival rate,Natural,1993-02-09,NA,"CDFW, LSNFH, USFWS",NA,NA
+1992,0.59,Fry-to-smolt survival,Natural,1993-02-09,NA,NA,NA,NA
+1992,NA,Estimated smolt survival term,Natural,NA,NA,NA,NA,NA
+1992,NA,Number of smolts at RBDD,Natural,NA,NA,NA,NA,NA
+1992,NA,Fry equivalents of juvenile production at RBDD,Natural,NA,NA,NA,NA,NA
+1992,NA,Total LSNFH production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+1992,27000,LSNFH Hatchery release,Hatchery,1993-02-09,NA,LSNFH,NA,NA
+1992,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+1992,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
+1992,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+1992,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+1992,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+1992,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+1993,66536,Total natural production entering the Delta,Natural,1993-10-01,NA,NA,NA,NA
+1993,271,Total Sacramento River escapement,Natural,1993-10-01,NA,"CDFW, USFWS",NA,NA
+1993,135,Adult female estimate,Natural,1993-10-01,NA,"CDFW, USFWS",NA,NA
+1993,129,AFE minus pre-spawn mortality,Natural,1993-10-01,NA,"CDFW, USFWS",NA,NA
+1993,3500,Average fecundity,Natural,1993-10-01,NA,LSNFH,NA,NA
+1993,451092,Total eggs,Natural,1993-10-01,NA,"CDFW, LSNFH, USFWS",NA,NA
+1993,0.25,Estimated egg-to-fry survival rate,Natural,1993-10-01,NA,"CDFW, LSNFH, USFWS",NA,NA
+1993,0.59,Fry-to-smolt survival,Natural,1993-10-01,NA,NA,NA,NA
+1993,NA,Estimated smolt survival term,Natural,NA,NA,NA,NA,NA
+1993,NA,Number of smolts at RBDD,Natural,NA,NA,NA,NA,NA
+1993,NA,Fry equivalents of juvenile production at RBDD,Natural,NA,NA,NA,NA,NA
+1993,NA,Total LSNFH production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+1993,23500,LSNFH Hatchery release,Hatchery,1993-10-01,NA,LSNFH,NA,NA
+1993,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+1993,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
+1993,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+1993,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+1993,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+1993,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+1994,31491,Total natural production entering the Delta,Natural,1995-02-21,NA,NA,NA,NA
+1994,129,Total Sacramento River escapement,Natural,1995-02-21,NA,"CDFW, USFWS",NA,NA
+1994,64,Adult female estimate,Natural,1995-02-21,NA,"CDFW, USFWS",NA,NA
+1994,61,AFE minus pre-spawn mortality,Natural,1995-02-21,NA,"CDFW, USFWS",NA,NA
+1994,3500,Average fecundity,Natural,1995-02-21,NA,LSNFH,NA,NA
+1994,213500,Total eggs,Natural,1995-02-21,NA,"CDFW, LSNFH, USFWS",NA,NA
+1994,0.25,Estimated egg-to-fry survival rate,Natural,1995-02-21,NA,"CDFW, LSNFH, USFWS",NA,NA
+1994,0.59,Fry-to-smolt survival,Natural,1995-02-21,NA,NA,NA,NA
+1994,NA,Estimated smolt survival term,Natural,NA,NA,NA,NA,NA
+1994,NA,Number of smolts at RBDD,Natural,NA,NA,NA,NA,NA
+1994,NA,Fry equivalents of juvenile production at RBDD,Natural,NA,NA,NA,NA,NA
+1994,NA,Total LSNFH production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+1994,43000,LSNFH Hatchery release,Hatchery,1995-02-21,NA,LSNFH,NA,NA
+1994,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+1994,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
+1994,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+1994,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+1994,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+1994,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+1995,338107,Total natural production entering the Delta,Natural,1995-10-20,NA,NA,NA,NA
+1995,1251,Total Sacramento River escapement,Natural,1995-10-20,NA,"CDFW, USFWS",NA,NA
+1995,625,Adult female estimate,Natural,1995-10-20,NA,"CDFW, USFWS",NA,NA
+1995,594,AFE minus pre-spawn mortality,Natural,1995-10-20,NA,"CDFW, USFWS",NA,NA
+1995,3859,Average fecundity,Natural,1995-10-20,NA,LSNFH,NA,NA
+1995,2292246,Total eggs,Natural,1995-10-20,NA,"CDFW, LSNFH, USFWS",NA,NA
+1995,0.25,Estimated egg-to-fry survival rate,Natural,1995-10-20,NA,"CDFW, LSNFH, USFWS",NA,NA
+1995,0.59,Fry-to-smolt survival,Natural,1995-10-20,NA,NA,NA,NA
+1995,NA,Estimated smolt survival term,Natural,NA,NA,NA,NA,NA
+1995,NA,Number of smolts at RBDD,Natural,NA,NA,NA,NA,NA
+1995,NA,Fry equivalents of juvenile production at RBDD,Natural,NA,NA,NA,NA,NA
+1995,NA,Total LSNFH production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+1995,60000,LSNFH Hatchery release,Hatchery,1995-10-20,NA,LSNFH,NA,NA
+1995,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+1995,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
+1995,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+1995,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+1995,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+1995,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+1996,165069,Total natural production entering the Delta,Natural,1997-02-10,NA,NA,NA,NA
+1996,611,Total Sacramento River escapement,Natural,1997-02-10,NA,"CDFW, USFWS",NA,NA
+1996,305,Adult female estimate,Natural,1997-02-10,NA,"CDFW, USFWS",NA,NA
+1996,290,AFE minus pre-spawn mortality,Natural,1997-02-10,NA,"CDFW, USFWS",NA,NA
+1996,3859,Average fecundity,Natural,1997-02-10,NA,LSNFH,NA,NA
+1996,1119110,Total eggs,Natural,1997-02-10,NA,"CDFW, LSNFH, USFWS",NA,NA
+1996,0.25,Estimated egg-to-fry survival rate,Natural,1997-02-10,NA,"CDFW, LSNFH, USFWS",NA,NA
+1996,0.59,Fry-to-smolt survival,Natural,1997-02-10,NA,NA,NA,NA
+1996,NA,Estimated smolt survival term,Natural,NA,NA,NA,NA,NA
+1996,NA,Number of smolts at RBDD,Natural,NA,NA,NA,NA,NA
+1996,NA,Fry equivalents of juvenile production at RBDD,Natural,NA,NA,NA,NA,NA
+1996,NA,Total LSNFH production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+1996,5000,LSNFH Hatchery release,Hatchery,1997-02-10,"2/ Approximately 5,000 juveniles from the Livingston Stone winter-run chinook program were released in the upper Sacramento River during January and Febuarry 1997. All hatchery fish are marked with an adipose fin clip and CWT.",LSNFH,NA,NA
+1996,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+1996,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
+1996,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+1996,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+1996,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+1996,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+1997,138316,Total natural production entering the Delta,Natural,1998-04-27,NA,NA,NA,NA
+1997,480,Total Sacramento River escapement,Natural,1998-04-27,NA,"CDFW, USFWS",NA,NA
+1997,240,Adult female estimate,Natural,1998-04-27,NA,"CDFW, USFWS",NA,NA
+1997,228,AFE minus pre-spawn mortality,Natural,1998-04-27,NA,"CDFW, USFWS",NA,NA
+1997,3859,Average fecundity,Natural,1998-04-27,NA,LSNFH,NA,NA
+1997,879852,Total eggs,Natural,1998-04-27,NA,"CDFW, LSNFH, USFWS",NA,NA
+1997,0.25,Estimated egg-to-fry survival rate,Natural,1998-04-27,NA,"CDFW, LSNFH, USFWS",NA,NA
+1997,0.59,Fry-to-smolt survival,Natural,1998-04-27,NA,NA,NA,NA
+1997,NA,Estimated smolt survival term,Natural,NA,NA,NA,NA,NA
+1997,NA,Number of smolts at RBDD,Natural,NA,NA,NA,NA,NA
+1997,NA,Fry equivalents of juvenile production at RBDD,Natural,NA,NA,NA,NA,NA
+1997,NA,Total LSNFH production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+1997,42000,LSNFH Hatchery release,Hatchery,1998-04-27,"2/ Approximately 40,000 juveniles from the Livingston Stone winter-run chinook program were released in the upper Sacramento River during March 1998. All hatchery fish are marked with an adipose fin clip and CWT.",LSNFH,NA,NA
+1997,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+1997,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
+1997,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+1997,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+1997,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+1997,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+1998,454792,Total natural production entering the Delta,Natural,1999-02-26,NA,NA,NA,NA
+1998,1682,Total Sacramento River escapement,Natural,1999-02-26,NA,"CDFW, USFWS",NA,NA
+1998,841,Adult female estimate,Natural,1999-02-26,NA,"CDFW, USFWS",NA,NA
+1998,799,AFE minus pre-spawn mortality,Natural,1999-02-26,NA,"CDFW, USFWS",NA,NA
+1998,3859,Average fecundity,Natural,1999-02-26,NA,LSNFH,NA,NA
+1998,3083341,Total eggs,Natural,1999-02-26,NA,"CDFW, LSNFH, USFWS",NA,NA
+1998,0.25,Estimated egg-to-fry survival rate,Natural,1999-02-26,NA,"CDFW, LSNFH, USFWS",NA,NA
+1998,0.59,Fry-to-smolt survival,Natural,1999-02-26,NA,NA,NA,NA
+1998,NA,Estimated smolt survival term,Natural,NA,NA,NA,NA,NA
+1998,NA,Number of smolts at RBDD,Natural,NA,NA,NA,NA,NA
+1998,NA,Fry equivalents of juvenile production at RBDD,Natural,NA,NA,NA,NA,NA
+1998,NA,Total LSNFH production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+1998,154000,LSNFH Hatchery release,Hatchery,1999-02-26,"2/ Approximately 154,000 juveniles from the Livingston Stone winter-run chinook program were released in the upper Sacramento River on January 28, 1999. All hatchery fish are marked with an adipose fin clip and CWT.",LSNFH,NA,NA
+1998,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+1998,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
+1998,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+1998,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+1998,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+1998,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+1999,289724,Total natural production entering the Delta,Natural,2000-01-01,NA,NA,NA,NA
+1999,1072,Total Sacramento River escapement,Natural,2000-01-01,NA,"CDFW, USFWS",NA,NA
+1999,536,Adult female estimate,Natural,2000-01-01,NA,"CDFW, USFWS",NA,NA
+1999,509,AFE minus pre-spawn mortality,Natural,2000-01-01,NA,"CDFW, USFWS",NA,NA
+1999,3859,Average fecundity,Natural,2000-01-01,NA,LSNFH,NA,NA
+1999,1964231,Total eggs,Natural,2000-01-01,NA,"CDFW, LSNFH, USFWS",NA,NA
+1999,0.25,Estimated egg-to-fry survival rate,Natural,2000-01-01,NA,"CDFW, LSNFH, USFWS",NA,NA
+1999,0.59,Fry-to-smolt survival,Natural,2000-01-01,NA,NA,NA,NA
+1999,NA,Estimated smolt survival term,Natural,NA,NA,NA,NA,NA
+1999,NA,Number of smolts at RBDD,Natural,NA,NA,NA,NA,NA
+1999,NA,Fry equivalents of juvenile production at RBDD,Natural,NA,NA,NA,NA,NA
+1999,NA,Total LSNFH production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+1999,30000,LSNFH Hatchery release,Hatchery,2000-01-01,"2/ Approximately 32,000 juveniles from the Livingston Stone winter-run chinook program were released in the upper Sacramento River on January 27, 2000. All hatchery fish are marked with an adipose fin clip and CWT.",LSNFH,NA,NA
+1999,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+1999,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
+1999,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+1999,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+1999,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+1999,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2000,370221,Total natural production entering the Delta,Natural,2001-01-29,NA,NA,NA,NA
+2000,1059,Total Sacramento River escapement,Natural,2001-01-29,NA,"CDFW, USFWS",NA,NA
+2000,529,Adult female estimate,Natural,2001-01-29,NA,"CDFW, USFWS",NA,NA
+2000,503,AFE minus pre-spawn mortality,Natural,2001-01-29,NA,"CDFW, USFWS",NA,NA
+2000,4990,Average fecundity,Natural,2001-01-29,3/ Average number of eggs per female derived from this year's spawning at Livingston Stone Hatchery (n=44),LSNFH,NA,NA
+2000,2509970,Total eggs,Natural,2001-01-29,NA,"CDFW, LSNFH, USFWS",NA,NA
+2000,0.25,Estimated egg-to-fry survival rate,Natural,2001-01-29,NA,"CDFW, LSNFH, USFWS",NA,NA
+2000,0.59,Fry-to-smolt survival,Natural,2001-01-29,NA,NA,NA,NA
+2000,NA,Estimated smolt survival term,Natural,NA,NA,NA,NA,NA
+2000,NA,Number of smolts at RBDD,Natural,NA,NA,NA,NA,NA
+2000,NA,Fry equivalents of juvenile production at RBDD,Natural,NA,NA,NA,NA,NA
+2000,NA,Total LSNFH production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2000,166000,LSNFH Hatchery release,Hatchery,2001-01-29,4/ All hatchery released winter-run chinook marked with an adipose fin clip and CWT.,LSNFH,NA,NA
+2000,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2000,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
+2000,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2000,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2000,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2000,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2001,1864802,Total natural production entering the Delta,Natural,2002-02-22,NA,NA,NA,NA
+2001,7572,Total Sacramento River escapement,Natural,2002-02-22,"1/ Based on DFG carcass survey (Jolly-Seber model), includes hatchery and grilse","CDFW, USFWS",NA,NA
+2001,4876,Adult female estimate,Natural,2002-02-22,"2/ Based on observed grilse and sex ratio, DFG carcass survey 2001","CDFW, USFWS",NA,NA
+2001,4828,AFE minus pre-spawn mortality,Natural,2002-02-22,"3/ Estimated mortality up to 1% from fresh carcass observations, DFG carcass survey 2001","CDFW, USFWS",NA,NA
+2001,4700,Average fecundity,Natural,2002-02-22,4/ Average fecundity rate from 2001 spawning at Livingston Stone Hatchery (n=50),LSNFH,NA,NA
+2001,22576291,Total eggs,Natural,2002-02-22,NA,"CDFW, LSNFH, USFWS",NA,NA
+2001,NA,Estimated egg-to-fry survival rate,Natural,NA,NA,NA,NA,NA
+2001,NA,Fry-to-smolt survival,Natural,NA,NA,NA,NA,NA
+2001,0.56,Estimated smolt survival term,Natural,2002-02-22,"7/ Based on ocean recoveries of paired CWT releases from Battle Cr, 1994-1999 (FWS 2002, unpublished)",NA,NA,NA
+2001,NA,Number of smolts at RBDD,Natural,NA,NA,NA,NA,NA
+2001,NA,Fry equivalents of juvenile production at RBDD,Natural,NA,NA,NA,NA,NA
+2001,NA,Total LSNFH production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2001,252684,LSNFH Hatchery release,Hatchery,2002-02-22,8/ All hatchery released winter-run chinook marked with an adipose fin clip and CWT.,LSNFH,NA,NA
+2001,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2001,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
+2001,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2001,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2001,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2001,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2002,2136747,Total natural production entering the Delta,Natural,2003-02-19,NA,NA,NA,NA
+2002,7337,Total Sacramento River escapement,Natural,2003-02-19,"1/ 2002 CDFG Carcass Survey (Jolly-Seber) Estimate from 1/24/03, includes hatchery returns and grilse.","CDFW, USFWS",NA,NA
+2002,5745,Adult female estimate,Natural,2003-02-19,2/ 2002 CDFG Carcass Survey observed proportion of adult females.,"CDFW, USFWS",NA,NA
+2002,5670,AFE minus pre-spawn mortality,Natural,2003-02-19,3/ 2002 CDFG Carcass Survey estimated spawning success from fresh carcass observations (0.987).,"CDFW, USFWS",NA,NA
+2002,4923,Average fecundity,Natural,2003-02-19,"4/ Number of eggs per adult female at LSNFH, broodyear 2002 records (n=47).",LSNFH,NA,NA
+2002,27858505,Total eggs,Natural,2003-02-19,NA,"CDFW, LSNFH, USFWS",NA,NA
+2002,NA,Estimated egg-to-fry survival rate,Natural,NA,NA,NA,NA,NA
+2002,NA,Fry-to-smolt survival,Natural,NA,NA,NA,NA,NA
+2002,0.52,Estimated smolt survival term,Natural,2003-02-19,"7/ Average of ocean recoveries of paired Late-Fall Chinook from Coleman National Fish Hatchery released at Battle Cr. and Delta locations from 1994-99 (USFWS 2003, unpubl.)",NA,NA,NA
+2002,NA,Number of smolts at RBDD,Natural,NA,NA,NA,NA,NA
+2002,NA,Fry equivalents of juvenile production at RBDD,Natural,NA,NA,NA,NA,NA
+2002,121617,Total LSNFH production entering the Delta,Hatchery,2003-02-19,NA,NA,NA,NA
+2002,233879,LSNFH Hatchery release,Hatchery,2003-02-19,8/ All hatchery origin winter-run juveniles are marked with an adipose fin clip and a CWT.,LSNFH,NA,NA
+2002,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2002,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
+2002,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2002,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2002,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2002,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2003,1896649,Total natural production entering the Delta,Natural,2004-01-21,NA,NA,NA,NA
+2003,NA,Total Sacramento River escapement,Natural,NA,NA,NA,NA,NA
+2003,NA,Adult female estimate,Natural,NA,NA,NA,NA,NA
+2003,NA,AFE minus pre-spawn mortality,Natural,NA,NA,NA,NA,NA
+2003,NA,Average fecundity,Natural,NA,NA,NA,NA,NA
+2003,NA,Total eggs,Natural,NA,NA,NA,NA,NA
+2003,NA,Estimated egg-to-fry survival rate,Natural,NA,NA,NA,NA,NA
+2003,NA,Fry-to-smolt survival,Natural,NA,NA,NA,NA,NA
+2003,NA,Estimated smolt survival term,Natural,NA,NA,NA,NA,NA
+2003,NA,Number of smolts at RBDD,Natural,NA,NA,NA,NA,NA
+2003,NA,Fry equivalents of juvenile production at RBDD,Natural,NA,NA,NA,NA,NA
+2003,114400,Total LSNFH production entering the Delta,Hatchery,2004-01-21,NA,NA,NA,NA
+2003,220000,LSNFH Hatchery release,Hatchery,2004-01-21,NA,LSNFH,NA,NA
+2003,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2003,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
+2003,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2003,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2003,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2003,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2004,881719,Total natural production entering the Delta,Natural,2005-02-08,NA,NA,NA,NA
+2004,8635,Total Sacramento River escapement,Natural,2005-02-08,NA,"CDFW, USFWS",NA,NA
+2004,NA,Adult female estimate,Natural,NA,NA,NA,NA,NA
+2004,3218,AFE minus pre-spawn mortality,Natural,2005-02-08,NA,"CDFW, USFWS",NA,NA
+2004,NA,Average fecundity,Natural,NA,NA,NA,NA,NA
+2004,NA,Total eggs,Natural,NA,NA,NA,NA,NA
+2004,NA,Estimated egg-to-fry survival rate,Natural,NA,NA,NA,NA,NA
+2004,NA,Fry-to-smolt survival,Natural,NA,NA,NA,NA,NA
+2004,NA,Estimated smolt survival term,Natural,NA,NA,NA,NA,NA
+2004,NA,Number of smolts at RBDD,Natural,NA,NA,NA,NA,NA
+2004,NA,Fry equivalents of juvenile production at RBDD,Natural,NA,NA,NA,NA,NA
+2004,92748,Total LSNFH production entering the Delta,Hatchery,2005-02-08,NA,NA,NA,NA
+2004,169557,LSNFH Hatchery release,Hatchery,2005-02-08,NA,LSNFH,NA,NA
+2004,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2004,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
+2004,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2004,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2004,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2004,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2005,3831286,Total natural production entering the Delta,Natural,2006-02-10,NA,NA,NA,NA
+2005,15730,Total Sacramento River escapement,Natural,2006-02-10,"1/ 2005 carcass survey estimate (Jolly-Seber) from DFG letter, 1/13/06, includes both wild and hatchery origin.","CDFW, USFWS",NA,NA
+2005,9005,Adult female estimate,Natural,2006-02-10,2/ Number of females estimated from the carcass surveys (hatchery + natural origin),"CDFW, USFWS",NA,NA
+2005,8807,AFE minus pre-spawn mortality,Natural,2006-02-10,"3/ Pre-spawn mortality (# adult females x 2.2% unspawned) Alice Low, DFG, per.comm. WRSPWT 2005","CDFW, USFWS",NA,NA
+2005,5500,Average fecundity,Natural,2006-02-10,"4/ Eggs per adult female (n= 47), based on 2005 adult returns to Livingston Stone National Fish Hatchery.",LSNFH,NA,NA
+2005,48437895,Total eggs,Natural,2006-02-10,NA,"CDFW, LSNFH, USFWS",NA,NA
+2005,NA,Estimated egg-to-fry survival rate,Natural,NA,NA,NA,NA,NA
+2005,NA,Fry-to-smolt survival,Natural,NA,NA,NA,NA,NA
+2005,0.53625,Estimated smolt survival term,Natural,2006-02-10,"7/ Average of ocean recoveries of paired Late-Fall Chinook from Coleman National Fish Hatchery released at Battle Cr. and Delta locations from 1994-2001 (USFWS, unpubl. data, Chippstable 2005)",NA,NA,NA
+2005,NA,Number of smolts at RBDD,Natural,NA,NA,NA,NA,NA
+2005,NA,Fry equivalents of juvenile production at RBDD,Natural,NA,NA,NA,NA,NA
+2005,94913,Total LSNFH production entering the Delta,Hatchery,2006-02-10,NA,NA,NA,NA
+2005,173515,LSNFH Hatchery release,Hatchery,2006-02-10,"8/ Livingston Stone National Fish Hatchery conservation program release, all tagged and fin-clipped. Survival calculated based on 2003 winter-run tag recoveries at Chipps Is (n=34).",LSNFH,NA,NA
+2005,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2005,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
+2005,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2005,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2005,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2005,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2006,3739069,Total natural production entering the Delta,Natural,2007-02-15,NA,NA,NA,NA
+2006,17205,Total Sacramento River escapement,Natural,2007-02-15,"1/ 2006 carcass survey (DFG letter dated 12/7/06), Jolly-Seber est. includes both wild and hatchery origin.","CDFW, USFWS",NA,NA
+2006,8811,Adult female estimate,Natural,2007-02-15,2/ Number of females estimated from the carcass surveys (hatchery + natural origin),"CDFW, USFWS",NA,NA
+2006,8626,AFE minus pre-spawn mortality,Natural,2007-02-15,"3/ Pre-spawn mortality (2.1% of all fresh females) from Alice Low, DFG, per.comm. 1/16/07","CDFW, USFWS",NA,NA
+2006,5484,Average fecundity,Natural,2007-02-15,"4/ Eggs per adult female (n= 50), based on 2006 spawning at Livingston Stone National Fish Hatchery.",LSNFH,NA,NA
+2006,47272022,Total eggs,Natural,2007-02-15,NA,"CDFW, LSNFH, USFWS",NA,NA
+2006,NA,Estimated egg-to-fry survival rate,Natural,NA,NA,NA,NA,NA
+2006,NA,Fry-to-smolt survival,Natural,NA,NA,NA,NA,NA
+2006,0.53625,Estimated smolt survival term,Natural,2007-02-15,"7/ Average of ocean recoveries of paired Late-Fall Chinook fmm Coleman Hatchery released at Battle Cr. and Delta locations from 1994-2001 (USFWS, unpubl. data, Chippstable 2005)",NA,NA,NA
+2006,NA,Number of smolts at RBDD,Natural,NA,NA,NA,NA,NA
+2006,NA,Fry equivalents of juvenile production at RBDD,Natural,NA,NA,NA,NA,NA
+2006,107239,Total LSNFH production entering the Delta,Hatchery,2007-02-15,NA,NA,NA,NA
+2006,196050,LSNFH Hatchery release,Hatchery,2007-02-15,"8/ Livingston Stone National Fish Hatchery conservation program release, all tagged and fin-clipped. Survival calculated based on 2003 winter-run tag recoveries at Chipps Is (n=34).",LSNFH,NA,NA
+2006,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2006,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
+2006,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2006,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2006,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2006,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2008,617783,Total natural production entering the Delta,Natural,2009-01-12,NA,NA,NA,NA
+2008,2850,Total Sacramento River escapement,Natural,2009-01-12,"1/ Based on DFG official estimate, letter to NMFS received 11/25/08, includes hatchery broodstock.","CDFW, USFWS",NA,NA
+2008,1466,Adult female estimate,Natural,2009-01-12,2/ Used sex ratio from Keswick trap( 53%) instead of carcass surveys(78%) to account for bias in males,"CDFW, USFWS",NA,NA
+2008,1443,AFE minus pre-spawn mortality,Natural,2009-01-12,"3/ Pre-spawn mortality =1.55%, or 6 of 387 females unspawned (D. Killam email 8/28/09).","CDFW, USFWS",NA,NA
+2008,5424,Average fecundity,Natural,2009-01-12,"4/ Average eggs/female, 2008 returns to Livingston Stone National Fish Hatchery (n=48, STD 911).",LSNFH,NA,NA
+2008,7810463,Total eggs,Natural,2009-01-12,NA,"CDFW, LSNFH, USFWS",NA,NA
+2008,NA,Estimated egg-to-fry survival rate,Natural,NA,NA,NA,NA,NA
+2008,NA,Fry-to-smolt survival,Natural,NA,NA,NA,NA,NA
+2008,0.53625,Estimated smolt survival term,Natural,2009-01-12,"7/ Average of ocean recoveries paired Late-Fall from Coleman Hatchery released at Battle Creek and in Delta locations from 1994-2001 (USFWS, unpubl. data, Chippstable 2005)",NA,NA,NA
+2008,NA,Number of smolts at RBDD,Natural,NA,NA,NA,NA,NA
+2008,NA,Fry equivalents of juvenile production at RBDD,Natural,NA,NA,NA,NA,NA
+2008,82050,Total LSNFH production entering the Delta,Hatchery,2009-01-12,NA,NA,NA,NA
+2008,150000,LSNFH Hatchery release,Hatchery,2009-01-12,8/ LSNFH release (all tagged & clipped). Survival estimated from 2003 recoveries at Chipps Is (n=34).,LSNFH,NA,NA
+2008,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2008,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
+2008,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2008,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2008,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2008,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2009,1179633,Total natural production entering the Delta,Natural,2010-02-24,NA,NA,NA,NA
+2009,4537,Total Sacramento River escapement,Natural,2010-02-24,"1/ Based on DFG letter dated 1/14/10, includes hatchery broodstock.","CDFW, USFWS",NA,NA
+2009,2717,Adult female estimate,Natural,2010-02-24,2/ Sex ratio was based on data collected in 2009 carcass survey (USFWS pre-release report 1/25/10),"CDFW, USFWS",NA,NA
+2009,2702,AFE minus pre-spawn mortality,Natural,2010-02-24,"3/ Pre-spawn mortality =0.54%, or 3 of 553 females unspawned (D. Killam email 1/28/10).","CDFW, USFWS",NA,NA
+2009,5519,Average fecundity,Natural,2010-02-24,"4/ Average eggs/female, 2009 hatchery returns (n=48) Table 2, USFWS pre-release report 1/25/10).",LSNFH,NA,NA
+2009,14913776,Total eggs,Natural,2010-02-24,NA,"CDFW, LSNFH, USFWS",NA,NA
+2009,NA,Estimated egg-to-fry survival rate,Natural,NA,NA,NA,NA,NA
+2009,NA,Fry-to-smolt survival,Natural,NA,NA,NA,NA,NA
+2009,0.53625,Estimated smolt survival term,Natural,2010-02-24,"7/ Average of ocean recoveries paired Late-Fall from Coleman Hatchery released at Battle Creek and in Delta locations from 1994-2001 (USFWS, unpubl. data, Chippstable 2005)",NA,NA,NA
+2009,NA,Number of smolts at RBDD,Natural,NA,NA,NA,NA,NA
+2009,NA,Fry equivalents of juvenile production at RBDD,Natural,NA,NA,NA,NA,NA
+2009,108725,Total LSNFH production entering the Delta,Hatchery,2010-02-24,NA,NA,NA,NA
+2009,198766,LSNFH Hatchery release,Hatchery,2010-02-24,8/LSNFH release (all tagged & clipped). Survival estimated from 2003 recoveries at Chipps Is (n=34).,LSNFH,NA,NA
+2009,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2009,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
+2009,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2009,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2009,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2009,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2010,332012,Total natural production entering the Delta,Natural,2011-01-12,NA,NA,NA,NA
+2010,1533,Total Sacramento River escapement,Natural,2011-01-12,"1/ Based on DFG letter to Rod McInnis 12/08/10, in-river spawners minus hatchery broodstock.","CDFW, USFWS",NA,NA
+2010,822,Adult female estimate,Natural,2011-01-12,"2/ Sex ratio from carcass survey, number of females estimated from DFG letter","CDFW, USFWS",NA,NA
+2010,813,AFE minus pre-spawn mortality,Natural,2011-01-12,"3/ Pre-spawn mortality =1.0%, or 8 of 822 females unspawned (from DFG carcass survey table).","CDFW, USFWS",NA,NA
+2010,5161,Average fecundity,Natural,2011-01-12,"4/ Average eggs/female, from 2010 returns to Livingston Stone National Fish Hatchery, John Rueth.",LSNFH,NA,NA
+2010,4197541,Total eggs,Natural,2011-01-12,NA,"CDFW, LSNFH, USFWS",NA,NA
+2010,NA,Estimated egg-to-fry survival rate,Natural,NA,NA,NA,NA,NA
+2010,NA,Fry-to-smolt survival,Natural,NA,NA,NA,NA,NA
+2010,0.53625,Estimated smolt survival term,Natural,2011-01-12,"7/ Average of ocean recoveries paired Late-Fall from Coleman NFH released at Battle Cr.and Delta locations from 1994-2001 (USFWS, unpubl. data, Chippstable 2005)",NA,NA,NA
+2010,NA,Number of smolts at RBDD,Natural,NA,NA,NA,NA,NA
+2010,NA,Fry equivalents of juvenile production at RBDD,Natural,NA,NA,NA,NA,NA
+2010,66734,Total LSNFH production entering the Delta,Hatchery,2011-01-12,NA,NA,NA,NA
+2010,122000,LSNFH Hatchery release,Hatchery,2011-01-12,8/ LSNFH release (100% tagged & clipped). Survival estimated from 2003 recoveries at Chipps Is. (n=34).,LSNFH,NA,NA
+2010,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2010,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
+2010,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2010,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2010,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2010,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2011,162051,Total natural production entering the Delta,Natural,2012-01-26,NA,NA,NA,NA
+2011,824,Total Sacramento River escapement,Natural,2012-01-26,"1/ total in-river escapement using Jolly-Seber model, includes fish taken for hatchery broodstock (738 +86 =824) from DFG letter 12/6/11.","CDFW, USFWS",NA,NA
+2011,424,Adult female estimate,Natural,2012-01-26,2/ Sex ratio from 2011 Keswick trap instead of carcass surveys to account for bias in males. Number of females estimated is from DFG letter 12/6/11.,"CDFW, USFWS",NA,NA
+2011,424,AFE minus pre-spawn mortality,Natural,2012-01-26,"3/ Pre-spawn mortality =0% in 2011, from DFG carcass survey table.","CDFW, USFWS",NA,NA
+2011,4832,Average fecundity,Natural,2012-01-26,"4/ Average eggs/female, based on 2011 return (n=45) to LSNFH from Kevin Niemela, FWS, 1/10/12.",LSNFH,NA,NA
+2011,2048968,Total eggs,Natural,2012-01-26,NA,"CDFW, LSNFH, USFWS",NA,NA
+2011,0.25,Estimated egg-to-fry survival rate,Natural,2012-01-26,"6/ This is measured at Red Bluff based on female spawners, carcass survey females, JPI/female spawner, and fecundity data (J. Smith, FWS, 12/7/11 WRPWT notes)","CDFW, LSNFH, USFWS",NA,NA
+2011,0.59,Fry-to-smolt survival,Natural,2012-01-26,7/ This number (0.59) previously had been multiplied into the estimated survival- Egg to Smolt,NA,NA,NA
+2011,0.53625,Estimated smolt survival term,Natural,2012-01-26,"8/ Average of ocean recoveries of paired Late-Fall releases from Coleman NFH released at Battle Cr.and Delta locations from 1994-2001 (USFWS, unpubl. data, Chipps Table 2005)",NA,NA,NA
+2011,302193,Number of smolts at RBDD,Natural,2012-01-26,NA,USFWS,NA,NA
+2011,512192,Fry equivalents of juvenile production at RBDD,Natural,2012-01-26,NA,NA,NA,NA
+2011,96525,Total LSNFH production entering the Delta,Hatchery,2012-01-26,NA,NA,NA,NA
+2011,194734,LSNFH Hatchery release,Hatchery,2012-01-26,9/ LSNFH release scheduled for 2/4/12 (all tagged & clipped).,LSNFH,NA,NA
+2011,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2011,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
+2011,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2011,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2011,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2011,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2012,532809,Total natural production entering the Delta,Natural,2013-01-31,NA,NA,NA,NA
+2012,2581,Total Sacramento River escapement,Natural,2013-01-31,"1/ Total in-river escapement (90% CI) using modified Cormack Jolly-Seber (CJS) model, includes 803 hatchery fish from CDFW letter 1/4/13, but does not include 93 removed for LSNFH.","CDFW, USFWS",NA,NA
+2012,1498,Adult female estimate,Natural,2013-01-31,2/ The number of females is derived from carcass surveys by applying the CJS model and then the number of males is derived using the sex ratio at the Keswick trapping station.,"CDFW, USFWS",NA,NA
+2012,1491,AFE minus pre-spawn mortality,Natural,2013-01-31,"3/ Pre-spawn mortality (7 of 602 females observed) in 2012, from CDFW final carcass estimate 12/3/12.","CDFW, USFWS",NA,NA
+2012,4518,Average fecundity,Natural,2013-01-31,"4/ Average # eggs/female, from 2012 returns (n=47) to LSNFH, email from John Rueth, USFWS.",LSNFH,NA,NA
+2012,6736155,Total eggs,Natural,2013-01-31,NA,"CDFW, LSNFH, USFWS",NA,NA
+2012,0.25,Estimated egg-to-fry survival rate,Natural,2013-01-31,"6/ Survival measured at Red Bluff based on JPI/female spawners in carcass survey, and fecundity data (J. Smith, USFWS, 12/7/11 WRPWT notes)","CDFW, LSNFH, USFWS",NA,NA
+2012,0.59,Fry-to-smolt survival,Natural,2013-01-31,7/ This survival rate (0.59) previously had been multiplied into the Egg to Smolt survival,NA,NA,NA
+2012,0.53625,Estimated smolt survival term,Natural,2013-01-31,"8/ Average of ocean recoveries of paired Late-Fall releases from Coleman NFH released at Battle Creek and Delta locations from 1994-2001 (USFWS, unpubl. data, Chipps Table 2005)",NA,NA,NA
+2012,993583,Number of smolts at RBDD,Natural,2013-01-31,NA,USFWS,NA,NA
+2012,1684039,Fry equivalents of juvenile production at RBDD,Natural,2013-01-31,NA,NA,NA,NA
+2012,96525,Total LSNFH production entering the Delta,Hatchery,2013-01-31,NA,NA,NA,NA
+2012,180000,LSNFH Hatchery release,Hatchery,2013-01-31,"9/ LSNFH release numbers from USFWS, 12/19/12 (100% tagged & clipped).",LSNFH,NA,NA
+2012,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2012,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
+2012,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2012,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2012,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2012,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2013,1196387,Total natural production entering the Delta,Natural,2014-02-21,NA,NA,NA,NA
+2013,5958,Total Sacramento River escapement,Natural,2014-02-21,"1/ Total in-river escapement from Cormack-Jolly-Seber (CJS) model (90% CI), includes natural and hatchery origin, but not 117 collected at Keswick trap for LSNFH (CDFW letter 1/7/14).","CDFW, USFWS",NA,NA
+2013,3613,Adult female estimate,Natural,2014-02-21,2/ The number of females is derived from carcass survey and then the number of males is derived using sex ratio at Keswick trap.,"CDFW, USFWS",NA,NA
+2013,3577,AFE minus pre-spawn mortality,Natural,2014-02-21,3/ Pre-spawn mortality was estimated from carcass surveys of females (CDFW final estimate 12/15/13).,"CDFW, USFWS",NA,NA
+2013,4596,Average fecundity,Natural,2014-02-21,"4/ Average # eggs/female, from 2013 returns to LSNFH (n=50), John Rueth, USFWS, email 12/13/13.",LSNFH,NA,NA
+2013,16439295,Total eggs,Natural,2014-02-21,NA,"CDFW, LSNFH, USFWS",NA,NA
+2013,0.27,Estimated egg-to-fry survival rate,Natural,2014-02-21,NA,"CDFW, LSNFH, USFWS",NA,NA
+2013,0.27,Fry-to-smolt survival,Natural,2014-02-21,7/ Weighted average (50/50) of winter-run (2013) and late-fall run (2007-2010) acoustic tag data.,NA,NA,NA
+2013,0.27,Estimated smolt survival term,Natural,2014-02-21,"10/ Survival of acoustically tagged winter run in 2014 between Salt Creek and Tower Bridge - A. Ammann, personal communication",NA,NA,NA
+2013,NA,Number of smolts at RBDD,Natural,NA,NA,NA,NA,NA
+2013,NA,Fry equivalents of juvenile production at RBDD,Natural,NA,NA,NA,NA,NA
+2013,30880,Total LSNFH production entering the Delta,Hatchery,2014-02-21,"9/ Hatchery survival estimated from 2013 acoustic tag study (Hassrick, unpublished)",NA,NA,NA
+2013,193000,LSNFH Hatchery release,Hatchery,2014-02-21,"8/ LSNFH estimated 2014 release numbers from USFWS pre-release, 2/3/14 (100% tagged & clipped).",LSNFH,NA,NA
+2013,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2013,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
+2013,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2013,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2013,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2013,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2014,124521,Total natural production entering the Delta,Natural,2015-01-16,NA,NA,NA,NA
+2014,2627,Total Sacramento River escapement,Natural,2015-01-16,1/ Total in-river escapement from Cormack-Jolly Seber (CIS) model includes natural and hatchery origin,"CDFW, USFWS",NA,NA
+2014,1698,Adult female estimate,Natural,2015-01-16,2/ The number of adult (age 3 or older) females is derived from carcass survey and then the number of males is derived using sex ratio at Keswick trap,"CDFW, USFWS",NA,NA
+2014,1681,AFE minus pre-spawn mortality,Natural,2015-01-16,3/ Pre-spawn mortality was estimated from carcass surveys of females (CDFW).,"CDFW, USFWS",NA,NA
+2014,5308,Average fecundity,Natural,2015-01-16,4/ Average # eggs/female from 175 females (including females less than 3 years old) collected from the 2014 returns to Livingston Stone,LSNFH,NA,NA
+2014,8922854,Total eggs,Natural,2015-01-16,NA,"CDFW, LSNFH, USFWS",NA,NA
+2014,0.056,Estimated egg-to-fry survival rate,Natural,2015-01-16,NA,"CDFW, LSNFH, USFWS",NA,NA
+2014,0.59,Fry-to-smolt survival,Natural,2015-01-16,9/ Estimate of fry to smolt survival based on fall run at Tehama Colusa Fish Facility (Hallock undated),NA,NA,NA
+2014,0.42,Estimated smolt survival term,Natural,2015-01-16,"10/ Survival of acoustically tagged winter run in 2014 between Salt Creek and Tower Bridge - A. Ammann, personal communication",NA,NA,NA
+2014,296479,Number of smolts at RBDD,Natural,2015-01-16,NA,USFWS,NA,NA
+2014,502506,Fry equivalents of juvenile production at RBDD,Natural,2015-01-16,"8/ Number of fry equivalents at RBDD-JPI-Bill Poytress, personal communication",USFWS,NA,NA
+2014,185600,Total LSNFH production entering the Delta,Hatchery,2015-01-16,"12/ Average of acoustically tagged winter run survival in 2014 (0.42) and 2013 (0.16) between Salt Creek and Tower Bridge, (A. Ammann, per. comm).",NA,NA,NA
+2014,640000,LSNFH Hatchery release,Hatchery,2015-01-16,11/ LSNFH estimated release as of 12/3/14 (100% tagged and adipose clipped). Tripled production due to drought,LSNFH,NA,NA
+2014,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2014,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
+2014,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2014,2490,Natural Incidental Take Limit,Natural,2015-01-16,NA,NA,NA,NA
+2014,1885,LSNFH Incidental Take Limit,Hatchery,2015-01-16,NA,NA,NA,NA
+2014,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2015,101716,Total natural production entering the Delta,Natural,2016-01-28,NA,NA,NA,NA
+2015,3182,Total Sacramento River escapement,Natural,2016-01-28,"1/ Total in-river escapement from Cormack-Jolly Seber (CJS) model includes natural and hatchery origin, but not hatchery fish retained for brood stock at Livingston Stone National Fish Hatchery.","CDFW, USFWS",NA,NA
+2015,2063,Adult female estimate,Natural,2016-01-28,2/ The number of adult (age 3 or older) females is derived from carcass survey and then the number of males is derived using sex ratio at Keswick trap,"CDFW, USFWS",NA,NA
+2015,2022,AFE minus pre-spawn mortality,Natural,2016-01-28,3/ Pre-spawn mortality was estimated from carcass surveys of females (CDFW).,"CDFW, USFWS",NA,NA
+2015,4819,Average fecundity,Natural,2016-01-28,4/ Average # eggs/female from 175 females (including females less than 3 years old) collected from the 2015 returns to Livingston Stone National Fish Hatchery.,LSNFH,NA,NA
+2015,9742765,Total eggs,Natural,2016-01-28,NA,"CDFW, LSNFH, USFWS",NA,NA
+2015,0.042,Estimated egg-to-fry survival rate,Natural,2016-01-28,NA,"CDFW, LSNFH, USFWS",NA,NA
+2015,0.59,Fry-to-smolt survival,Natural,2016-01-28,6/ Estimate of fry-to-smolt survival based on fall-run at Tehama Colusa Spawning Channel (Hallock updated),NA,NA,NA
+2015,0.42,Estimated smolt survival term,Natural,2016-01-28,"10/ Average survival of acoustically tagged winter run in 2013, 2014 and 2015 (2 values in 2015) between RBDD and 180 Tower Bridge in Sacramento - A. Ammann, NMFS, personal communication. Survival is estimated from the Salt Creek receiver site, located 3 miles downstream of RBDD, to estimate survival from RBDD for acoustic tag studies.",NA,NA,NA
+2015,242180,Number of smolts at RBDD,Natural,2016-01-28,NA,USFWS,NA,NA
+2015,410475,Fry equivalents of juvenile production at RBDD,Natural,2016-01-28,"8/ Number of fry equivalents at RBDD - JPI - Bill Poytress, (USFWS), personal communication",USFWS,NA,NA
+2015,148000,Total LSNFH production entering the Delta,Hatchery,2016-01-28,"12/ Average of acoustically tagged winter run survival in 2013, 2014 and 2015 (2 values in 2015) between Caldwell Park and 180 Tower Bridge in Sacramento, (A. Ammann, NMFS, personal comm).",NA,NA,NA
+2015,400000,LSNFH Hatchery release,Hatchery,2016-01-28,11/ LSNFH estimated release as of 12/10/15 (100% tagged and adipose clipped). Production was increased due to the drought.,LSNFH,NA,NA
+2015,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2015,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
+2015,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2015,1017,Natural Incidental Take Limit,Natural,2016-01-28,NA,NA,NA,NA
+2015,1554,LSNFH Incidental Take Limit,Hatchery,2016-01-28,NA,NA,NA,NA
+2015,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2016,166189,Total natural production entering the Delta,Natural,2017-02-03,NA,NA,NA,NA
+2016,1409,Total Sacramento River escapement,Natural,2017-02-03,"1/ Total in-river escapement from CDFW Cormack-Jolly Seber (CJS) model includes natural and hatchery origin, but not hatchery fish retained for brood stock at LSNFH.","CDFW, USFWS",NA,NA
+2016,658,Adult female estimate,Natural,2017-02-03,2/ The number of adult females is derived from carcass survey and then the number of males is derived using sex ratio at Keswick trap,"CDFW, USFWS",NA,NA
+2016,653,AFE minus pre-spawn mortality,Natural,2017-02-03,3/ Pre-spawn mortality was estimated from carcass surveys of females (CDFW).,"CDFW, USFWS",NA,NA
+2016,3907.4,Average fecundity,Natural,2017-02-03,4/ Average # eggs/female from weighted estimate based on two year and three old fish spawned at Livingston Stone Hatchery and in the carcass survey(Attachment A).,LSNFH,NA,NA
+2016,2551585,Total eggs,Natural,2017-02-03,NA,"CDFW, LSNFH, USFWS",NA,NA
+2016,0.24,Estimated egg-to-fry survival rate,Natural,2017-02-03,NA,"CDFW, LSNFH, USFWS",NA,NA
+2016,0.59,Fry-to-smolt survival,Natural,2017-02-03,6/ Estimate of fry-to-smolt survival based on fall-run at Tehama Colusa Spawning Channel (Hallock updated),NA,NA,NA
+2016,0.459,Estimated smolt survival term,Natural,2017-02-03,"9/ Average weighted survival of acoustically tagged winter-run in 2013, 2014 and 2015 (2 values in 2015) between RBDD and 180 Tower Bridge in Sacramento - A. Ammann, NMFS, personal communication. Survival is estimated from the Sall Creek receiver site, located 3 miles downstream of RBDD, to estimate survival from RBDD for acoustic tag studies.",NA,NA,NA
+2016,362068,Number of smolts at RBDD,Natural,2017-02-03,NA,USFWS,NA,NA
+2016,613675,Fry equivalents of juvenile production at RBDD,Natural,2017-02-03,"7/ Number of fry equivalents estimated on December 16, 2016 at RBDD-JPI-Bill Poytress, (USFWS), personal communication",USFWS,NA,NA
+2016,57195,Total LSNFH production entering the Delta,Hatchery,2017-02-03,"11/Weighted average of acoustically tagged winter-run survival in 2013, 2014 and 2015 and 2016 (2 values in 2015 and 2016) between release location and 180/150 Bridge in Sacramento, (Pal Brandes, USFWS and A. Ammann, NMFS, personal comm, Attachment B).",NA,NA,NA
+2016,139500,LSNFH Hatchery release,Hatchery,2017-02-03,10/ LSNFH estimated release as of 12/16/16 (100% lagged and adipose clipped).,LSNFH,NA,NA
+2016,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2016,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
+2016,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2016,1662,Natural Incidental Take Limit,Natural,2017-02-03,NA,NA,NA,NA
+2016,582,LSNFH Incidental Take Limit,Hatchery,2017-02-03,NA,NA,NA,NA
+2016,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2017,201409,Total natural production entering the Delta,Natural,2018-01-08,NA,NA,NA,NA
+2017,795,Total Sacramento River escapement,Natural,2018-01-08,"1/ Total in-river escapement from CDFW Cormack-Jolly Seber (CJS) model includes natural and hatchery origin, but not hatchery fish retained for brood stock at LSNFH.","CDFW, USFWS",NA,NA
+2017,373,Adult female estimate,Natural,2018-01-08,2/ The number of adult females is derived from carcass survey and then the number of males is derived using sex ratio at Keswick trap,"CDFW, USFWS",NA,NA
+2017,367,AFE minus pre-spawn mortality,Natural,2018-01-08,3/ Pre-spawn mortality was estimated from carcass surveys of females (CDFW).,"CDFW, USFWS",NA,NA
+2017,4109,Average fecundity,Natural,2018-01-08,4/ Preliminary (subject to change) average # of eggs/female from weighted estimate based on two year and three year old fish spawned at Livingston Stone Hatchery and from the carcass survey.,LSNFH,NA,NA
+2017,1507924,Total eggs,Natural,2018-01-08,NA,"CDFW, LSNFH, USFWS",NA,NA
+2017,0.44,Estimated egg-to-fry survival rate,Natural,2018-01-08,NA,"CDFW, LSNFH, USFWS",NA,NA
+2017,0.59,Fry-to-smolt survival,Natural,2018-01-08,6/ Estimate of fry-to-smolt survival based on fall-run at Tehama Colusa Spawning Channel (Hallock updated),NA,NA,NA
+2017,0.5129,Estimated smolt survival term,Natural,2018-01-08,"7/ Average weighted survival of acoustically tagged winter-run in 2013, 2014, 2015 (2 values in 2015) and 2016 (2 values in 2016) and one value in 2017 between RBDD and 180 Tower Bridge in Sacramento - A. Ammann, NMFS, personal communication. Survival is estimated from the Salt Creek receiver site, located 3 miles downstream of RBDD, to estimate survival from RBDD for acoustic tag studies (See Appendix A, for further description of how the weighted average acoustic tag survival was used for methods 2, 2a,3 and 3a). This is the derivation of the numbers of fish arriving to Salt Ck (RBDD) and Sacramento (Tower, Sac180/50) from the acoustic tagged LSNFH winter run pre-smolts. The number of fish arriving to Salt Ck and Sac 180/50 are derived by looking at receivers at this location and all locations downstream. It uses fish directly detected at that site plus any fish that were missed at that site but detected at a site downstream. This was done for all years 2013-2017. The 2017 year was the only year that had significant flows over Fremont Weir. Fish that went over the weir and into the Yolo Bypass would bypass the Sacramento 180/50 Bridge and other nearby receiver locations. If these fish were detected at locations downstream of Liberty Island they were considered to have survived to the Delta and thus added to the number of the fish counted at Sacramento 180/50 Bridge.",NA,NA,NA
+2017,392688,Number of smolts at RBDD,Natural,2018-01-08,NA,USFWS,NA,NA
+2017,665572,Fry equivalents of juvenile production at RBDD,Natural,2018-01-08,"5/ Preliminary number of fry-equivalents estimated on December 16, 2017 plus 4.1% interpolation at RBDD - JPI - Bill Poytress,USFWS, personal communication",USFWS,NA,NA
+2017,92904,Total LSNFH production entering the Delta,Hatchery,2018-01-08,"9/ Weighted average of acoustically tagged winter-run survival in 2013, 2014 and  2015 and 2016 (2 values in 2015 and 2016), and 2017 between release location and 180/150 Bridge in Sacramento. The estimates were derived in a similar manner as those from Salt Creek to Sacramento (Footnote 7).",NA,NA,NA
+2017,217270,LSNFH Hatchery release,Hatchery,2018-01-08,8/ Estimated LSNFH production release as of 1/8/17 (100% tagged and adipose clipped). 500 to 1000 of these fish may be held back for the captive broodstock program. Final number should be updated when the number of those held back are finalized,LSNFH,NA,NA
+2017,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2017,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
+2017,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2017,2014,Natural Incidental Take Limit,Natural,2018-01-08,NA,NA,NA,NA
+2017,932,LSNFH Incidental Take Limit,Hatchery,2018-01-08,NA,NA,NA,NA
+2017,909,Jumpstart Incidental Take Limit,Hatchery,2018-01-08,NA,NA,NA,NA
+2018,433176,Total natural production entering the Delta,Natural,2019-02-01,NA,NA,NA,NA
+2018,2458,Total Sacramento River escapement,Natural,2019-02-01,"1/ Total in-river escapement from CDFW Cormack-Jolly Seber (CJS) model includes natural and hatchery origin, but not hatchery fish retained for brood stock at LSNFH.","CDFW, USFWS",NA,NA
+2018,1088,Adult female estimate,Natural,2019-02-01,"2/ The number of adult females is derived from carcass surveys, and the number of males is derived using sex ratio at Keswick trap.","CDFW, USFWS",NA,NA
+2018,1080,AFE minus pre-spawn mortality,Natural,2019-02-01,3/ Pre-spawn mortality was estimated from carcass surveys of females (CDFW).,"CDFW, USFWS",NA,NA
+2018,5141,Average fecundity,Natural,2019-02-01,4/ Preliminary (subject to change) average number of eggs/female from 49 fish spawned at LSNFH,LSNFH,NA,NA
+2018,5552280,Total eggs,Natural,2019-02-01,NA,"CDFW, LSNFH, USFWS",NA,NA
+2018,0.263,Estimated egg-to-fry survival rate,Natural,2019-02-01,5/ Back calculated estimated survival between eggs laid in-river and fry production estimates at RBDD based on numbers of fry equivalents (JPI) using traditional (59%) fry-to-smolt survival estimates,"CDFW, LSNFH, USFWS",NA,NA
+2018,0.59,Fry-to-smolt survival,Natural,2019-02-01,7/ Estimate of fry-to-smolt survival based on fall-run at Tehama Colusa Spawning Channel (Hallock updated),NA,NA,NA
+2018,0.5028,Estimated smolt survival term,Natural,2019-02-01,"8/ Average weighted survival of acoustically tagged winter-run in 2013,2014,2015 (2 values), 2016 (2 values), 2017, and 2018 between RBDD and 180 Tower Bridge in Sacramento. Survival is estimated from the Salt Creek receiver site, located 3 miles downstream of RBDD, to estimate survival from RBDD for acoustic tag studies (M. O'Farrell, NMFS, personal communication)",NA,NA,NA
+2018,861527,Number of smolts at RBDD,Natural,2019-02-01,NA,USFWS,NA,NA
+2018,1460216,Fry equivalents of juvenile production at RBDD,Natural,2019-02-01,"6/ Preliminary number of fry-equivalents estimated on January 14, 2019 plus 2.1% interpolation at RBDD using traditional (59%) fry to smolt survival estimates (Bill Poytress,USFWS, personal communication)",USFWS,NA,NA
+2018,86237,Total LSNFH production entering the Delta,Hatchery,2019-02-01,"10/ Weighted average of acoustically tagged winter-run survival in 2013, 2014, 2015 (2 values), 2016 (2 values), 2017, and 2018 between release location and 180/150 Bridge in Sacramento",NA,NA,NA
+2018,223817,LSNFH Hatchery release,Hatchery,2019-02-01,9/ Estimated LSNFH production release as of 1/31/19 (100% tagged and adipose clipped). Up to 1200 additional juviniles may be retained as broodstock or to conduct fish health assessments,LSNFH,NA,NA
+2018,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2018,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
+2018,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2018,4332,Natural Incidental Take Limit,Natural,2019-02-01,NA,NA,NA,NA
+2018,867,LSNFH Incidental Take Limit,Hatchery,2019-02-01,NA,NA,NA,NA
+2018,824,Jumpstart Incidental Take Limit,Hatchery,2019-02-01,NA,NA,NA,NA
+2019,1054722,Total natural production entering the Delta,Natural,2020-01-23,NA,NA,301002,1408880
+2019,7852,Total Sacramento River escapement,Natural,2020-01-23,"1/ Total in-river escapement from CDFW Cormack-Jolly Seber (CJS) model includes natural and hatchery origin, but not hatchery fish retained for brood stock at LSNFH.","CDFW, USFWS",NA,NA
+2019,4947,Adult female estimate,Natural,2020-01-23,"2/ The number of adult females is derived from carcass surveys, and the number of males is derived using sex ratio at Keswick trap.","CDFW, USFWS",NA,NA
+2019,4883,AFE minus pre-spawn mortality,Natural,2020-01-23,3/ Pre-spawn mortality was estimated from carcass surveys of females (CDFW).,"CDFW, USFWS",NA,NA
+2019,5424,Average fecundity,Natural,2020-01-23,4/ Preliminary (subject to change) average number of eggs per female from 56 female fish spawned at LSNFH (unpublished data).,LSNFH,NA,NA
+2019,26485392,Total eggs,Natural,2020-01-23,NA,"CDFW, LSNFH, USFWS",NA,NA
+2019,0.1798,Estimated egg-to-fry survival rate,Natural,2020-01-23,5/ Back calculated estimated survival between eggs laid in-river and fry production estimates at RBDD based on numbers of fry equivalents (JPI) using the 0.4651 fry-to-smolt survival rate estimate based on method described in O’Farrell et al. (2018).,"CDFW, LSNFH, USFWS",NA,NA
+2019,0.4651,Fry-to-smolt survival,Natural,2020-01-23,7/ Estimate of fry-to-smolt survival rate based on O’Farrell et al. (2018).,"Method 2 (O’Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",NA,NA
+2019,0.386,Estimated smolt survival term,Natural,2020-01-23,"8/ Variance-weighted mean survival rate of acoustically tagged winter-run from 2013 to 2019 between RBDD and I-80/Tower Bridge in Sacramento. Survival is estimated from the Salt Creek receiver site, located 3 miles downstream of RBDD, to estimate survival from RBDD for acoustic tag studies. See Smolt Survival section for an explanation of the different values displayed here.","Method 2 (O’Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",NA,NA
+2019,2214872,Number of smolts at RBDD,Natural,2020-01-23,NA,USFWS,NA,NA
+2019,4762142,Fry equivalents of juvenile production at RBDD,Natural,2020-01-23,"6/ Preliminary number of fry equivalents estimated on December 31, 2019 plus 3.1% interpolation to account for remainder of estimated passage for the 2019 brood year at RBDD; using 0.4651 fry-to-smolt survival rate estimate (Bill Poytress, USFWS, pers. comm.).","Voss and Poytress (2022a), USFWS",NA,NA
+2019,NA,Total LSNFH production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2019,256381,LSNFH Hatchery release,Hatchery,2020-01-23,"9/ Estimated LSNFH production release as of December 31, 2019 (100% tagged and adipose clipped). Up to 1,500 juveniles may be retained as broodstock or to conduct fish health assessments.",LSNFH,NA,NA
+2019,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2019,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
+2019,94528,Total hatchery production entering the Delta,Hatchery,2020-01-23,10/ Variance-weighted mean survival rate of acoustically tagged winter-run from 2013 to 2019 between release location and I-80/Tower Bridge in Sacramento.,LSNFH,NA,NA
+2019,8549,Natural Incidental Take Limit,Natural,2020-01-23,NA,NA,NA,NA
+2019,945,LSNFH Incidental Take Limit,Hatchery,2020-01-23,NA,NA,NA,NA
+2019,673,Jumpstart Incidental Take Limit,Hatchery,2020-01-23,NA,NA,NA,NA
+2020,330130,Total natural production entering the Delta,Natural,2021-01-15,NA,"Method 2 (O’Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",145088,515172
+2020,6195,Total Sacramento River escapement,Natural,2021-01-15,"1/ Total Sacramento River in-river escapement from CDFW Cormack-Jolly Seber (CJS) model includes natural and hatchery origin, but not hatchery fish retained for brood stock at LSNFH.","CDFW, USFWS",NA,NA
+2020,4023,Adult female estimate,Natural,2021-01-15,2/ The number of adult females is derived from carcass surveys on the Sacramento River. Naturally spawning winter-run in Battle Creek are not included.,"CDFW, USFWS",NA,NA
+2020,3904,AFE minus pre-spawn mortality,Natural,2021-01-15,3/ Pre-spawn mortality was estimated from carcass surveys of females (CDFW).,"CDFW, USFWS",NA,NA
+2020,4991,Average fecundity,Natural,2021-01-15,"4/ Preliminary (subject to change) average number of eggs per female from 75 female fish spawned at LSNFH (Taylor Lipscomb, USFWS pers. comm.).",LSNFH,NA,NA
+2020,19484864,Total eggs,Natural,2021-01-15,NA,"CDFW, LSNFH, USFWS",NA,NA
+2020,0.1146,Estimated egg-to-fry survival rate,Natural,2021-01-15,5/ Back-calculated estimated survival between eggs laid in-river and fry production estimates at RBDD based on numbers of fry equivalents (JPI) using the 0.4475 fry-to-smolt survival rate estimate method described in O’Farrell et al. (2018).,"CDFW, LSNFH, USFWS",NA,NA
+2020,0.4475,Fry-to-smolt survival,Natural,2021-01-15,7/ Estimate of fry-to-smolt survival rate based on O’Farrell et al. (2018) applied to catch at RBDD.,"Method 2 (O’Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",NA,NA
+2020,0.3304,Estimated smolt survival term,Natural,2021-01-15,"8/ Variance-weighted mean survival rate of acoustically tagged hatchery winter-run from 2013 to 2020 between RBDD and I-80/Tower Bridge in Sacramento. Survival is estimated from the Salt Creek receiver site, located 3 miles downstream of RBDD, to estimate survival from RBDD for natural-origin smolts.","Method 2 (O’Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",NA,NA
+2020,999183,Number of smolts at RBDD,Natural,2021-01-15,NA,USFWS,NA,NA
+2020,2232811,Fry equivalents of juvenile production at RBDD,Natural,2021-01-15,"6/ Preliminary number of fry equivalents estimated on January 14, 2021 plus 2.11% interpolation to account for remainder of estimated passage for the 2020 brood year at RBDD; using 0.4475 fry-to-smolt survival rate estimate (Bill Poytress, USFWS, pers. comm.). This estimate includes and does not differentiate between the number of fry equivalents outmigrating from Battle Creek and the Sacramento River.","Voss and Poytress (2022b), USFWS",NA,NA
+2020,97888,Total LSNFH production entering the Delta,Hatchery,2021-01-15,NA,"Method 2 (O’Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",NA,NA
+2020,310953,LSNFH Hatchery release,Hatchery,2021-01-15,"9/ Estimated LSNFH production release as of January 8, 2021 (100% tagged and adipose clipped).",LSNFH,NA,NA
+2020,37232,Total Jumpstart production entering the Delta,Hatchery,2021-01-15,NA,"Method 2 (O’Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",NA,NA
+2020,237148,Battle Creek Hatchery release,Hatchery,2021-01-15,"11/ Estimated Battle Creek Jumpstart release as of January 11, 2021 (100% tagged and marked)",USFWS,NA,NA
+2020,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2020,4292,Natural Incidental Take Limit,Natural,2021-01-15,NA,NA,NA,NA
+2020,783,LSNFH Incidental Take Limit,Hatchery,2021-01-15,NA,NA,NA,NA
+2020,298,Jumpstart Incidental Take Limit,Hatchery,2021-01-15,NA,NA,NA,NA
+2021,125038,Total natural production entering the Delta,Natural,2022-01-14,NA,"Method 2 (O’Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",59064,191013
+2021,9956,Total Sacramento River escapement,Natural,2022-01-14,"1/ Total Sacramento River in-river escapement from CDFW Cormack-Jolly Seber (CJS) model includes natural- and hatchery-origin winter-run Chinook Salmon, but not hatchery fish retained for brood stock at LSNFH.","CDFW, USFWS",NA,NA
+2021,6199,Adult female estimate,Natural,2022-01-14,2/ The number of adult females is derived from carcass surveys on the Sacramento River. Naturally spawning winter-run Chinook Salmon in Battle Creek are not included.,"CDFW, USFWS",NA,NA
+2021,5860,AFE minus pre-spawn mortality,Natural,2022-01-14,"3/ Pre-spawn mortality was estimated from carcass surveys of females (Doug Killam, CDFW, pers. comm.).","CDFW, USFWS",NA,NA
+2021,5312,Average fecundity,Natural,2022-01-14,"4/ Preliminary (subject to change) average number of eggs per female from 118 female fish spawned at LSNFH (Kaitlin Gooding, USFWS pers. comm.).",LSNFH,NA,NA
+2021,31128320,Total eggs,Natural,2022-01-14,NA,"CDFW, LSNFH, USFWS",NA,NA
+2021,0.0256,Estimated egg-to-fry survival rate,Natural,2022-01-14,5/ Back calculated survival between estimated eggs laid in-river and fry production estimates at RBDD based on numbers of fry equivalents (JPI) using the 0.4429 fry-to-smolt survival rate estimate based on method described in O’Farrell et al. (2018).,"CDFW, LSNFH, USFWS",NA,NA
+2021,0.4429,Fry-to-smolt survival,Natural,2022-01-14,"7/ Estimate of fry-to-smolt survival rate based on O’Farrell et al. (2018), updated using data from BY 1998-2016.","Method 2 (O’Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",NA,NA
+2021,0.3537,Estimated smolt survival term,Natural,2022-01-14,"8/ Variance-weighted mean survival rate of acoustically tagged hatchery winter-run Chinook Salmon from 2013 to 2021 between RBDD and I-80/Tower Bridge in Sacramento (based on O’Farrell et al. 2018). Survival is estimated from the Salt Creek receiver site, located 3 miles downstream of RBDD, to estimate survival from RBDD for natural-origin smolts.","Method 2 (O’Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",NA,NA
+2021,353515,Number of smolts at RBDD,Natural,2022-01-14,NA,USFWS,NA,NA
+2021,798183,Fry equivalents of juvenile production at RBDD,Natural,2022-01-14,"6/ Preliminary number of fry equivalents estimated on December 31, 2021 plus 3.1% interpolation to account for remainder of estimated passage for the 2021 brood year at RBDD; using 0.4429 fry-to-smolt survival rate estimate (Bill Poytress, USFWS, pers. comm.). This estimate includes and does not differentiate between the number of fry equivalents outmigrating from Battle Creek and the Sacramento River.","Voss and Poytress (2023), USFWS",NA,NA
+2021,151544,Total LSNFH production entering the Delta,Hatchery,2022-01-14,NA,"Method 2 (O’Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",NA,NA
+2021,537771,LSNFH Hatchery release,Hatchery,2022-01-14,"9/ Estimated LSNFH production release as of December 15, 2021 (100% tagged and adipose clipped).",LSNFH,NA,NA
+2021,7311,Total Jumpstart production entering the Delta,Hatchery,2022-01-14,NA,"Method 2 (O’Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",NA,NA
+2021,139000,Battle Creek Hatchery release,Hatchery,2022-01-14,"11/ Estimated Battle Creek Jumpstart release as of January 14, 2022 (100% tagged and marked).",USFWS,NA,NA
+2021,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2021,1625,Natural Incidental Take Limit,Natural,2022-01-14,NA,NA,NA,NA
+2021,1212,LSNFH Incidental Take Limit,Hatchery,2022-01-14,NA,NA,NA,NA
+2021,58,Jumpstart Incidental Take Limit,Hatchery,2022-01-14,NA,NA,NA,NA
+2022,49924,Total natural production entering the Delta,Natural,2023-01-13,NA,"Method 2 (O’Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",32298,67550
+2022,5443,Total Sacramento River escapement,Natural,2023-01-13,"1/ Total Sacramento River in-river escapement from CDFW Cormack-Jolly Seber (CJS) model includes natural- and hatchery-origin winter-run Chinook Salmon, but not hatchery fish retained for brood stock at LSNFH.","CDFW, USFWS",NA,NA
+2022,2663,Adult female estimate,Natural,2023-01-13,2/ The number of adult females is derived from carcass surveys on the Sacramento River. Naturally spawning winter-run Chinook Salmon in Battle Creek are not included.,"CDFW, USFWS",NA,NA
+2022,2607,AFE minus pre-spawn mortality,Natural,2023-01-13,"3/ Pre-spawn mortality was estimated from carcass surveys of females (Doug Killam, CDFW, pers. comm.).","CDFW, USFWS",NA,NA
+2022,5505,Average fecundity,Natural,2023-01-13,"4/ Preliminary (subject to change) average number of eggs per female from fish spawned (n=169) at LSNFH (Kaitlin Dunham, USFWS pers. comm.).",LSNFH,NA,NA
+2022,14351535,Total eggs,Natural,2023-01-13,NA,"CDFW, LSNFH, USFWS",NA,NA
+2022,0.0217,Estimated egg-to-fry survival rate,Natural,2023-01-13,5/ Back calculated estimated survival between eggs laid in-river and fry production estimates at RBDD based on numbers of fry equivalents (JPI) using the 0.4946 fry-to-smolt survival rate estimate based on method described in O’Farrell et al. (2018).,"CDFW, LSNFH, USFWS",NA,NA
+2022,0.4946,Fry-to-smolt survival,Natural,2023-01-13,"7/ Estimate of fry-to-smolt survival rate based on O’Farrell et al. (2018), updated using data from BY 1998-2017.","Method 2 (O’Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",NA,NA
+2022,0.3245,Estimated smolt survival term,Natural,2023-01-13,"8/ Variance-weighted mean survival rate of acoustically tagged hatchery winter-run Chinook Salmon from 2013 to 2022 between RBDD and I-80/Tower Bridge in Sacramento (based on O’Farrell et al. 2018). Survival is estimated from the Salt Creek receiver site, located 3 miles downstream of RBDD, to estimate survival from RBDD for natural-origin smolts.","Method 2 (O’Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",NA,NA
+2022,153849,Number of smolts at RBDD,Natural,2023-01-13,NA,USFWS,NA,NA
+2022,311058,Fry equivalents of juvenile production at RBDD,Natural,2023-01-13,"6/ Preliminary number of fry equivalents estimated on December 31, 2022 plus 2.70% interpolation to account for remainder of estimated passage for the 2022 brood year at RBDD; using 0.4946 fry-to-smolt survival rate estimate (Bill Poytress, USFWS, pers. comm.). This estimate includes and does not differentiate between the number of fry equivalents outmigrating from Battle Creek and the Sacramento River.",USFWS,NA,NA
+2022,190959,Total LSNFH production entering the Delta,Hatchery,2023-01-13,NA,"Method 2 (O’Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",NA,NA
+2022,741000,LSNFH Hatchery release,Hatchery,2023-01-13,"9/ Estimated LSNFH production release as of January 12, 2023 (100% tagged and adipose clipped).",LSNFH,NA,NA
+2022,3976,Total Jumpstart production entering the Delta,Hatchery,2023-01-13,NA,"Method 2 (O’Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",NA,NA
+2022,193000,Battle Creek Hatchery release,Hatchery,2023-01-13,"11/ Estimated Battle Creek Jumpstart release as of December 15, 2022 (100% tagged and marked).",USFWS,NA,NA
+2022,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2022,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2022,1174,LSNFH Incidental Take Limit,Hatchery,2023-01-13,NA,NA,NA,NA
+2022,40,Jumpstart Incidental Take Limit,Hatchery,2023-01-13,NA,NA,NA,NA
+2023,234896,Total natural production entering the Delta,Natural,2024-01-12,NA,"Method 2 (O'Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",159951,309841
+2023,1920,Total Sacramento River escapement,Natural,2024-01-12,"1/ Total Sacramento River in-river escapement from CDFW Cormack-Jolly Seber (CJS) model includes natural- and hatchery-origin winter-run Chinook Salmon, but not hatchery fish retained for brood stock at LSNFH.","CDFW, USFWS",NA,NA
+2023,1070,Adult female estimate,Natural,2024-01-12,2/ The number of adult females is derived from carcass surveys on the Sacramento River. Naturally spawning winter-run Chinook Salmon in Battle Creek are not included.,"CDFW, USFWS",NA,NA
+2023,1061,AFE minus pre-spawn mortality,Natural,2024-01-12,"3/ Pre-spawn mortality was estimated from carcass surveys of females (Doug Killam, CDFW, pers. comm.).","CDFW, USFWS",NA,NA
+2023,5510,Average fecundity,Natural,2024-01-12,"4/ Preliminary (subject to change) average number of eggs per female from fish spawned (n=179) at LSNFH (Kaitlin Dunham, USFWS pers. comm.).",LSNFH,NA,NA
+2023,5846110,Total eggs,Natural,2024-01-12,NA,"CDFW, LSNFH, USFWS",NA,NA
+2023,0.2494,Estimated egg-to-fry survival rate,Natural,2024-01-12,5/ Back calculated estimated survival between eggs laid in-river and fry production estimates at RBDD based on numbers of fry equivalents (JPI) using the 0.5066 fry-to-smolt survival rate estimate based on method described in O’Farrell et al. (2018).,"CDFW, LSNFH, USFWS",NA,NA
+2023,0.5066,Fry-to-smolt survival,Natural,2024-01-12,"7/ Estimate of fry-to-smolt survival rate based on O'Farrell et al. (2018), updated using data from BY 1998-2017.","Method 2 (O'Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",NA,NA
+2023,0.318,Estimated smolt survival term,Natural,2024-01-12,"8/ Variance-weighted mean survival rate of acoustically tagged hatchery winter-run Chinook Salmon from 2013 to 2023 between RBDD and at or below I-80/Tower Bridge in Sacramento (based on O’Farrell et al. 2018). Survival is estimated from the Salt Creek receiver site, located 3 miles downstream of RBDD, to estimate survival from RBDD for natural-origin smolts.","Method 2 (O'Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",NA,NA
+2023,738668,Number of smolts at RBDD,Natural,2024-01-12,NA,USFWS,NA,NA
+2023,1458089,Fry equivalents of juvenile production at RBDD,Natural,2024-01-12,"6/ Preliminary number of fry equivalents estimated on December 31, 2023 plus 3.08% interpolation to account for remainder of estimated passage for the 2023 brood year at RBDD; using 0.5066 fry-to-smolt survival rate estimate (Bill Poytress, USFWS, pers. comm.). This estimate includes and does not differentiate the number of fry equivalents outmigrating from the McCloud River, Battle Creek, and the Sacramento River.",USFWS,NA,NA
+2023,193582,Total LSNFH production entering the Delta,Hatchery,2024-01-12,NA,"Method 2 (O'Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",NA,NA
+2023,760934,LSNFH Hatchery release,Hatchery,2024-01-12,"9/ Estimated LSNFH production release as of January 09, 2024 (100% tagged and adipose clipped).",LSNFH,NA,NA
+2023,3359,Total Jumpstart production entering the Delta,Hatchery,2024-01-12,NA,"Method 2 (O'Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",NA,NA
+2023,140530,Battle Creek Hatchery release,Hatchery,2024-01-12,"11/ Estimated Battle Creek Jumpstart release as of January 09, 2024 (100% tagged and marked).",USFWS,NA,NA
+2023,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2023,1776,Natural Incidental Take Limit,Natural,2024-01-12,NA,NA,NA,NA
+2023,1430,LSNFH Incidental Take Limit,Hatchery,2024-01-12,NA,NA,NA,NA
+2023,34,Jumpstart Incidental Take Limit,Hatchery,2024-01-12,NA,NA,NA,NA
