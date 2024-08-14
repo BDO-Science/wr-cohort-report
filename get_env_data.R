@@ -4,8 +4,59 @@ library(lubridate)
 library(dplyr)
 library(readr)
 library(here)
+library(rvest)
+library(xml2)
+library(stringr)
 source("functions.R")
 source("parameters.R")
+
+# Water Year Type ------------------------
+wytype <- read_html("https://cdec.water.ca.gov/reportapp/javareports?name=WSIHIST")
+
+#Extract th block of text with the water year type
+wytype2 <- wytype %>%
+  html_elements("pre") %>%
+  html_text2() %>%
+  str_split("\r\n") %>%
+  unlist() %>%
+  str_trim() %>%
+  .[-c(1:14)]
+
+#Choose the rows starting with years, just the first table with the Sac/SJ valley index and Water Year Type
+wytype2_keep <- wytype2[if_else(cumsum(if_else(wytype2 == "", 1, 0)) < 1, TRUE, FALSE)]
+
+#Set up the names for the table
+wytype_names <- c(
+  "Year",
+  "Sac_OctMar",
+  "Sac_AprJul",
+  "Sac_WYsum",
+  "Sac_Index",
+  "Sac_WYtype",
+  "SJ_OctMar",
+  "SJ_AprJul",
+  "SJ_WYsum",
+  "SJ_Index",
+  "SJ_WYtype"
+)
+
+#the first few years only have san joaquin index, so do those seperately
+df_wytype_1901_1905 <- read_table(wytype2_keep[1:5], col_names = wytype_names[c(1, 7:11)])
+
+#now parse the rest of the table into coloums
+df_wytype_1906_cur <- read_table(wytype2_keep[6:length(wytype2_keep)], col_names = wytype_names)
+
+#Bind the two tables togeter, arrange by water year, and turn the WYtypes into factors with the right orter
+df_wytype <- bind_rows(df_wytype_1906_cur, df_wytype_1901_1905) %>% arrange(Year) %>%
+  mutate(Sac_WYtype = factor(Sac_WYtype, levels = c("C", "D", "BN", "AN", "W")),
+         SJ_WYtype = factor(SJ_WYtype, levels = c("C", "D", "BN", "AN", "W"))) %>%
+  mutate(Sac_WYtype_label = case_when(Sac_WYtype == "C" ~ "Critical",
+                                      Sac_WYtype == "D" ~ "Dry",
+                                      Sac_WYtype == "BN" ~ "Below Normal",
+                                      Sac_WYtype == "AN" ~ "Above Normal",
+                                      Sac_WYtype == "W" ~ "Wet"))
+
+write_csv(df_wytype, here("data_raw/WYtype.csv"))
 
 # Shasta Dam ------------------------------------
 storage_sha <- CDECquery(id = "SHA",sensor = 15, interval = "D", start = start,end = end)
@@ -130,8 +181,23 @@ omr <- CDECquery(id = "OMR",sensor = 20, interval = "H",start = start,end = end2
   saveRDS(omr_daily_years, paste0("data_raw/omr_", statext, "_daily_years_", year(start), "-", year(endDate), ".rds", compress = "xz"))
   saveRDS(omr_monthly, paste0("data_raw/omr_", statext, "_monthly_", year(start), "-", year(endDate), ".rds"))
   saveRDS(omr_plot_data, paste0("data_raw/omr_", statext, "_plot_data_", year(start), "-", year(endDate), ".rds"))
+# Sacpas OMR
+  omr_url <- "https://www.cbr.washington.edu/sacramento/data/php/rpt/basin_cond_allyears_hist.php?sc=1&outputFormat=csv&hafilter=All&proj=Combined&wparam=omr_index&gscale=auto&datamin=&datamax=&gcolors=default&ythreshold=&gformat=line&startmonth=10&endmonth=9"
+  omr <- read_csv(omr_url)[-c(366:369),]
+  omr_long <- omr %>%
+    pivot_longer(!day, names_to = "WY", values_to = "OMR")
+  saveRDS(omr_long, "data_raw/omr_allyears.rds")
 
-# DO (CDEC) -----------------------------
+#### Exports ---------------------
+exports_url <- "https://www.cbr.washington.edu/sacramento/data/php/rpt/basin_cond_allyears_hist.php?sc=1&outputFormat=csv&hafilter=All&proj=Combined&wparam=exportsflow&gscale=auto&datamin=&datamax=&gcolors=default&ythreshold=&gformat=line&startmonth=10&endmonth=9"
+exports <- read_csv(exports_url)[-c(366:369),]
+exports_long <- exports %>%
+  pivot_longer(!day, names_to = "WY", values_to = "Exports")
+saveRDS(exports_long, "data_raw/exports_allyears.rds")
+
+
+
+  # DO (CDEC) -----------------------------
 
 ## Adult ----------------------------------
 stations_do <- c("KWK", "CCR")

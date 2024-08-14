@@ -2,6 +2,10 @@
 
 This section describes environmental attributes associated with and responses during the out-migrating juvenile life stage in the Upper Sacramento River.
 
+```{r setup3, include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, echo = FALSE)
+```
+
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library(ggplot2) 
 library(dplyr) 
@@ -71,7 +75,8 @@ max_mean_flow_bnd_month_us <- monthly_bnd_us %>% filter(mean == max_mean_flow_bn
 -   **Keswick:** Peak flows were **`r max_flow_kwk_us`** cfs and occurred in **`r max_flow_kwk_month_us[1]`**. The highest mean flows were **`r max_mean_flow_kwk_us`** cfs and occurred in **`r max_mean_flow_kwk_month_us`**.
 -   **Bend Bridge:** Peak flows were **`r max_flow_bnd_us`** cfs and occurred in **`r max_flow_bnd_month_us[1]`**. The highest mean flows were **`r max_mean_flow_bnd_us`** cfs and occurred in **`r max_mean_flow_bnd_month_us`**.
 
-### Stranding
+
+
 
 ### Water Temperature
 
@@ -232,10 +237,55 @@ min_mean_turb_rdb_us_month <- monthly_rdb_turb_us %>% filter(mean == min_mean_tu
 
 ## Biological Response
 
-1. Fry abundance (Fry-equivalent JPI)
+### Fry abundance 
+
+#### Estimated Fry Passage at RBDD - Placeholder - use Report or raw data?
+* Percent Fry Passage at RBDD (fry/fry+smolts)
+```{r}
+
+```
+
+
+#### Fry-equivalent JPI
+
+```{r JPI-fig, message = FALSE, warning = FALSE, echo = FALSE,fig.cap = paste("Annual JPI from 2002 to",report_year)}
+
+library(scales)
+jpi <- read.csv("data_raw/JPI_2002_2023.csv") %>%
+  filter(BY <= report_year) %>%
+  rename(JPI = Fry.Equivalent.JPI,
+         ETF_Survival = ETF.Survival.Rate....) %>%
+  select(BY, JPI, ETF_Survival) %>%
+  mutate(JPI = JPI/1000000,
+         JPI_lab = round(JPI, 2),
+         ETF_Survival_lab = round(ETF_Survival)) %>%
+  mutate(BY = factor(BY))
+
+avg.JPI = mean(jpi$JPI)
+current.JPI = jpi$JPI[1]
+
+(plot_jpi <- ggplot(jpi) + 
+  geom_col(aes(BY, JPI), fill = "#C69214", alpha = 0.8, width = 0.8) +
+  geom_text(aes(BY, JPI+0.15, label = JPI_lab), size = 3) + 
+  geom_hline(yintercept = avg.JPI, linetype = "dashed") + 
+  labs(y = "Juvenile Production Index (millions)") +
+  scale_y_continuous() + 
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 0.5, vjust = 0.5, size = 12),
+        axis.text.y = element_text(size = 12),
+        axis.title.x = element_blank()))
+```
 
 * By year
 * RBDD RST Data 
+
+```{r echo = FALSE}
+dir_jpi <- ifelse(current.JPI<avg.JPI, "below", "above")
+dir_etf <- ifelse(current.ETF<avg.ETF, "below", "above")
+```
+
+-   **Juvenile Production Index** JPI in `r report_year` was `r dir_jpi` the average JPI between 2002 and `r report_year` at `r current.JPI`.
+
 
 2. Condition/ Growth
 * Fork length by year
@@ -245,4 +295,75 @@ min_mean_turb_rdb_us_month <- monthly_rdb_turb_us %>% filter(mean == min_mean_tu
 
 4. Fry-to-Smolt Survival
 * Model?
+
+### Stranding
+
+```{r}
+stranding <- read_csv("data_raw/stranding_data.csv") %>%
+  mutate(Date = date(ymd_hms(DateTime)),
+         Year = year(Date)) 
+
+
+flow_stranding <- flow_kwk_bnd_juv %>% 
+  filter(year_type == "mean") %>% 
+  pivot_wider(names_from = station, values_from = flow) %>%
+  select(date, KWK, BND)
+
+
+stranding_current <- stranding%>%
+  filter(Year == report_year, `Winter Run Natural`!=0,
+         month(Date) > 6) %>%
+  select(Date, RiverSection, Section=riversectioncode, `Winter Run Natural`, `Winter Run Natural Mortality`) %>%
+  group_by(Date, RiverSection, Section) %>% 
+  summarize(Count = sum(`Winter Run Natural`)) %>%
+  ungroup() %>%
+  rename(`River Section` = RiverSection) %>%
+  left_join(flow_stranding %>% select(Date = date, KWK,BND)) %>%
+  mutate(`Flow (cfs)` = case_when(Section != 8 ~ round(KWK),
+                          Section == 8 ~ round(BND))) %>%
+  mutate(`Flow Gage` = case_when(Section != 8 ~ "KWK",
+                          Section == 8 ~ "BND")) %>%
+  select(-KWK, -BND) 
+
+flextable(stranding_current)  %>%
+  add_footer_lines() %>%
+  add_header_lines() %>%
+  width(width = 1.2, unit = "in") %>%
+  vline()%>%
+  border_outer() %>%
+  bold(part = "header") %>%
+  align(align = "center", part = "all")
+
+total_stranded <- sum(stranding_current$Count)
+```
+
+A total of `r total_stranded` juveniles were stranded. 
+
+### Condition
+
+#### RBDD Size
+```{r rbdd-fl-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Fork Length Distribution over Time, RBDD RST" }
+fl_rbdd <- read.csv("data_raw/rbdd_juv_fl.csv") %>%
+  mutate(date = ymd(date_yyyy_mm_dd))
+
+ggplot(fl_rbdd) + 
+  geom_errorbar(aes(date, ymin = length_min, ymax = length_max)) +
+  geom_point(aes(date, length), color = "steelblue3")+
+  scale_x_date(date_breaks = "1 month", date_labels = "%b %Y") + 
+  labs(y = "Fork Length (mm)")+
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90),
+        axis.title.x = element_blank())
+```
+
+```{r rbdd-flhist-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Fork Length Distribution over Time, RBDD RST" }
+fl_rbdd <- read.csv("data_raw/raw_wr_rbdd.csv") %>%
+  mutate(date = ymd(start_date)) %>%
+  filter(year(date) >=report_year & year(date) < report_year +2)
+
+ggplot(fl_rbdd) + 
+  geom_histogram(aes(fork_length), color = "black") +
+  theme_bw()
+```
+
 

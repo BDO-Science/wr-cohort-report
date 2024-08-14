@@ -2,6 +2,12 @@
 
 This section describes environmental attributes associated with and responses during the out-migrating juvenile life stage in the Lower and Middle Sacramento River.
 
+
+```{r setup4, include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, echo = FALSE)
+```
+
+
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library(ggplot2) 
 library(dplyr) 
@@ -9,10 +15,10 @@ library(lubridate)
 library(viridis)
 library(sharpshootR)
 library(plotly)
+library(readr)
 
 library(kableExtra)
 library(flextable)
-library(CDECRetrieve)
 source("functions.R")
 source("parameters.R")
 ```
@@ -89,6 +95,11 @@ max_mean_flow_von <- max(monthly_von$mean)
 max_flow_von_month <- monthly_von %>% filter(max == max_flow_von) %>% select(month)
 max_mean_flow_von_month <- monthly_von %>% filter(mean == max_mean_flow_von) %>% select(month)
 ```
+
+#### Juvenile WRCS Rescued During Stranding Surveys
+
+Do we have this data?
+
 
 **Summary**
 
@@ -235,6 +246,9 @@ min_mean_do_srh_ml_month <- monthly_do_srh_ml %>% filter(mean == min_mean_do_srh
 -   **Sacramento River at Bend Bridge:** Minimum dissolved oxygen was **`r min_do_rdb_ml`** mg/L and occurred in **`r min_do_rdb_ml_month[1]`**. The lowest mean dissolved oxygen was **`r min_mean_do_rdb_ml`** mg/L and occurred in **`r min_mean_do_rdb_ml_month`**.
 -   **Sacramento River at Hood:** Minimum dissolved oxygen was **`r min_do_srh_ml`** mg/L and occurred in **`r min_do_srh_ml_month[1]`**. The lowest mean dissolved oxygen was **`r min_mean_do_srh_ml`** mg/L and occurred in **`r min_mean_do_srh_ml_month`**.
 
+
+## Rearing Habitat Capacity 
+
 ## Biological Response
 
 Monitoring Sources for abundance, growth/size, migration timing/duration
@@ -248,23 +262,125 @@ Monitoring Sources for abundance, growth/size, migration timing/duration
 -   Chipps Island Trawl (Exit)
 -   Genetic (Chipps, SWP/CVP, Knights Landing, Yolo Bypass)
 
-1.  Abundance (Count) (IEP Monitoring)
+**Data Sources** 
 
--   Natural JPE
--   Hatchery JPE
--   SacPAS Fish Model (emerged fry)
+* JPE, Smolt survival from JPE Letters (link)
+* 
 
-2.  Condition
+### Juvenile Production Estimate (Abundance)
+```{r}
+jpe_all <- read.csv("data_raw/jpe_data.csv")
+```
 
--   Growth/ Size
+```{r jpe-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Total Natural production entering the Delta (JPE)"}
+plot_metric(metric = "Total natural production entering the Delta", fill = "plum4")
+```
 
-3.  Migration Timing
+```{r jpeH-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Total Hatchery Production entering the Delta (Hatchery JPE)"}
+plot_metric(metric = "Total LSNFH production entering the Delta")
+```
 
--   SacPAS style plots of historical and current year?
+### Smolt Survival 
 
-4.  Survival
+#### JPE Letter 
+Natural-origin smolt survival is calculated at the Tower Bridge from acoustically tagged hatchery fish that are released at RBDD. 
 
--   Hatchery real-time: Calfish Track/ERDDAP
--   Natural Origin Smolt survival (O Farell et al. 2018)
--   Hatchery Origin Smolt survival
--   Modeled: \*\* Juvenile: STARS \*\* Fish Model
+
+```{r smoltsurvival-fig, fig.cap ="Natural-origin Smolt Survival from RBDD to Tower Bridge. A new calculation method was implemented for BY 2019, resulting in lower estimates. Prior to 2013 a constant value of 0.54 was used."}
+
+df_smoltsurv <- read.csv("data_raw/jpe_data.csv") %>%
+  filter(component %in% c("Estimated smolt survival term", "Fry-to-smolt survival"),
+          brood_year <= report_year,
+          brood_year > 2012) 
+
+smoltsurv_avg10 <- df_smoltsurv %>% filter(brood_year > report_year-10)
+  
+ggplot() + 
+  geom_col(data = df_smoltsurv, aes(brood_year, value, fill = component), position = "dodge") +
+  geom_segment(data = smoltsurv_avg10 %>% filter(component == "Estimated smolt survival term"), aes(x= min(brood_year)-0.4, xend = max(brood_year)+0.4, y = mean(value, na.rm = TRUE)), linetype = "dashed") + 
+  geom_segment(data = smoltsurv_avg10 %>% filter(component == "Fry-to-smolt survival"), aes(x= min(brood_year)-0.4, xend = max(brood_year)+0.4, y = mean(value, na.rm = TRUE)), linetype = "dotted") + 
+    # geom_text(data = df_metric, aes(x = brood_year, y = value, label = round(value,2)))+
+  labs(x = "Brood Year", y = "Survival")+
+  scale_fill_manual(values = c("steelblue4", "goldenrod2")) +
+  scale_x_continuous(breaks = seq(2002, report_year, by = 1)) +
+  theme_bw()
+```
+#### Acoustic Tagging
+
+Reach-specific survival 
+
+```{r hatchery-tab, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Table of Hatchery WR Juvenile Survival." }
+hatchery_release <- read_csv("data_raw/hatchery_release_data.csv") %>%
+  mutate(rel_date = factor(rel_date))
+
+hatchery_table <- hatchery_release %>%
+  mutate(ReachSurvival = paste0(reach_survival_est, " (", LCL_reach, ", ", UCL_reach, ")"),
+         CumulativeSurvival = paste0(cumulative_survival_est, " (", LCL_cum, ", ", UCL_cum, ")"),
+         rkm_start = round(rkm_start)) %>%
+  select(rel_date, reach_start, reach_end, rkm_start, ReachSurvival, CumulativeSurvival, count)
+
+flextable(hatchery_table)%>%
+  add_footer_lines() %>%
+  add_header_lines() %>%
+  width(width = 1, unit = "in") %>%
+  # hline(i = c(7,14), part = 'body') %>%
+  vline()%>%
+  border_outer() %>%
+  bold(part = "header") %>%
+  # colformat_num(j = "year", big.mark = "") %>%
+  set_header_labels(CumulativeSurvival = "Cumulative Survival", ReachSurvival = "Reach Survival", rkm_start = "River Kilometer", rel_date = "Release Date")
+```
+
+### Migration Timing 
+
+Cumulative Raw Catch: RBDD, Chipps, Tisdale, Knights, Sac Beach Seines, Sac Trawls
+```{r juvtiming-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap ="Raw Juvenile Rotary Screw Trap Cumulative Catch"}
+juv_ml <- read_csv("data_raw/cohort_juv_data.csv") %>%
+  filter(year(ymd(Date)) >= report_year)%>%
+  mutate(Date = lubridate::ymd(Date)) %>%
+  janitor::clean_names() %>%
+  mutate_all(~replace(., is.na(.), 0)) %>%
+  select(date, 
+         `Tisdale Weir RST` = cumulative_raw_tisdale_weir_rst,
+         `Knights Landing RST` = cumulative_raw_knights_landing_rst,
+         `Lower Feather RST` = cumulative_raw_lower_feather_rst,
+         `Lower Sac RST` = cumulative_raw_lower_sacramento_rst,
+         `Sac Beach Seines` = cumulative_raw_sacramento_beach_seines_sr080e_sr071e_sr062e_sr057e_sr055e_sr060e_am001s_sr049e,
+         `Sac Trawls` = cumulative_raw_sacramento_trawls_sr055m_sr055e_sr055w_sr055x,
+         `Chipps Island Trawls` = cumulative_raw_chipps_island_trawls_sb018m_sb018n_sb018s_sb018x,
+         `RBDD Daily` = red_bluff_diversion_dam_daily_estimates)
+
+juv_ml_long <- juv_ml %>%
+  tidyr::pivot_longer(cols = 2:9, names_to = "Survey", values_to = "Catch") %>%
+  mutate(separate = if_else(Survey == "RBDD Daily",  "Red Bluff Diversion Dam", "Other Rotary Screw Traps"),
+         separate = factor(separate, levels = c("Red Bluff Diversion Dam", "Other Rotary Screw Traps"))) %>%
+  filter(!(Survey == "RBDD Daily" & Catch==0 & date>as.Date("2021-10-01"))) 
+  
+
+ggplot(juv_ml_long) +
+  geom_point(aes(x = date, y = Catch, color = Survey, shape = Survey), size = 1) +
+  facet_wrap(~separate, scales= "free_y", nrow = 2)+
+  scale_x_date(date_breaks = "1 month", date_labels = "%b-%Y") +
+  scale_shape_manual(values = c(0, 16, 2, 3, 25, 17, 23, 11))+
+  scale_color_viridis(discrete = TRUE) + 
+  labs(y = "Cumulative Raw Catch")+
+  theme_bw() +
+  theme(legend.position = "bottom",
+        axis.text.x = element_text(angle = 90),
+        axis.title.x = element_blank())
+```
+
+Median Passage Dates
+```{r}
+
+```
+
+Migration Timing
+```{r}
+
+```
+
+
+### Condition
+
+Do we want FL on any surveys?

@@ -1,8 +1,7 @@
-
-
-
 report_year = 2021
-wytype = "Critical"
+wytype_df = read_csv(here("data_raw/wytype.csv"))
+wytype = wytype_df$Sac_WYtype_label[wytype_df$Year == report_year]
+wytype_prev = wytype_df$Sac_WYtype_label[wytype_df$Year == report_year-1]
 Sys.setenv(TZ='America/Los_Angeles')
 
 wlk_start = as.Date("2012-11-15")

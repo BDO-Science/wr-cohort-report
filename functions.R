@@ -2,8 +2,6 @@ library(dplyr)
 library(tidyr)
 library(purrr)
 library(lubridate)
-library(cvpiaHabitat)
-library(cvpiaFlow)
 library(sharpshootR)
 library(rvest)
 library(ggplot2)
@@ -388,7 +386,24 @@ f_wtemp_data <- function(df_cdec, statext, stage) {
 
 }
 
+# Barplot from JPE Letter ----------------------------------
 
+plot_metric <- function(metric, fillcol = "steelblue4") {
+  df_metric <- read.csv("data_raw/jpe_data.csv") %>%
+    filter(component == metric,
+           brood_year <= report_year)
+  metric_avg10 <- df_metric %>% filter(brood_year > report_year-10)
+  metric_avg20 <- df_metric%>%filter(brood_year > report_year-20)
+
+  ggplot() +
+    geom_col(data = df_metric, aes(brood_year, value), fill = fillcol) +
+    geom_segment(data = metric_avg10, aes(x= min(brood_year)-0.4, xend = max(brood_year)+0.4, y = mean(value, na.rm = TRUE)), linetype = "dashed") +
+    geom_segment(data = metric_avg20, aes(x= min(brood_year)-0.4, xend = max(brood_year) + 0.4, y = mean(value, na.rm = TRUE)), linetype = "dotted") +
+    # geom_text(data = df_metric, aes(x = brood_year, y = value, label = round(value,2)))+
+    labs(x = "Brood Year", y = metric)+
+    scale_x_continuous(breaks = seq(2002, report_year, by = 2)) +
+    theme_bw()
+}
 
 
 

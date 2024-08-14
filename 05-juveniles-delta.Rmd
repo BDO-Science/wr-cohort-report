@@ -2,6 +2,12 @@
 
 This section describes environmental attributes associated with and responses during the out-migrating juvenile life stage in the Sacramento-San Joaquin Delta.
 
+
+```{r setup5, include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, echo = FALSE)
+```
+
+
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library(ggplot2) 
 library(dplyr) 
@@ -11,6 +17,7 @@ library(sharpshootR)
 library(plotly)
 library(here)
 library(readr)
+library(ggridges)
 
 library(kableExtra)
 library(flextable)
@@ -20,13 +27,49 @@ source("parameters.R")
 
 ## Habitat Attributes
 
-1. Rearing Habitat Capacity (Floodplain Connectivity)
+1.  Rearing Habitat Capacity (Floodplain Connectivity)
 
-* Weir overtopping
+-   Weir overtopping
 
-2. Entrainment Risk
+2.  Entrainment Risk
 
-3. Food Availability
+### Food Availability
+
+```{r meso-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Zooplankton Abundance in the Delta, December ", report_year, "-", "June ", report_year+1, " and 10-year average CPUE")}
+
+mesos <- read_csv("data_raw/zooper_meso.csv") %>%
+  filter(!is.na(Region)) %>%
+ mutate(Month_fac = factor(Month_fac,
+                    levels = c("Dec", "Jan", "Feb", "Mar", "Apr","May", "Jun")),
+        Region= factor(Region, levels = c("Far West", "West", "North", "South")))
+
+ggplot(mesos) + 
+  geom_col(aes(Month_fac, meanCPUE, fill = Year_type), position = position_dodge(), width = 0.6) + theme_bw() + 
+  labs(y= "CPUE", x= "Month") + 
+  scale_fill_manual(values = c("goldenrod3", "gray70"))+
+  facet_grid(Region~Order, scales = "free_y") +
+  theme_bw() + 
+  theme(legend.position = "top")
+```
+
+Macrozooplankton currently lacking 2022 data
+
+```{r macro-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Amphipod and Mysid Abundance in the Delta, December ", report_year, "-", "June " , report_year+1, " and 10-year average CPUE")}
+
+macros <- read_csv("data_raw/zooper_macro.csv") %>%
+  filter(!is.na(Region)) %>%
+ mutate(Month_fac = factor(Month_fac,
+                    levels = c("Dec", "Jan", "Feb", "Mar", "Apr","May", "Jun")),
+        Region= factor(Region, levels = c("Far West", "West", "North", "South")))
+
+ggplot(macros) + 
+  geom_col(aes(Month_fac, meanCPUE, fill = Year_type), position = position_dodge(), width = 0.6) + theme_bw() + 
+  labs(y= "CPUE", x= "Month") + 
+  scale_fill_manual(values = c("goldenrod3", "gray70"))+
+  facet_grid(Region~Order, scales = "free_y")+
+  theme_bw() + 
+  theme(legend.position = "top")
+```
 
 ## Environmental Drivers
 
@@ -56,7 +99,6 @@ flextable(flow_delta_monthly)%>%
 
 ```
 
-
 ```{r FPTflow-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Freeport (FPT) Average Flows (cfs) in",report_year, "and over the 10-year average"), fig.width = 8, fig.height = 4.5}
 flow_fpt <- readRDS(paste0("data_raw/flow_fpt_plot_data_", year(start), "-", year(end2), ".rds")) %>%
   filter(month %in% c(12, 1, 2, 3, 4, 5, 6))
@@ -70,6 +112,7 @@ ggplotly(ggplot(flow_fpt) +
   labs(y = "Flow (cfs)") +
   theme_plots )
 ```
+
 ```{r DTOflow-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Delta Outflow (DTO) in",report_year, "and over the 10-year average"), fig.width = 8, fig.height = 4.5}
 outflow<- readRDS(paste0("data_raw/outflow_plot_data_", year(start), "-", year(end2), ".rds")) %>%
   filter(month %in% c(12, 1, 2, 3, 4, 5, 6))
@@ -83,6 +126,7 @@ ggplotly(ggplot(outflow) +
   labs(y = "Flow (cfs)") +
   theme_plots )
 ```
+
 ```{r OMRflow-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("OMR Flow (OMR) (cfs) in",report_year, "and over the 10-year average"), fig.width = 8, fig.height = 4.5}
 omr<- readRDS(paste0("data_raw/omr_OMR_plot_data_", year(start), "-", year(end2), ".rds")) %>%
   filter(month %in% c(12, 1, 2, 3, 4, 5, 6))
@@ -100,6 +144,7 @@ ggplotly(ggplot(omr) +
 # plotly::ggplotly(omr_plot) %>%
 #   layout(legend = list(orientation = "h"))
 ```
+
 
 ```{r ,echo = FALSE}
 monthly_fpt <- flow_delta_monthly %>% filter(station == "FPT")
@@ -125,10 +170,9 @@ min_mean_flow_omr_month <- monthly_omr %>% filter(mean == min_mean_flow_omr) %>%
 
 -   **Sacramento River at Freeport:** Peak flows were **`r max_flow_fpt`** cfs and occurred in **`r max_flow_fpt_month[1]`**. The highest mean flows were **`r max_mean_flow_fpt`** cfs and occurred in **`r max_mean_flow_fpt_month`**. Flow was generally lower than average.
 
--   **Delta Outflow:** Peak Delta outflow was **`r max_flow_dto`** cfs and occurred in **`r max_flow_dto_month[1]`**. The highest mean Delta outflow was **`r max_mean_flow_dto`** cfs and occurred in **`r max_mean_flow_dto_month`**. Flow was generally lower than average. 
+-   **Delta Outflow:** Peak Delta outflow was **`r max_flow_dto`** cfs and occurred in **`r max_flow_dto_month[1]`**. The highest mean Delta outflow was **`r max_mean_flow_dto`** cfs and occurred in **`r max_mean_flow_dto_month`**. Flow was generally lower than average.
 
--   **OMR:** The most negative OMR flows were **`r min_flow_omr`** cfs and occurred in **`r min_flow_omr_month[1]`**. The most negative mean OMR flows were **`r min_mean_flow_omr`** cfs and occurred in **`r min_mean_flow_omr_month`**. OMR was generally similar to average. 
-
+-   **OMR:** The most negative OMR flows were **`r min_flow_omr`** cfs and occurred in **`r min_flow_omr_month[1]`**. The most negative mean OMR flows were **`r min_mean_flow_omr`** cfs and occurred in **`r min_mean_flow_omr_month`**. OMR was generally similar to average.
 
 ### Water Temperature
 
@@ -181,10 +225,10 @@ max_mean_wtemp_mal_delta_month <- monthly_wtemp_mal_delta %>% filter(mean == max
 
 **Summary**
 
-- Maximum water temperature was **`r max_wtemp_fpt_delta`** degrees F and occurred in **`r max_wtemp_fpt_delta_month`**. The highest mean water temperature was **`r max_mean_wtemp_fpt_delta`** degrees F and occurred in **`r max_mean_wtemp_fpt_delta_month`**.
-- Maximum water temperature was **`r max_wtemp_sus_delta`** degrees F and occurred in **`r max_wtemp_sus_delta_month`**. The highest mean water temperature was **`r max_mean_wtemp_sus_delta`** degrees F and occurred in **`r max_mean_wtemp_sus_delta_month`**.
-- Maximum water temperature was **`r max_wtemp_gss_delta`** degrees F and occurred in **`r max_wtemp_gss_delta_month`**. The highest mean water temperature was **`r max_mean_wtemp_gss_delta`** degrees F and occurred in **`r max_mean_wtemp_gss_delta_month`**.
-- Maximum water temperature was **`r max_wtemp_mal_delta`** degrees F and occurred in **`r max_wtemp_mal_delta_month`**. The highest mean water temperature was **`r max_mean_wtemp_mal_delta`** degrees F and occurred in **`r max_mean_wtemp_mal_delta_month`**.
+-   Maximum water temperature was **`r max_wtemp_fpt_delta`** degrees F and occurred in **`r max_wtemp_fpt_delta_month`**. The highest mean water temperature was **`r max_mean_wtemp_fpt_delta`** degrees F and occurred in **`r max_mean_wtemp_fpt_delta_month`**.
+-   Maximum water temperature was **`r max_wtemp_sus_delta`** degrees F and occurred in **`r max_wtemp_sus_delta_month`**. The highest mean water temperature was **`r max_mean_wtemp_sus_delta`** degrees F and occurred in **`r max_mean_wtemp_sus_delta_month`**.
+-   Maximum water temperature was **`r max_wtemp_gss_delta`** degrees F and occurred in **`r max_wtemp_gss_delta_month`**. The highest mean water temperature was **`r max_mean_wtemp_gss_delta`** degrees F and occurred in **`r max_mean_wtemp_gss_delta_month`**.
+-   Maximum water temperature was **`r max_wtemp_mal_delta`** degrees F and occurred in **`r max_wtemp_mal_delta_month`**. The highest mean water temperature was **`r max_mean_wtemp_mal_delta`** degrees F and occurred in **`r max_mean_wtemp_mal_delta_month`**.
 
 ### Dissolved Oxygen
 
@@ -237,33 +281,162 @@ max_mean_do_mal_delta_month <- monthly_do_mal_delta %>% filter(mean == max_mean_
 
 **Summary**
 
-- Maximum water temperature was **`r max_do_srh_delta`** degrees F and occurred in **`r max_do_srh_delta_month`**. The highest mean water temperature was **`r max_mean_do_srh_delta`** degrees F and occurred in **`r max_mean_do_srh_delta_month`**.
-- Maximum water temperature was **`r max_do_sxs_delta`** degrees F and occurred in **`r max_do_sxs_delta_month[1,]`** and **`r max_do_sxs_delta_month[2,]`**. The highest mean water temperature was **`r max_mean_do_sxs_delta`** degrees F and occurred in **`r max_mean_do_sxs_delta_month`**.
-- Maximum water temperature was **`r max_do_blp_delta`** degrees F and occurred in **`r max_do_blp_delta_month`**. The highest mean water temperature was **`r max_mean_do_blp_delta`** degrees F and occurred in **`r max_mean_do_blp_delta_month`**.
-- Maximum water temperature was **`r max_do_mal_delta`** degrees F and occurred in **`r max_do_mal_delta_month`**. The highest mean water temperature was **`r max_mean_do_mal_delta`** degrees F and occurred in **`r max_mean_do_mal_delta_month`**.
+-   Maximum water temperature was **`r max_do_srh_delta`** degrees F and occurred in **`r max_do_srh_delta_month`**. The highest mean water temperature was **`r max_mean_do_srh_delta`** degrees F and occurred in **`r max_mean_do_srh_delta_month`**.
+-   Maximum water temperature was **`r max_do_sxs_delta`** degrees F and occurred in **`r max_do_sxs_delta_month[1,]`** and **`r max_do_sxs_delta_month[2,]`**. The highest mean water temperature was **`r max_mean_do_sxs_delta`** degrees F and occurred in **`r max_mean_do_sxs_delta_month`**.
+-   Maximum water temperature was **`r max_do_blp_delta`** degrees F and occurred in **`r max_do_blp_delta_month`**. The highest mean water temperature was **`r max_mean_do_blp_delta`** degrees F and occurred in **`r max_mean_do_blp_delta_month`**.
+-   Maximum water temperature was **`r max_do_mal_delta`** degrees F and occurred in **`r max_do_mal_delta_month`**. The highest mean water temperature was **`r max_mean_do_mal_delta`** degrees F and occurred in **`r max_mean_do_mal_delta_month`**.
 
 ## Biological Response
 
+### Survival
+
+CalfishTrack
+
+```{r hatcherydelta-tab, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Table of Hatchery WR Juvenile Survival." }
+hatchery_release <- read_csv("data_raw/hatchery_release_data.csv") %>%
+  mutate(rel_date = factor(rel_date)) %>%
+  filter(!is.na(reach_start))
+
+hatchery_table_delta <- hatchery_release %>%
+  filter(rkm_start <=222,!is.na(reach_start)) %>%
+  mutate(ReachSurvival = paste0(reach_survival_est, " (", LCL_reach, ", ", UCL_reach, ")"),
+         CumulativeSurvival = paste0(cumulative_survival_est, " (", LCL_cum, ", ", UCL_cum, ")"),
+         rkm_start = round(rkm_start)) %>%
+  select(rel_date, reach_start, reach_end, rkm_start, ReachSurvival, CumulativeSurvival, count)
+
+flextable(hatchery_table_delta)%>%
+  add_footer_lines() %>%
+  add_header_lines() %>%
+  width(width = 1, unit = "in") %>%
+  hline(i = 9, part = 'body') %>%
+  vline()%>%
+  border_outer() %>%
+  bold(part = "header") %>%
+  # colformat_num(j = "year", big.mark = "") %>%
+  set_header_labels(CumulativeSurvival = "Cumulative Survival", ReachSurvival = "Reach Survival", rkm_start = "River Kilometer", rel_date = "Release Date")
+```
+
+```{r hatcherysurvival-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap ="Cumulative Survival by River Kilometer"}
+
+plotly::ggplotly(ggplot(hatchery_release) +
+  geom_point(aes(x = rkm_start, y =cumulative_survival_est, color = rel_date,
+                 text = paste("Reach End:", reach_end))) +
+  geom_errorbar(aes(x = rkm_start,ymin = LCL_cum, ymax = UCL_cum,  color = rel_date))  +
+  geom_line(aes(x = rkm_start, y = cumulative_survival_est, color = rel_date))+
+  # facet_wrap(~rel_date, nrow = 2) + 
+  scale_x_continuous(trans = "reverse", breaks = seq(0, 560, by = 50)) +
+  scale_color_manual(values = c("steelblue4", "chartreuse3"))+
+  labs(y = "Cumulative Survival", x = "River Kilometer", color = "Release Date") +
+  theme_bw())
+
+```
+
+STARS Did we figure out how to scrape stars results? Use Chase's code to remake.
+
+Survival, Routing, Migration
+
+```{r}
+
+```
+
+### Routing
+
+```{r}
+
+```
+
+### Migration Timing
+
+Sac Trawl Data (Raw Catch by Day or Week?)
+
+```{r}
+
+```
+
+SacPAS Migration Timing Table - LAD Median Dates, 10 Year Comparison Sacramento Beach Seines, Trawls, Chipps Island Trawls
+
+```{r}
+
+```
+
+SacPAS Migration Timing Figure
+
+```{r}
+
+  
+```
+
+### Condition
+
+Body Size - histograms for body size for Salvage (genetic and LAD), Chipps (genetic and LAD) - look at Chase's plots
+
+```{r}
+salvage_wr <- read_csv("data_raw/salvage_allyears.csv")
+
+salvage_wr %>% #facets by clipped vs unclipped with WY on Y axis
+  filter(Length < 750) %>%
+  mutate(WY = if_else(Month > 9, Year + 1, Year))  %>%
+  filter(WY > 2004 & WY <= report_year + 1) %>%
+  ggplot(aes(x = Length, y = factor(WY), fill = Adipose.Clip)) +
+  geom_density_ridges(scale = 1.5, draw_baseline = FALSE) +
+  facet_wrap(~Adipose.Clip) +
+  labs(x = 'Fork Length (mm)', y = 'Water Year') +
+  theme_bw() +
+  theme(legend.position = 'none',
+        plot.margin = ggplot2::margin(0.5,0.5,0.25,0.25, unit = 'cm'),
+        axis.title.x = element_text(margin=ggplot2::margin(t=10)),
+        axis.title.y = element_text(margin=ggplot2::margin(r=10)))
+```
+
+```{r}
+
+```
+
+### Loss
+
+```{r}
+daily_salvage <- read_csv("data_raw/delta_loss.csv")
+
+ggplot(daily_salvage) + 
+  geom_line(aes(Date, cumLoss, color = Facility)) +
+  geom_point(aes(Date, Expanded.Salvage, color = Facility), size = 0.7) + 
+  scale_color_manual(values = c("blue", "goldenrod3"))+
+  labs(y = "Cumulative Loss") + 
+  theme_bw()
+```
+
+Winter-run Current and Historic Cumulative Salvage (Line plots)
+
+```{r}
+
+```
+
+Current + Historic Percent of JPE
+
+```{r}
+
+```
+
 Monitoring Sources for abundance, growth/size, migration timing/duration
 
-* Sac Trawl
-* Tisdale Weir
-* Knights Landing
-* GCID
-* DJFMP
-* Yolo Bypass
-* Chipps Island Trawl (Exit)
-* Genetic (Chipps, SWP/CVP, Knights Landing, Yolo Bypass)
+-   Sac Trawl
+-   Tisdale Weir
+-   Knights Landing
+-   GCID
+-   DJFMP
+-   Yolo Bypass
+-   Chipps Island Trawl (Exit)
+-   Genetic (Chipps, SWP/CVP, Knights Landing, Yolo Bypass)
 
-1. Abundance (Count) (IEP Monitoring)
+1.  Abundance (Count) (IEP Monitoring)
 
-2. Condition (IEP Monitoring)
+2.  Condition (IEP Monitoring)
 
-* FL
+-   FL
 
-3. Migration Timing (IEP Monitoring)
+3.  Migration Timing (IEP Monitoring)
 
-* SacPAS style plots of historical and current year?
+-   SacPAS style plots of historical and current year?
 
 *Chipps Trawl Timing*
 
@@ -271,26 +444,21 @@ Monitoring Sources for abundance, growth/size, migration timing/duration
 
 *Sac Beach Seine Timing*
 
+4.  Migration Duration
 
-4. Migration Duration
+-   Calfish Track/ERDDAP
 
-* Calfish Track/ERDDAP
+5.  Migration Routing
 
-5. Migration Routing
+6.  Survival
 
-6. Survival 
+-   Hatchery real-time: Calfish Track/ERDDAP
+-   Natural Origin Smolt survival (O Farell et al. 2018)
+-   Hatchery Origin Smolt survival
+-   Modeled: \*\* Juvenile: STARS \*\* Fish Model
+-   Survival to Delta: Production (Hatchery JPE, Modeled JPE)
 
-* Hatchery real-time: Calfish Track/ERDDAP
-* Natural Origin Smolt survival (O Farell et al. 2018)
-* Hatchery Origin Smolt survival
-* Modeled:
-  ** Juvenile: STARS
-  ** Fish Model
-* Survival to Delta: Production (Hatchery JPE, Modeled JPE)
+7.  Loss and Salvage (Salvage)
 
-7. Loss and Salvage (Salvage)
-
-* Take Limit
-* Model
-
-
+-   Take Limit
+-   Model

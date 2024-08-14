@@ -4,7 +4,6 @@
 knitr::opts_chunk$set(message = FALSE, warning = FALSE, echo = FALSE)
 ```
 
-
 This section describes environmental attributes associated with and responses during the adult life stage (ocean harvest, migration, spawning)
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
@@ -36,7 +35,7 @@ source("parameters.R")
 
 ## Environmental Drivers {#wq}
 
--   `r report_year` was a `r wytype` water year type.
+-   `r report_year` was a `r wytype` water year type and `r report_year-1` was a `r wytype_prev` water year type.
 
 ### Storage and Flow
 
@@ -61,7 +60,7 @@ ggplotly(ggplot(shasta_data) +
   theme_plots )
 ```
 
-#### Flow Conditions on the Upper Sacramento River 
+#### Flow Conditions on the Upper Sacramento River
 
 ```{r KWKBNDflow-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Flows (cfs) at Sacramento Rier at Keswick (KWK) and Sacramento River at Bend Bridge (BND) in",report_year, "and over the 10-year average"), fig.width = 8, fig.height = 6}
 flow_kwk_bnd <- readRDS(paste0("data_raw/flow_kwk_bnd_plot_data_", year(start), "-", year(end), ".rds")) 
@@ -129,7 +128,7 @@ The temperature compliance point (location of compliance to daily average temper
 
 -   The compliance point at X was met X percent of days (\@ref(fig:tempthresholdanalysis-fig)).
 
-#### Water Temperature at Balls Ferry Bridge and Clear Creek 
+#### Water Temperature at Balls Ferry Bridge and Clear Creek
 
 ```{r historicalwtemp-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Water Temperature at Sacramento River at Clear Creek (CCR) and Sacramento River at Balls Ferry Bridge (BSF) in", report_year, "and over the 10-year average"), fig.width = 8, fig.height = 6}
 
@@ -230,12 +229,12 @@ min_mean_do_ccr_month <- monthly_ccr %>% filter(mean == min_mean_do_ccr) %>% sel
 
 ## Biological Response
 
-**Data Sources** 
+**Data Sources**
 
-* Sex and age class distribution, % spawned, spawn origin, spawn timing: Carcass Survey Data (link)
-* Pre-spawn mortality: JPE Letters and USFWS Reports (link) 
-* Redd abundance and distribution: Aerial redd data 
-* Carcass abundance and distribution: Carcass data
+-   Sex and age class distribution, % spawned, spawn origin, spawn timing: Carcass Survey Data (link)
+-   Pre-spawn mortality: JPE Letters and USFWS Reports (link)
+-   Redd abundance and distribution: Aerial redd data
+-   Carcass abundance and distribution: Carcass data
 
 ### Adult Survival
 
@@ -337,25 +336,23 @@ percent_ageclass <- carcass_current %>%
   mutate(percent = round(n/total*100,1))
 ```
 
+-   Sacramento River system-wide total adult escapement: `r esc_all_summary$Escapement[esc_all_summary$Year == report_year]`
+    -   10-year average: `r esc_all_group$mean[esc_all_group$group == "10year"]`
+    -   20-year average: `r esc_all_group$mean[esc_all_group$group == "20year"]`
+-   Total mainstem in-river spawner estimate (Killam): `r esc_sacriver$Escapement[esc_sacriver$Year == report_year]`, 90% Confidence Interval: []
+    -   10-year average: `r esc_sac_group$mean[esc_sac_group$group == "10year"]`
+    -   20-year average: `r esc_sac_group$mean[esc_sac_group$group == "20year"]`
+-   Mainstem natural-origin spawners (Killam): `r spawn_origin_current$percent[spawn_origin_current$clip == "No Clip"]` %
+-   Mainstem hatchery-origin spawners (Killam): `r spawn_origin_current$percent[spawn_origin_current$clip == "Clipped"]` %
+    -   10-year average:
+-   Fish to hatchery broodstock (Killam):
+    -   In-river mainstem transferred to Livingston Stone National Fish Hatchery (LSNFH): `r hatchery_transfer$Escapement[(hatchery_transfer$Year == report_year) & (hatchery_transfer$Reach == "LSTON")]`
+    -   In-river mainstem transferred to Coleman National Fish Hatchery (CNFH): `r hatchery_transfer$Escapement[(hatchery_transfer$Year == report_year) & (hatchery_transfer$Reach == "CNFH")]`
+-   Tributary in-river spawners (Killam):
+    -   Battle Creek:`r esc_reach$Escapement[(esc_reach$Year == report_year) & (esc_reach$Reach == "BAT")]`
+    -   Clear Creek: `r esc_reach$Escapement[(esc_reach$Year == report_year) & (esc_reach$Reach == "CCK")]`
 
-* Sacramento River system-wide total adult escapement: `r esc_all_summary$Escapement[esc_all_summary$Year == report_year]`
-  - 10-year average: `r esc_all_group$mean[esc_all_group$group == "10year"]`
-  - 20-year average: `r esc_all_group$mean[esc_all_group$group == "20year"]`
-* Total mainstem in-river spawner estimate (Killam): `r esc_sacriver$Escapement[esc_sacriver$Year == report_year]`, 90% Confidence Interval: []
-  - 10-year average: `r esc_sac_group$mean[esc_sac_group$group == "10year"]`
-  - 20-year average: `r esc_sac_group$mean[esc_sac_group$group == "20year"]`
-* Mainstem natural-origin spawners (Killam): `r spawn_origin_current$percent[spawn_origin_current$clip == "No Clip"]` %
-* Mainstem hatchery-origin spawners (Killam):`r spawn_origin_current$percent[spawn_origin_current$clip == "Clipped"]` %
-  - 10-year average: 
-* Fish to hatchery broodstock (Killam):
-  - In-river mainstem transferred to Livingston Stone National Fish Hatchery (LSNFH): `r hatchery_transfer$Escapement[(hatchery_transfer$Year == report_year) & (hatchery_transfer$Reach == "LSTON")]`
-  - In-river mainstem transferred to Coleman National Fish Hatchery (CNFH): `r hatchery_transfer$Escapement[(hatchery_transfer$Year == report_year) & (hatchery_transfer$Reach == "CNFH")]`
-* Tributary in-river spawners (Killam): 
-  - Battle Creek:`r esc_reach$Escapement[(esc_reach$Year == report_year) & (esc_reach$Reach == "BAT")]`
-  - Clear Creek: `r esc_reach$Escapement[(esc_reach$Year == report_year) & (esc_reach$Reach == "CCK")]`
-
-
-```{r echo = FALSE, fig.cap = paste0("Estimated Total Mainstem In-River Spawners in", report_year, "by reach. Data from SacPAS.")}
+```{r echo = FALSE, fig.cap = paste0("Estimated Total Mainstem In-River Spawners in ", report_year, "by reach. Data from SacPAS.")}
 ggplot(esc_reach) + geom_col(aes(Year, Escapement, fill = Reach_text)) + 
   scale_fill_viridis(option = "turbo", discrete = TRUE) + 
   scale_x_continuous(breaks = seq(1970, report_year, by = 5))+
@@ -364,11 +361,24 @@ ggplot(esc_reach) + geom_col(aes(Year, Escapement, fill = Reach_text)) +
   theme(legend.position = "top")
 
 ```
+
 Placeholder for Annual Replacement Rate Plot
-```{r}
 
+```{r cohortreplacement-fig, fig.cap = "Cohort Replacement Rate. Current year spawners are divided by number of spawners from 3 years ago. Horizontal line is at 1.0."}
+
+annualreplacement = carcass %>%
+  filter(spawn == "Spawned",
+         sex == "F") %>%
+  group_by(year) %>%
+  summarize(total = n()) %>%
+  ungroup() %>%
+  mutate(replacement = total/lag(total,3))
+
+ggplot(annualreplacement) + 
+  geom_col(aes(year, replacement), fill = "olivedrab4") + 
+  geom_hline(yintercept = 1, linetype = "dashed") +
+  theme_bw()
 ```
-
 
 ```{r, include = FALSE}
 esc_reach_wide <- esc_reach %>%
@@ -389,20 +399,20 @@ flextable(esc_reach_wide)%>%
 
 ### Fish Condition and Age Class
 
-* Pre-spawn mortality: `r paste0(spawned$percent[spawned$spawn == "Unspawned"],"%")`
-  - 10-year average:
-  - 10-year maximum: 
-  - 20-year average:
-  - 20-year maximum:
-* Fecundity: `r paste(fecundity$fecundity[fecundity$brood_year == report_year],"eggs per female")`
-  - 10-year average: `r paste(fec_avg$mean[fec_avg$group == "10year"],"eggs per female")`
-  - 20-year average: `r paste(fec_avg$mean[fec_avg$group == "20year"],"eggs per female")` (only goes to 2005)
-* Age classes based on size: 
-  - Jacks and Jills = Age-2 fish
-  - Percent Adult Female (>=610 millimeters [mm]): `r paste0(percent_ageclass$percent[percent_ageclass$Size == "Female Adult"], "%")`
-  - Percent Jills (<610 mm): `r paste0(percent_ageclass$percent[percent_ageclass$Size == "Jill"], "%")`
-  - Percent Adult Male (>=680 mm): `r paste0(percent_ageclass$percent[percent_ageclass$Size == "Male Adult"],"%")`
-  - Percent Jacks (<680 mm): `r paste0(percent_ageclass$percent[percent_ageclass$Size == "Jack"], "%")`
+-   Pre-spawn mortality: `r paste0(spawned$percent[spawned$spawn == "Unspawned"],"%")`
+    -   10-year average:
+    -   10-year maximum:
+    -   20-year average:
+    -   20-year maximum:
+-   Fecundity: `r paste(fecundity$fecundity[fecundity$brood_year == report_year],"eggs per female")`
+    -   10-year average: `r paste(fec_avg$mean[fec_avg$group == "10year"],"eggs per female")`
+    -   20-year average: `r paste(fec_avg$mean[fec_avg$group == "20year"],"eggs per female")` (only goes to 2005)
+-   Age classes based on size:
+    -   Jacks and Jills = Age-2 fish
+    -   Percent Adult Female (\>=610 millimeters [mm]): `r paste0(percent_ageclass$percent[percent_ageclass$Size == "Female Adult"], "%")`
+    -   Percent Jills (\<610 mm): `r paste0(percent_ageclass$percent[percent_ageclass$Size == "Jill"], "%")`
+    -   Percent Adult Male (\>=680 mm): `r paste0(percent_ageclass$percent[percent_ageclass$Size == "Male Adult"],"%")`
+    -   Percent Jacks (\<680 mm): `r paste0(percent_ageclass$percent[percent_ageclass$Size == "Jack"], "%")`
 
 ```{r carcass-tab,tab.cap = "Carcass Data Summary. Fork length cutoffs are 610 mm for Females and 680 mm for Males based on Killam 2021"}
 carcass_size_table <- carcass_current %>%
@@ -413,8 +423,10 @@ carcass_size_table <- carcass_current %>%
             SD = round(sd(forklength, na.rm = TRUE)),
             Min = round(min(forklength, na.rm = TRUE)),
             Max = round(max(forklength, na.rm = TRUE))) %>%
+  ungroup()  %>%
   select(`Age Class` = Size,
-         Count, `Mean FL (mm)` = Mean, SD, `Min FL (mm)` = Min, `Max FL (mm)` = Max)
+         Count, `Mean FL (mm)` = Mean, SD, `Min FL (mm)` = Min, `Max FL (mm)` = Max)%>%
+  mutate(`Age Class` = factor(`Age Class`, levels = c("Female Adult", "Jill", "Male Adult", "Jack")))
 
 flextable(carcass_size_table) %>%
   add_footer_lines() %>%
@@ -423,21 +435,19 @@ flextable(carcass_size_table) %>%
   vline()%>%
   border_outer() %>%
   bold(part = "header") %>%
-  align(align = "center", part = "header")
+  align(align = "center", part = "header") 
 ```
 
-
-```{r carcassFL-fig,fig.cap = "Carcass Data Fork Length Distribution. Plots are separated by Males and Females."}
+```{r carcassFL-fig,fig.cap = "Carcass Data Fork Length Distribution. Plots are separated by Sex."}
 ggplot(carcass_current) + geom_histogram(aes(forklength, fill = sex), color = "black") +
   facet_wrap(~sex_label, nrow = 2, scales = "free_y") +
   scale_fill_manual(values = c("goldenrod3","steelblue4"))+
-  labs(y = "Count") + 
+  labs(y = "Count", x = "Fork Length (mm)") + 
   theme_bw() +
   theme(legend.position = "none")
 ```
 
 ### Migration and Spawn Timing
-
 
 #### Spawn Timing
 
@@ -475,7 +485,6 @@ spawn_timing_hist <- carcass_hist %>%
 
 ```
 
-
 ```{r spawntiming-fig, fig.cap = paste("Spawn Timing, 2017 through", report_year)}
 ggplot(spawn_timing_hist)+
   geom_line(aes(datestart, percent, color = year_fac, linetype = current), size = 1) +
@@ -486,7 +495,7 @@ ggplot(spawn_timing_hist)+
   theme_plots
 ```
 
-Add 10-year and 20-year average to this plot. 
+Add 10-year and 20-year average to this plot.
 
 ```{r spawnweek-fig,fig.cap = paste("Peak Spawning Week from 2000 to " , report_year)}
 # Peak spawning week - line plot of peak spawning week by year (annual, rolling 5-year avg, 10-year avg)
@@ -501,8 +510,9 @@ ggplot(peak_spawning) + geom_point(aes(year_fac, week), fill = "steelblue4", siz
   labs(y = "Peak Spawning Week") +
   theme_plots
 ```
-  Expand data to include more years (should have 10-year median and 20-year median)
-  
+
+Expand data to include more years (should have 10-year median and 20-year median)
+
 ### Carcass and Redd Abundance and Distribution
 
 ```{r}
@@ -618,6 +628,7 @@ female_carcasses <- carcass %>%
 ```
 
 #### Redd Abundance
+
 ```{r}
 flextable(redd_hist_table %>%
             mutate(Percent = Percent/100,
@@ -634,6 +645,7 @@ flextable(redd_hist_table %>%
 ```
 
 #### Carcass Abundance
+
 ```{r}
 flextable(carcass_hist_table %>%
             mutate(Percent = Percent/100,
@@ -649,8 +661,6 @@ flextable(carcass_hist_table %>%
   mk_par(j = 4, part = "body", value = as_paragraph(as_chunk(Percent, formatter = fmt_pct)))
 ```
 
-
-
 ```{r redds-fig, fig.cap = paste("Redd Counts by Year. Dashed line indicates average from 2013 to", report_year)}
 ggplotly(ggplot(redd_table) + 
            geom_col(aes(x = Yearf, y = Counts, fill = Section)) +
@@ -662,7 +672,11 @@ ggplotly(ggplot(redd_table) +
 
 include average horizontal line
 
+
+It would be nice to include here a map of each reach
+
 #### Redd Distribution
+
 ```{r, redddistrib-fig, fig.cap = paste("Distribution of Winter Run Redds in", report_year, "and Average between 2013 and", report_year) }
 ggplot(redd_bylocation)+ 
   geom_col(aes(x = fct_inorder(RiverSection), y = Percent, fill = Year_type), position = "dodge2") + 
@@ -675,7 +689,8 @@ ggplot(redd_bylocation)+
         legend.title = element_blank()) 
 ```
 
-####  Carcass Distribution
+#### Carcass Distribution
+
 ```{r carcassdistrib-fig, fig.cap = paste("Female Carcass Distribution for", report_year, "and Average from 2017 to", report_year)}
 ggplot(female_carcasses) + 
   geom_col(aes(x = fct_inorder(Section_Name), Percent_carcasses, fill = Year_type), position = "dodge2") +
