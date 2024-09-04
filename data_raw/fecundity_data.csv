@@ -1,6 +1,18 @@
 brood_year,value,component,origin,jpe_letter_date,footnote,references_contributors,lower_95_percent_ci,upper_95_percent_ci,fecundity
+1992,3353,Average fecundity,Natural,1993-02-09,NaN,LSNFH,NaN,NaN,3353
+1993,3500,Average fecundity,Natural,1993-10-01,NaN,LSNFH,NaN,NaN,3500
+1994,3500,Average fecundity,Natural,1995-02-21,NaN,LSNFH,NaN,NaN,3500
+1995,3859,Average fecundity,Natural,1995-10-20,NaN,LSNFH,NaN,NaN,3859
+1996,3859,Average fecundity,Natural,1997-02-10,NaN,LSNFH,NaN,NaN,3859
+1997,3859,Average fecundity,Natural,1998-04-27,NaN,LSNFH,NaN,NaN,3859
+1998,3859,Average fecundity,Natural,1999-02-26,NaN,LSNFH,NaN,NaN,3859
+1999,3859,Average fecundity,Natural,2000-01-01,NaN,LSNFH,NaN,NaN,3859
+2000,4990,Average fecundity,Natural,2001-01-29,"""3/ Average number of eggs per female derived from this year's spawning at Livingston Stone Hatchery (n=44)""",LSNFH,NaN,NaN,4990
+2001,4700,Average fecundity,Natural,2002-02-22,"""4/ Average fecundity rate from 2001 spawning at Livingston Stone Hatchery (n=50)""",LSNFH,NaN,NaN,4700
+2002,4923,Average fecundity,Natural,2003-02-19,"""4/ Number of eggs per adult female at LSNFH, broodyear 2002 records (n=47).""",LSNFH,NaN,NaN,4923
 2005,5500,Average fecundity,Natural,2006-02-10,"""4/ Eggs per adult female (n= 47), based on 2005 adult returns to Livingston Stone National Fish Hatchery.""",LSNFH,NaN,NaN,5500
 2006,5484,Average fecundity,Natural,2007-02-15,"""4/ Eggs per adult female (n= 50), based on 2006 spawning at Livingston Stone National Fish Hatchery.""",LSNFH,NaN,NaN,5484
+2007,NaN,Average fecundity,Natural,NaN,NaN,NaN,NaN,NaN,NA
 2008,5424,Average fecundity,Natural,2009-01-12,"""4/ Average eggs/female, 2008 returns to Livingston Stone National Fish Hatchery (n=48, STD 911).""",LSNFH,NaN,NaN,5424
 2009,5519,Average fecundity,Natural,2010-02-24,"""4/ Average eggs/female, 2009 hatchery returns (n=48) Table 2, USFWS pre-release report 1/25/10).""",LSNFH,NaN,NaN,5519
 2010,5161,Average fecundity,Natural,2011-01-12,"""4/ Average eggs/female, from 2010 returns to Livingston Stone National Fish Hatchery, John Rueth.""",LSNFH,NaN,NaN,5161
