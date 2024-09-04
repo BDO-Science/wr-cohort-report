@@ -55,7 +55,7 @@ ggplotly(ggplot(flow_hmc_wlk_von) +
   theme_plots) 
 ```
 
-```{r HMCWLKVONflow-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Mean, Maximum and Minimum Monthly Flows (cfs) at Sacramento River at Hamilton City (HMC), Sacramento River at Wilkins Slough (WLK) and Sacramento River at Verona (VON) from September", report_year, " through March", report_year+1)}
+```{r HMCWLKVONflow-tab}
 flow_hmc_wlk_von_df <- readRDS(paste0("data_raw/flow_hmc_wlk_von_df_", year(start), "-", year(end2), ".rdsxz"))
 
 flow_hmc_wlk_von_monthly_ml <- f_monthly_extrayear(flow_hmc_wlk_von_df, flow) %>%
@@ -64,16 +64,30 @@ flow_hmc_wlk_von_monthly_ml <- f_monthly_extrayear(flow_hmc_wlk_von_df, flow) %>
   select(-month_num) %>%
   arrange(station)
 
-flextable(flow_hmc_wlk_von_monthly_ml)%>%
-  add_footer_lines() %>%
-  add_header_lines() %>%
-  width(width = 1, unit = "in") %>%
-  hline(i = c(7,14), part = 'body') %>%
-  vline()%>%
-  border_outer() %>%
-  bold(part = "header") %>%
-  colformat_num(j = "year", big.mark = "") %>%
-  set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (cfs)", max = "Max (cfs)", min =  "Min (cfs)") 
+
+flow_hmc_wlk_von_monthly_ml_t <- flow_hmc_wlk_von_monthly_ml
+
+colnames(flow_hmc_wlk_von_monthly_ml_t) <- stringr::str_to_title(colnames(flow_hmc_wlk_von_monthly_ml_t))
+
+kable(flow_hmc_wlk_von_monthly_ml_t,
+      label = NA,
+      vline = "",
+      caption = paste("Mean, Maximum and Minimum Monthly Flows (cfs) at Sacramento River at Hamilton City (HMC), Sacramento River at Wilkins Slough (WLK) and Sacramento River at Verona (VON) from September", report_year, " through March", report_year+1),
+      valign = "t") %>%
+  kable_classic(html_font = "Cambria") %>%
+      row_spec(c(7,14),extra_css = "border-bottom: 1px solid;")
+
+
+# flextable(flow_hmc_wlk_von_monthly_ml)%>%
+#   add_footer_lines() %>%
+#   add_header_lines() %>%
+#   width(width = 1, unit = "in") %>%
+#   hline(i = c(7,14), part = 'body') %>%
+#   vline()%>%
+#   border_outer() %>%
+#   bold(part = "header") %>%
+#   colformat_num(j = "year", big.mark = "") %>%
+#   set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (cfs)", max = "Max (cfs)", min =  "Min (cfs)") 
 ```
 
 ```{r ,echo = FALSE}
@@ -98,7 +112,7 @@ max_mean_flow_von_month <- monthly_von %>% filter(mean == max_mean_flow_von) %>%
 
 #### Juvenile WRCS Rescued During Stranding Surveys
 
-Do we have this data?
+Fish were not stranded in the Middle to Lower Sacramento River for Brood Year `r report_year`.
 
 
 **Summary**
@@ -128,7 +142,7 @@ ggplotly(ggplot(turb_rdb_fpt_plot_data) + geom_line(aes(date, Turbidity, color =
   theme_plots )
 ```
 
-```{r RDBFPTTurb-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Mean, Maximum, Minimum Monthly Flows (cfs) at Red Bluff Diversion Dam (RDB) and Sacramento River at Freeport (FPT) from September", report_year, "through March", report_year+1)}
+```{r RDBFPTTurb-tab}
 turb_rdb_fpt_df <- readRDS(paste0("data_raw/turb_cdec_RDB_FPT_", year(start), "-", year(end2), ".rdsxz")) 
 
 turb_rdb_fpt_monthly_ml <- f_monthly_extrayear(turb_rdb_fpt_df, Turbidity) %>%
@@ -137,16 +151,28 @@ turb_rdb_fpt_monthly_ml <- f_monthly_extrayear(turb_rdb_fpt_df, Turbidity) %>%
   select(-month_num) %>%
   arrange(station)
 
-flextable(turb_rdb_fpt_monthly_ml)%>%
-  add_footer_lines() %>%
-  add_header_lines() %>%
-  width(width = 1, unit = "in") %>%
-  hline(i = 7, part = 'body') %>%
-  vline()%>%
-  border_outer() %>%
-  bold(part = "header") %>%
-  colformat_num(j = "year", big.mark = "") %>%
-  set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (FNU)", max = "Max (FNU)", min =  "Min (FNU)") 
+turb_rdb_fpt_monthly_ml_t <- turb_rdb_fpt_monthly_ml
+
+colnames(turb_rdb_fpt_monthly_ml_t) <- stringr::str_to_title(colnames(turb_rdb_fpt_monthly_ml_t))
+
+kable(turb_rdb_fpt_monthly_ml_t,
+      label = NA,
+      vline = "",
+      caption = paste("Mean, Maximum, Minimum Monthly Flows (cfs) at Red Bluff Diversion Dam (RDB) and Sacramento River at Freeport (FPT) from September", report_year, "through March", report_year+1),
+      valign = "t") %>%
+  kable_classic(html_font = "Cambria") %>%
+      row_spec(c(7,14),extra_css = "border-bottom: 1px solid;")
+
+# flextable(turb_rdb_fpt_monthly_ml)%>%
+#   add_footer_lines() %>%
+#   add_header_lines() %>%
+#   width(width = 1, unit = "in") %>%
+#   hline(i = 7, part = 'body') %>%
+#   vline()%>%
+#   border_outer() %>%
+#   bold(part = "header") %>%
+#   colformat_num(j = "year", big.mark = "") %>%
+#   set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (FNU)", max = "Max (FNU)", min =  "Min (FNU)") 
 ```
 
 
@@ -171,23 +197,36 @@ min_mean_turb_rdb_ml_month <- monthly_rdb_turb_ml %>% filter(mean == min_mean_tu
 
 #### Water Temperature
 
-```{r WLKwtemp-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Mean, Maximum, Minimum Monthly Water Temperature (°F) at Sacramento River Below Wilkins Slough (WLK) in September", report_year, "through March", report_year+1, ". Days > 63°F indicates the number of days per month that experienced at least 1 hour where Water Temperature was greater than 63°F.")}
+```{r WLKwtemp-tab}
 
 wtemp_wlk_df <- readRDS(paste0("data_raw/wtemp_cdec_WLK_", year(start), "-", year(end2), ".rdsxz")) 
 wtemp_wlk_monthly_ml <- f_monthly_extrayear_thresh_greater(wtemp_wlk_df, WaterTemp, 63) %>%
   filter(month_num %in% c(9,10,11,12,1,2,3)) %>%
   select(-month_num)
 
-flextable(wtemp_wlk_monthly_ml)%>%
-  add_footer_lines() %>%
-  add_header_lines() %>%
-  width(width = 1, unit = "in") %>%
-  # hline(i = c(7), part = 'body') %>%
-  vline()%>%
-  border_outer() %>%
-  bold(part = "header") %>%
-  colformat_num(j = "year", big.mark = "") %>%
-  set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (°F)", max = "Max (°F)", min =  "Min (°F)", flag_days = "Days > 63°F") 
+wtemp_wlk_monthly_ml_t <- wtemp_wlk_monthly_ml %>%
+  rename(`Water Temp < 63 degF` = flag_days)
+
+colnames(wtemp_wlk_monthly_ml_t) <- stringr::str_to_title(colnames(wtemp_wlk_monthly_ml_t))
+
+kable(wtemp_wlk_monthly_ml_t,
+      label = NA,
+      vline = "",
+      caption = paste("Mean, Maximum, Minimum Monthly Water Temperature (°F) at Sacramento River Below Wilkins Slough (WLK) in September", report_year, "through March", report_year+1, ". Days > 63°F indicates the number of days per month that experienced at least 1 hour where Water Temperature was greater than 63°F."),
+      valign = "t") %>%
+  kable_classic(html_font = "Cambria") 
+
+
+# flextable(wtemp_wlk_monthly_ml)%>%
+#   add_footer_lines() %>%
+#   add_header_lines() %>%
+#   width(width = 1, unit = "in") %>%
+#   # hline(i = c(7), part = 'body') %>%
+#   vline()%>%
+#   border_outer() %>%
+#   bold(part = "header") %>%
+#   colformat_num(j = "year", big.mark = "") %>%
+#   set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (°F)", max = "Max (°F)", min =  "Min (°F)", flag_days = "Days > 63°F") 
 ```
 
 ```{r echo = FALSE}
@@ -215,16 +254,31 @@ do_rdb_srh_monthly_ml <- f_monthly_extrayear_thresh(do_rdb_srh_df, DO, 6) %>%
   arrange(station) %>%
   select(-month_num)
 
-flextable(do_rdb_srh_monthly_ml)%>%
-  add_footer_lines() %>%
-  add_header_lines() %>%
-  width(width = 1, unit = "in") %>%
-  hline(i = c(7,14), part = 'body') %>%
-  vline()%>%
-  border_outer() %>%
-  bold(part = "header") %>%
-  colformat_num(j = "year", big.mark = "") %>%
-  set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (cfs)", max = "Max (cfs)", min =  "Min (cfs)", flag_days = "Days < 6 mg/L") 
+do_rdb_srh_monthly_ml_t <- do_rdb_srh_monthly_ml %>%
+  rename(`DO < 6mg/L` = flag_days)
+
+colnames(do_rdb_srh_monthly_ml_t) <- stringr::str_to_title(colnames(do_rdb_srh_monthly_ml_t))
+
+kable(do_rdb_srh_monthly_ml_t,
+      label = NA,
+      vline = "",
+      caption = paste("Mean, Maximum, Minimum Monthly Flows (cfs) at Red Bluff Diversion Dam (RDB) and Sacramento River at Hood (SRH) in", report_year, "-", report_year+1, ". Days less than 6 mg/L indicates the number of days per month that experienced at least 1 hour where DO was less than 6 mg/L."),
+      valign = "t") %>%
+  kable_classic(html_font = "Cambria") %>%
+      row_spec(7,extra_css = "border-bottom: 1px solid;")
+
+
+
+# flextable(do_rdb_srh_monthly_ml)%>%
+#   add_footer_lines() %>%
+#   add_header_lines() %>%
+#   width(width = 1, unit = "in") %>%
+#   hline(i = c(7,14), part = 'body') %>%
+#   vline()%>%
+#   border_outer() %>%
+#   bold(part = "header") %>%
+#   colformat_num(j = "year", big.mark = "") %>%
+#   set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (cfs)", max = "Max (cfs)", min =  "Min (cfs)", flag_days = "Days < 6 mg/L") 
 ```
 
 ```{r echo = FALSE}
@@ -309,7 +363,7 @@ ggplot() +
 
 Reach-specific survival 
 
-```{r hatchery-tab, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Table of Hatchery WR Juvenile Survival." }
+```{r hatchery-tab}
 hatchery_release <- read_csv("data_raw/hatchery_release_data.csv") %>%
   mutate(rel_date = factor(rel_date))
 
@@ -319,44 +373,33 @@ hatchery_table <- hatchery_release %>%
          rkm_start = round(rkm_start)) %>%
   select(rel_date, reach_start, reach_end, rkm_start, ReachSurvival, CumulativeSurvival, count)
 
-flextable(hatchery_table)%>%
-  add_footer_lines() %>%
-  add_header_lines() %>%
-  width(width = 1, unit = "in") %>%
-  # hline(i = c(7,14), part = 'body') %>%
-  vline()%>%
-  border_outer() %>%
-  bold(part = "header") %>%
-  # colformat_num(j = "year", big.mark = "") %>%
-  set_header_labels(CumulativeSurvival = "Cumulative Survival", ReachSurvival = "Reach Survival", rkm_start = "River Kilometer", rel_date = "Release Date")
+kable(hatchery_table,
+      label = NA,
+      vline = "",
+      caption = "Table of Hatchery WR Juvenile Survival",
+      valign = "t") %>%
+  kable_classic(html_font = "Cambria") %>%
+      row_spec(25,extra_css = "border-bottom: 1px solid;")
+
+# flextable(hatchery_table)%>%
+#   add_footer_lines() %>%
+#   add_header_lines() %>%
+#   width(width = 1, unit = "in") %>%
+#   # hline(i = c(7,14), part = 'body') %>%
+#   vline()%>%
+#   border_outer() %>%
+#   bold(part = "header") %>%
+#   # colformat_num(j = "year", big.mark = "") %>%
+#   set_header_labels(CumulativeSurvival = "Cumulative Survival", ReachSurvival = "Reach Survival", rkm_start = "River Kilometer", rel_date = "Release Date")
 ```
 
 ### Migration Timing 
 
 Cumulative Raw Catch: RBDD, Chipps, Tisdale, Knights, Sac Beach Seines, Sac Trawls
 ```{r juvtiming-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap ="Raw Juvenile Rotary Screw Trap Cumulative Catch"}
-juv_ml <- read_csv("data_raw/cohort_juv_data.csv") %>%
-  filter(year(ymd(Date)) >= report_year)%>%
-  mutate(Date = lubridate::ymd(Date)) %>%
-  janitor::clean_names() %>%
-  mutate_all(~replace(., is.na(.), 0)) %>%
-  select(date, 
-         `Tisdale Weir RST` = cumulative_raw_tisdale_weir_rst,
-         `Knights Landing RST` = cumulative_raw_knights_landing_rst,
-         `Lower Feather RST` = cumulative_raw_lower_feather_rst,
-         `Lower Sac RST` = cumulative_raw_lower_sacramento_rst,
-         `Sac Beach Seines` = cumulative_raw_sacramento_beach_seines_sr080e_sr071e_sr062e_sr057e_sr055e_sr060e_am001s_sr049e,
-         `Sac Trawls` = cumulative_raw_sacramento_trawls_sr055m_sr055e_sr055w_sr055x,
-         `Chipps Island Trawls` = cumulative_raw_chipps_island_trawls_sb018m_sb018n_sb018s_sb018x,
-         `RBDD Daily` = red_bluff_diversion_dam_daily_estimates)
-
-juv_ml_long <- juv_ml %>%
-  tidyr::pivot_longer(cols = 2:9, names_to = "Survey", values_to = "Catch") %>%
-  mutate(separate = if_else(Survey == "RBDD Daily",  "Red Bluff Diversion Dam", "Other Rotary Screw Traps"),
-         separate = factor(separate, levels = c("Red Bluff Diversion Dam", "Other Rotary Screw Traps"))) %>%
-  filter(!(Survey == "RBDD Daily" & Catch==0 & date>as.Date("2021-10-01"))) 
+juv_ml_long <- read_csv("data_raw/cohort_juv_data_cumulative_currentyear_long.csv") %>%
+  mutate(separate = factor(separate, levels = c("Red Bluff Diversion Dam", "Other Rotary Screw Traps")))
   
-
 ggplot(juv_ml_long) +
   geom_point(aes(x = date, y = Catch, color = Survey, shape = Survey), size = 1) +
   facet_wrap(~separate, scales= "free_y", nrow = 2)+

@@ -16,6 +16,7 @@ library(plotly)
 library(here)
 library(readr)
 library(forcats)
+library(knitr)
 
 library(kableExtra)
 library(flextable)
@@ -27,15 +28,11 @@ source("parameters.R")
 
 1.  Hatchery Influence (Proportion of hatchery return)
 
-2.  Hatchery Pathogens/Disease
-
-3.  In-River Pathogens/Disease
-
-4.  Spawning Habitat Capacity (SIT model)
+2.  Spawning Habitat Capacity (SIT model)
 
 ## Environmental Drivers {#wq}
 
--   `r report_year` was a `r wytype` water year type and `r report_year-1` was a `r wytype_prev` water year type.
+`r report_year` was a `r wytype` water year type and `r report_year-1` was a `r wytype_prev` water year type.
 
 ### Storage and Flow
 
@@ -75,20 +72,37 @@ ggplotly(ggplot(flow_kwk_bnd) +
   theme_plots )
 ```
 
-```{r KWKBNDflow-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Mean, Maximum, Minimum Monthly Flows (cfs) at Sacramento River at Keswick (KWK) and Sacramento River at Bend Bridge (BND)  in", report_year)}
-flow_kwk_bnd_monthly <- readRDS(paste0("data_raw/flow_kwk_bnd_monthly_", year(start), "-", year(end), ".rds"))
+```{r }
+library(kableExtra)
+
+# KWKBNDflow-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Mean, Maximum, Minimum Monthly Flows (cfs) at Sacramento River at Keswick (KWK) and Sacramento River at Bend Bridge (BND)  in", report_year)
+
+flow_kwk_bnd_monthly <- readRDS(paste0("data_raw/flow_kwk_bnd_monthly_", year(start), "-", year(end), ".rds")) 
+
+flow_kwk_bnd_monthly_t <- flow_kwk_bnd_monthly
+
+colnames(flow_kwk_bnd_monthly_t) <- stringr::str_to_title(colnames(flow_kwk_bnd_monthly_t))
+
+kable(flow_kwk_bnd_monthly_t,
+      label = NA,
+      vline = "",
+      caption = paste("Mean, Maximum, Minimum Monthly Flows (cfs) at Sacramento River at Keswick (KWK) and Sacramento River at Bend Bridge (BND)  in", report_year),
+      valign = "t") %>%
+  kable_classic(html_font = "Cambria") %>%
+      row_spec(12,extra_css = "border-bottom: 1px solid;")
 
 
-flextable(flow_kwk_bnd_monthly)%>%
-  add_footer_lines() %>%
-  add_header_lines() %>%
-  width(width = 1, unit = "in") %>%
-  hline(i = 12, part = 'body') %>%
-  vline()%>%
-  border_outer() %>%
-  bold(part = "header") %>%
-  colformat_num(j = "year", big.mark = "") %>%
-  set_header_labels(month = "Month", station = "Station", mean = "Mean (cfs)", max = "Max (cfs)", min =  "Min (cfs)")
+# ft_kwkbnd <- flextable(flow_kwk_bnd_monthly)%>%
+#   add_footer_lines() %>%
+#   add_header_lines() %>%
+#   width(width = 1, unit = "in") %>%
+#   hline(i = 12, part = 'body') %>%
+#   vline()%>%
+#   border_outer() %>%
+#   bold(part = "header") %>%
+#   colformat_num(j = "year", big.mark = "") %>%
+#   set_header_labels(month = "Month", station = "Station", mean = "Mean (cfs)", max = "Max (cfs)", min =  "Min (cfs)")
+
 ```
 
 ```{r echo = FALSE}
@@ -144,18 +158,19 @@ ggplotly(ggplot(wtemp_bsf_ccr_plot_data) + geom_line(aes(date, WaterTemp, color 
   theme_plots )
 ```
 
-```{r BSFCCRwtemp-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Mean, Maximum, Minimum Monthly Water Temperature (°F) at Sacramento River at Balls Ferry Bridge (BSF) and Sacramento River upstream from Confluence with Clear Creek (CCR) in", report_year)}
+```{r}
 wtemp_bsf_ccr_monthly <- readRDS(paste0("data_raw/wtemp_CCR_BSF_monthly_", year(start), "-", year(end), ".rds"))
+wtemp_bsf_ccr_monthly_t <- wtemp_bsf_ccr_monthly
 
-flextable(wtemp_bsf_ccr_monthly)%>%
-  add_footer_lines() %>%
-  add_header_lines() %>%
-  width(width = 1, unit = "in") %>%
-  hline(i = 12, part = 'body') %>%
-  vline()%>%
-  border_outer() %>%
-  bold(part = "header") %>%
-  set_header_labels(month = "Month", station = "Station", mean = "Mean (°F)", max = "Max (°F)", min =  "Min (°F)")
+colnames(wtemp_bsf_ccr_monthly_t) <- stringr::str_to_title(colnames(wtemp_bsf_ccr_monthly_t))
+
+kable(wtemp_bsf_ccr_monthly_t,
+      label = NA,
+      vline = "",
+      caption = paste("Mean, Maximum, Minimum Monthly Water Temperature (°F) at Sacramento River at Balls Ferry Bridge (BSF) and Sacramento River upstream from Confluence with Clear Creek (CCR) in", report_year),
+      valign = "t") %>%
+  kable_classic(html_font = "Cambria") %>%
+  row_spec(12,extra_css = "border-bottom: 1px solid;")
 ```
 
 ```{r echo = FALSE}
@@ -194,18 +209,30 @@ ggplotly(ggplot(do_kwk_ccr_plot_data) + geom_line(aes(date, DO, color = plot_yea
   theme_plots )
 ```
 
-```{r CCRKWKdo-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Mean, Maximum, Minimum Monthly Dissolved Oxygen (mg/L) at Sacrmaneto River at Keswick (KWK) and Sacramento River upstream from Confluence with Clear Creek (CCR)  in", report_year)}
+```{r CCRKWKdo, echo = FALSE, message = FALSE, warning = FALSE}
 do_kwk_ccr_monthly <- readRDS(paste0("data_raw/do_KWK_CCR_monthly_", year(start), "-", year(end), ".rds"))
 
-flextable(do_kwk_ccr_monthly)%>%
-  add_footer_lines() %>%
-  add_header_lines() %>%
-  width(width = 1, unit = "in") %>%
-  hline(i = 12, part = 'body') %>%
-  vline()%>%
-  border_outer() %>%
-  bold(part = "header") %>%
-  set_header_labels(month = "Month", station = "Station", mean = "Mean (mg/L)", max = "Max (mg/L)", min =  "Min (mg/L)")
+do_kwk_ccr_monthly_t <- do_kwk_ccr_monthly
+
+colnames(do_kwk_ccr_monthly_t) <- stringr::str_to_title(colnames(do_kwk_ccr_monthly_t))
+
+kable(do_kwk_ccr_monthly_t,
+      label = NA,
+      vline = "",
+      caption = paste("Mean, Maximum, Minimum Monthly Dissolved Oxygen (mg/L) at Sacramento River at Keswick (KWK) and Sacramento River upstream from Confluence with Clear Creek (CCR)  in", report_year),
+      valign = "t") %>%
+  kable_classic(html_font = "Cambria") %>%
+      row_spec(12,extra_css = "border-bottom: 1px solid;")
+
+# flextable(do_kwk_ccr_monthly)%>%
+#   add_footer_lines() %>%
+#   add_header_lines() %>%
+#   width(width = 1, unit = "in") %>%
+#   hline(i = 12, part = 'body') %>%
+#   vline()%>%
+#   border_outer() %>%
+#   bold(part = "header") %>%
+#   set_header_labels(month = "Month", station = "Station", mean = "Mean (mg/L)", max = "Max (mg/L)", min =  "Min (mg/L)")
 ```
 
 ```{r echo = FALSE}
@@ -359,7 +386,6 @@ ggplot(esc_reach) + geom_col(aes(Year, Escapement, fill = Reach_text)) +
   labs(fill = "Reach") +
   theme_plots +
   theme(legend.position = "top")
-
 ```
 
 Placeholder for Annual Replacement Rate Plot
@@ -375,26 +401,36 @@ annualreplacement = carcass %>%
   mutate(replacement = total/lag(total,3))
 
 ggplot(annualreplacement) + 
-  geom_col(aes(year, replacement), fill = "olivedrab4") + 
+  geom_col(aes(factor(year), replacement), fill = "olivedrab4") + 
   geom_hline(yintercept = 1, linetype = "dashed") +
   theme_bw()
 ```
 
-```{r, include = FALSE}
+```{r}
 esc_reach_wide <- esc_reach %>%
   select(-Reach) %>%
   mutate(Escapement = as.numeric(Escapement)) %>%
   pivot_wider(names_from = "Reach_text", values_from = "Escapement") %>%
   rowwise() %>%
   mutate(Total = sum(`Downstream RBDD`, `Upstream RBDD`, `Clear Creek`, `Battle Creek`, na.rm = TRUE))
-flextable(esc_reach_wide)%>%
-  add_footer_lines() %>%
-  add_header_lines() %>%
-  width(width = 1, unit = "in") %>%
-  vline()%>%
-  border_outer() %>%
-  bold(part = "header") %>%
-  colformat_num(j = "Year", big.mark = "") 
+
+colnames(do_kwk_ccr_monthly) <- stringr::str_to_title(colnames(do_kwk_ccr_monthly))
+
+kable(esc_reach_wide,
+      label = NA,
+      vline = "",
+      caption = "Escapement by Reach",
+      valign = "t") %>%
+  kable_classic(html_font = "Cambria") 
+
+# flextable(esc_reach_wide)%>%
+#   add_footer_lines() %>%
+#   add_header_lines() %>%
+#   width(width = 1, unit = "in") %>%
+#   vline()%>%
+#   border_outer() %>%
+#   bold(part = "header") %>%
+#   colformat_num(j = "Year", big.mark = "") 
 ```
 
 ### Fish Condition and Age Class
@@ -414,7 +450,7 @@ flextable(esc_reach_wide)%>%
     -   Percent Adult Male (\>=680 mm): `r paste0(percent_ageclass$percent[percent_ageclass$Size == "Male Adult"],"%")`
     -   Percent Jacks (\<680 mm): `r paste0(percent_ageclass$percent[percent_ageclass$Size == "Jack"], "%")`
 
-```{r carcass-tab,tab.cap = "Carcass Data Summary. Fork length cutoffs are 610 mm for Females and 680 mm for Males based on Killam 2021"}
+```{r carcassSize}
 carcass_size_table <- carcass_current %>%
   filter(!is.na(Size)) %>%
   group_by(Size) %>%
@@ -428,14 +464,21 @@ carcass_size_table <- carcass_current %>%
          Count, `Mean FL (mm)` = Mean, SD, `Min FL (mm)` = Min, `Max FL (mm)` = Max)%>%
   mutate(`Age Class` = factor(`Age Class`, levels = c("Female Adult", "Jill", "Male Adult", "Jack")))
 
-flextable(carcass_size_table) %>%
-  add_footer_lines() %>%
-  add_header_lines() %>%
-  width(width = 1.2, unit = "in") %>%
-  vline()%>%
-  border_outer() %>%
-  bold(part = "header") %>%
-  align(align = "center", part = "header") 
+kable(carcass_size_table,
+      label = NA,
+      vline = "",
+      caption = "Carcass Data Summary. Fork length cutoffs are 610 mm for Females and 680 mm for Males based on Killam 2021",
+      valign = "t") %>%
+  kable_classic(html_font = "Cambria")
+
+# flextable(carcass_size_table) %>%
+#   add_footer_lines() %>%
+#   add_header_lines() %>%
+#   width(width = 1.2, unit = "in") %>%
+#   vline()%>%
+#   border_outer() %>%
+#   bold(part = "header") %>%
+#   align(align = "center", part = "header") 
 ```
 
 ```{r carcassFL-fig,fig.cap = "Carcass Data Fork Length Distribution. Plots are separated by Sex."}
@@ -629,36 +672,56 @@ female_carcasses <- carcass %>%
 
 #### Redd Abundance
 
-```{r}
-flextable(redd_hist_table %>%
-            mutate(Percent = Percent/100,
-                   Average = Average/100)) %>%
-  add_footer_lines() %>%
-  add_header_lines() %>%
-  width(width = 1.2, unit = "in") %>%
-  vline()%>%
-  border_outer() %>%
-  bold(part = "header") %>%
-  align(align = "center", part = "all") %>%
-  mk_par(j = 5, part = "body", value = as_paragraph(as_chunk(Average, formatter = fmt_pct)))%>%
-  mk_par(j = 4, part = "body", value = as_paragraph(as_chunk(Percent, formatter = fmt_pct)))
+```{r reddbysection}
+kable(redd_hist_table %>%
+            mutate(Percent = formattable::percent(Percent/100),
+                   Average = formattable::percent(Average/100)),
+      label = NA,
+      vline = "",
+      caption = paste("Redd Abundance by Section in", report_year),
+      valign = "t") %>%
+  kable_classic(html_font = "Cambria")
+
+# flextable(redd_hist_table %>%
+#             mutate(Percent = Percent/100,
+#                    Average = Average/100)) %>%
+#   add_footer_lines() %>%
+#   add_header_lines() %>%
+#   width(width = 1.2, unit = "in") %>%
+#   vline()%>%
+#   border_outer() %>%
+#   bold(part = "header") %>%
+#   align(align = "center", part = "all") %>%
+#   mk_par(j = 5, part = "body", value = as_paragraph(as_chunk(Average, formatter = fmt_pct)))%>%
+#   mk_par(j = 4, part = "body", value = as_paragraph(as_chunk(Percent, formatter = fmt_pct)))
 ```
 
 #### Carcass Abundance
 
-```{r}
-flextable(carcass_hist_table %>%
-            mutate(Percent = Percent/100,
-                   Average = Average/100)) %>%
-  add_footer_lines() %>%
-  add_header_lines() %>%
-  width(width = 1.2, unit = "in") %>%
-  vline()%>%
-  border_outer() %>%
-  bold(part = "header") %>%
-  align(align = "center", part = "all")%>%
-  mk_par(j = 5, part = "body", value = as_paragraph(as_chunk(Average, formatter = fmt_pct))) %>%
-  mk_par(j = 4, part = "body", value = as_paragraph(as_chunk(Percent, formatter = fmt_pct)))
+```{r carcassbysection}
+
+kable(carcass_hist_table %>%
+            mutate(Percent = formattable::percent(Percent/100),
+                   Average = formattable::percent(Average/100)),
+      label = NA,
+      vline = "",
+      caption = paste("Carcass Abundance by Section in", report_year),
+      valign = "t") %>%
+  kable_classic(html_font = "Cambria")
+
+
+# flextable(carcass_hist_table %>%
+#             mutate(Percent = Percent/100,
+#                    Average = Average/100)) %>%
+#   add_footer_lines() %>%
+#   add_header_lines() %>%
+#   width(width = 1.2, unit = "in") %>%
+#   vline()%>%
+#   border_outer() %>%
+#   bold(part = "header") %>%
+#   align(align = "center", part = "all")%>%
+#   mk_par(j = 5, part = "body", value = as_paragraph(as_chunk(Average, formatter = fmt_pct))) %>%
+#   mk_par(j = 4, part = "body", value = as_paragraph(as_chunk(Percent, formatter = fmt_pct)))
 ```
 
 ```{r redds-fig, fig.cap = paste("Redd Counts by Year. Dashed line indicates average from 2013 to", report_year)}
@@ -669,8 +732,6 @@ ggplotly(ggplot(redd_table) +
   scale_fill_viridis(discrete = TRUE) + 
   theme_bw())
 ```
-
-include average horizontal line
 
 
 It would be nice to include here a map of each reach

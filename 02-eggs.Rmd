@@ -17,6 +17,7 @@ library(plotly)
 library(readr)
 library(here)
 library(scales)
+library(rvest)
 
 library(kableExtra)
 library(flextable)
@@ -24,15 +25,6 @@ library(CDECRetrieve)
 source("functions.R")
 source("parameters.R")
 ```
-
-## Habitat Attributes
-
-1.  Redd Dewatering
-
--   count by year
--   location
--   water depth
--   flow
 
 ## Environmental Drivers
 
@@ -44,23 +36,36 @@ source("parameters.R")
 
 #### Flow Conditions on the Upper Sacramento River
 
-```{r KWKBNDflowegg-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Mean, Maximum, Minimum Monthly Flows (cfs) at Sacramento River at Keswick (KWK) and Sacramento River at Bend Bridge (BND) between May and November", report_year)}
+```{r KWKBNDflowegg}
 flow_kwk_bnd_monthly_egg <- readRDS(paste0("data_raw/flow_kwk_bnd_monthly_", year(start), "-", year(end), ".rds")) %>%
   filter(!month %in% c("January", "February", "March", "April", "December")) %>%
   mutate(station = factor(station, levels = c("KWK", "BND"))) %>%
   select(Year=year, station, month, everything()) %>%
   arrange(station)
 
-flextable(flow_kwk_bnd_monthly_egg)%>%
-  add_footer_lines() %>%
-  add_header_lines() %>%
-  width(width = 1, unit = "in") %>%
-  hline(i = 7, part = 'body') %>%
-  vline()%>%
-  border_outer() %>%
-  bold(part = "header") %>%
-  colformat_num(j = "Year", big.mark = "") %>%
-  set_header_labels(month = "Month", station = "Station", mean = "Mean (cfs)", max = "Max (cfs)", min =  "Min (cfs)")
+flow_kwk_bnd_monthly_egg_t <- flow_kwk_bnd_monthly_egg
+
+colnames(flow_kwk_bnd_monthly_egg_t) <- stringr::str_to_title(colnames(flow_kwk_bnd_monthly_egg_t))
+
+kable(flow_kwk_bnd_monthly_egg_t,
+      label = NA,
+      vline = "",
+      caption = paste("Mean, Maximum, Minimum Monthly Flows (cfs) at Sacramento River at Keswick (KWK) and Sacramento River at Bend Bridge (BND) between May and November", report_year),
+      valign = "t") %>%
+  kable_classic(html_font = "Cambria") %>%
+      row_spec(7,extra_css = "border-bottom: 1px solid;")
+
+
+# flextable(flow_kwk_bnd_monthly_egg)%>%
+#   add_footer_lines() %>%
+#   add_header_lines() %>%
+#   width(width = 1, unit = "in") %>%
+#   hline(i = 7, part = 'body') %>%
+#   vline()%>%
+#   border_outer() %>%
+#   bold(part = "header") %>%
+#   colformat_num(j = "Year", big.mark = "") %>%
+#   set_header_labels(month = "Month", station = "Station", mean = "Mean (cfs)", max = "Max (cfs)", min =  "Min (cfs)")
 ```
 
 
@@ -87,7 +92,7 @@ max_mean_flow_bnd_month_egg <- monthly_bnd_egg %>% filter(mean == max_mean_flow_
 
 ### Dissolved Oxygen Conditions on the Upper Sacramento River
 
-```{r CCRKWKdoegg-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("Mean, Maximum, Minimum Monthly Dissolved Oxygen (mg/L) at Sacramento River at Keswick (KWK) and Sacramento River upstream from Confluence with Clear Creek (CCR) between May and November", report_year)}
+```{r CCRKWKdoegg-tab}
 
 do_kwk_ccr_monthly_egg <- readRDS(paste0("data_raw/do_KWK_CCR_monthly_", year(start), "-", year(end), ".rds"))%>%
   filter(!month %in% c("January", "February", "March", "April", "December")) %>%
@@ -95,16 +100,28 @@ do_kwk_ccr_monthly_egg <- readRDS(paste0("data_raw/do_KWK_CCR_monthly_", year(st
   select(Year = year, station, month, everything()) %>%
   arrange(station)
 
-flextable(do_kwk_ccr_monthly_egg)%>%
-  add_footer_lines() %>%
-  add_header_lines() %>%
-  width(width = 1, unit = "in") %>%
-  hline(i = 7, part = 'body') %>%
-  vline()%>%
-  border_outer() %>%
-  bold(part = "header") %>%
-  colformat_num(j = "Year", big.mark = "") %>%
-  set_header_labels(month = "Month", station = "Station", mean = "Mean (mg/L)", max = "Max (mg/L)", min =  "Min (mg/L)")
+do_kwk_ccr_monthly_egg_t <- do_kwk_ccr_monthly_egg
+
+colnames(do_kwk_ccr_monthly_egg_t) <- stringr::str_to_title(colnames(do_kwk_ccr_monthly_egg_t))
+
+kable(do_kwk_ccr_monthly_egg_t,
+      label = NA,
+      vline = "",
+      caption = paste("Mean, Maximum, Minimum Monthly Dissolved Oxygen (mg/L) at Sacramento River at Keswick (KWK) and Sacramento River upstream from Confluence with Clear Creek (CCR) between May and November", report_year),
+      valign = "t") %>%
+  kable_classic(html_font = "Cambria") %>%
+      row_spec(7,extra_css = "border-bottom: 1px solid;")
+
+# flextable(do_kwk_ccr_monthly_egg)%>%
+#   add_footer_lines() %>%
+#   add_header_lines() %>%
+#   width(width = 1, unit = "in") %>%
+#   hline(i = 7, part = 'body') %>%
+#   vline()%>%
+#   border_outer() %>%
+#   bold(part = "header") %>%
+#   colformat_num(j = "Year", big.mark = "") %>%
+#   set_header_labels(month = "Month", station = "Station", mean = "Mean (mg/L)", max = "Max (mg/L)", min =  "Min (mg/L)")
 ```
 
 ```{r echo = FALSE}
@@ -158,7 +175,8 @@ plotly::ggplotly(ggplot() +
 
 ## Biological Response
 
-### Egg Count
+### Egg to Fry Survival
+
 
 ```{r}
 jpe_data <- read_csv("data_raw/jpe_data.csv")
@@ -167,27 +185,24 @@ tenyear = eggs %>% filter(brood_year > report_year-10 & brood_year<= report_year
 twentyyear = eggs %>% filter(brood_year > report_year-20 & brood_year<= report_year)
 ```
 
-```{r totaleggs-fig, fig.cap = "Potential Total Eggs in the Upper Sacramento"}
-ggplot(eggs) + 
-  geom_col(aes(x = brood_year, y = value), fill = "chartreuse4") +
-  geom_segment(aes(x = report_year-10+0.5, xend = report_year+0.5, y = mean(tenyear$value, na.rm = TRUE), yend = mean(tenyear$value, na.rm = TRUE)), linetype = "dashed", size = 0.6) + 
-  geom_segment(aes(x = report_year-20+0.5, xend = report_year+0.5, y = mean(twentyyear$value, na.rm = TRUE), yend = mean(twentyyear$value, na.rm = TRUE)), linetype = "dotted", size = 0.7) + 
-  labs(y = "Total eggs", x = "Year") + 
-  theme_bw()
-```
-
-
-    
-    
-### Egg to Fry survival
-
-Placeholder for Nick's TDM Estimate Plot? 
 ```{r}
-
+jpe <- url_jpe <- "https://www.cbr.washington.edu/sacramento/data/jpe_data.html"
+jpi <- url_jpe %>%
+  read_html() %>%
+  html_nodes(xpath = '/html/body/div[2]/div[12]/table') %>%
+  html_table() %>%
+  bind_rows() %>%
+  janitor::clean_names() %>%
+  filter(row_number() <= n()-1,
+         !brood_year %in% c(2003, 2004)) %>%
+  mutate(brood_year = as.numeric(brood_year),
+         value = stringr::str_replace(value, ",", ""),
+         jpi = as.numeric(value))
+jpi_tenyear <- jpi %>% filter(brood_year >= report_year-10 & brood_year <=report_year) %>%
+  mutate(value = as.numeric(value))
 ```
 
-
-```{r TDM-etf-fig, message = FALSE, warning = FALSE, echo = FALSE, fig.cap = paste0("Annual Percent of Egg to Fry Survival, Temperature-Dependent Mortality, and Unattributed Survival from 2002 to ",report_year, ". Labels in parentheses indicate Water Year Type.")}
+```{r}
 jpi <- read.csv("data_raw/JPI_2002_2023.csv") %>%
   filter(BY <= report_year) %>%
   rename(JPI = Fry.Equivalent.JPI,
@@ -218,7 +233,56 @@ tdm_long <- tdm %>%
          `Unattributed Mortality` = unexplained_mortality) %>%
   pivot_longer(cols = `Temperature Attributed Mortality`:`Unattributed Mortality`, names_to = "Fate", values_to = "Percent") %>%
   mutate(Percent_label = round(Percent)) 
+```
 
+```{r }
+avg.ETF = mean(jpi$ETF_Survival)
+current.ETF = jpi$ETF_Survival[1]
+
+dir_etf <- ifelse(current.ETF<avg.ETF, "below", "above")
+```
+
+
+**Egg-to-Fry Metrics**
+
+-   **Total potential eggs:** `r paste(scales::comma(eggs$value[eggs$brood_year == report_year]), "eggs")`
+    -   **10-year average:** `r paste(scales::comma(mean(tenyear$value, na.rm=TRUE)), "eggs")`
+    -   **20-year average:** `r paste(scales::comma(mean(twentyyear$value, na.rm=TRUE)), "eggs")`
+-   **Fry-equivalents at RBDD (JPE Letter):** `r scales::comma(as.numeric(jpi$value[jpi$brood_year == report_year]))`. 
+    -   **10-year average:** `r scales::comma(mean(as.numeric(jpi_tenyear$value), na.rm = TRUE))` including 2011, 2014-2017, 2021
+-   **Egg to Fry Survival (ETF Survival):** ETF Survival in `r report_year` was `r dir_etf` the average ETF between 2002 and `r report_year` at `r current.ETF`% (Figure \@ref(fig:ETFSurv-fig)). 
+    -   The average ETF from `r min(year(jpi$BY))` to `r report_year` was `r avg.ETF`%
+
+
+#### SacPAS Fish Model 
+
+-   Redds exposed to Tcritical = 11.82°C (53.28°F) are shown in Figure X.
+    -   Pre-hatching exposure: 
+    -   Pre-emergence exposure: 
+-   Estimated total egg-to-fry emergence survival:
+    -   Temperature-dependent survival: 
+-   TDM
+    -   Spawner density-based survival:
+    ‒   Background survival: 
+    ‒	  Dewater-based survival: 
+    ‒	  Survival by reach is shown in Table X
+
+
+Table of Survival by Reach (Fish Model)
+```{r survByReachTab}
+
+```
+
+```{r totaleggs-fig, fig.cap = "Potential Total Eggs in the Upper Sacramento"}
+ggplot(eggs) + 
+  geom_col(aes(x = brood_year, y = value), fill = "chartreuse4") +
+  geom_segment(aes(x = report_year-10+0.5, xend = report_year+0.5, y = mean(tenyear$value, na.rm = TRUE), yend = mean(tenyear$value, na.rm = TRUE)), linetype = "dashed", size = 0.6) + 
+  geom_segment(aes(x = report_year-20+0.5, xend = report_year+0.5, y = mean(twentyyear$value, na.rm = TRUE), yend = mean(twentyyear$value, na.rm = TRUE)), linetype = "dotted", size = 0.7) + 
+  labs(y = "Total eggs", x = "Year") + 
+  theme_bw()
+```
+
+```{r TDM-etf-fig, message = FALSE, warning = FALSE, echo = FALSE, fig.cap = paste0("Annual Percent of Egg to Fry Survival, Temperature-Dependent Mortality, and Unattributed Survival from 2002 to ",report_year, ". Labels in parentheses indicate Water Year Type.")}
 yrcolors <- rev(tdm$color)
 
 (plot_tdm <- ggplot(tdm_long, aes(Brood.Year.Type, Percent, fill = Fate)) + 
@@ -257,48 +321,33 @@ twentyyear_etf = jpi %>% filter(BY > report_year-20 & BY<= report_year)
 ```
 
 
-```{r echo = FALSE}
-avg.ETF = mean(jpi$ETF_Survival)
-current.ETF = jpi$ETF_Survival[1]
+SacPAS Fish Model Results for Temperature Exposure (Plot)
+```{r tempExposure-fig}
 
-dir_etf <- ifelse(current.ETF<avg.ETF, "below", "above")
 ```
-```{r}
-jpe <- url_jpe <- "https://www.cbr.washington.edu/sacramento/data/jpe_data.html"
-jpi <- url_jpe %>%
-  read_html() %>%
-  html_nodes(xpath = '/html/body/div[2]/div[12]/table') %>%
-  html_table() %>%
-  bind_rows() %>%
-  janitor::clean_names() %>%
-  filter(row_number() <= n()-1,
-         !brood_year %in% c(2003, 2004)) %>%
-  mutate(brood_year = as.numeric(brood_year),
-         value = stringr::str_replace(value, ",", ""),
-         jpi = as.numeric(value))
-jpi_tenyear <- jpi %>% filter(brood_year >= report_year-10 & brood_year <=report_year) %>%
-  mutate(value = as.numeric(value))
-```
-
-
-**Summary**
-
--   **Total potential eggs:** `r paste(eggs$eggs[eggs$value == report_year])`
-    -   **10-year average:** `r paste(scales::comma(mean(tenyear$value, na.rm=TRUE)), "eggs")`
-    -   **20-year average:** `r paste(scales::comma(mean(twentyyear$value, na.rm=TRUE)), "eggs")`
--   **Fry-equivalents at RBDD (JPE Letter):** `r scales::comma(as.numeric(jpi$value[jpi$brood_year == report_year]))`. 
-    -   **10-year average:** `r scales::comma(mean(as.numeric(jpi_tenyear$value), na.rm = TRUE))` including 2011, 2014-2017, 2021
--   **Egg to Fry Survival (ETF Survival):** ETF Survival in `r report_year` was `r dir_etf` the average ETF between 2002 and `r report_year` at `r current.ETF`% (Figure \@ref(fig:ETFSurv-fig)). 
-    -   The average ETF from `r min(year(jpi$BY))` to `r report_year` was `r avg.ETF`%
 
 ### Emergence
 
-Placeholder for SacPAS fish model output for emergence timing
+**Placeholder for SacPAS fish model output for emergence timing**
 ```{r}
 
 ```
 
-### Redds Dewatering 
+
+SacPAS fish model estimates for emergence:
+
+- **First occupancy:**
+- **Emergence:**
+      - **First:**
+      - **Mean:**
+      - **Last:**
+
+SacPAS Fish Model Results for Redd Occupation and Emergency Timing (Plot)
+```{r}
+
+```
+
+### Redd Dewatering 
 
 I don't know if these two are the same redd (redd ID has 2 numbers switched around)
 What is the unit for water depth?
@@ -318,13 +367,16 @@ dewater_clean <- dewater %>%
          `Water Depth` = depth,
          `Flow at Keswick Dam (cfs)` = flowkwk)
 
-flextable(dewater_clean) %>%
-  add_footer_lines() %>%
-  add_header_lines() %>%
-  width(width = 1.2, unit = "in") %>%
-  vline()%>%
-  border_outer() %>%
-  bold(part = "header") %>%
-  align(align = "center", part = "all")
+```
+
+- `r nrow(dewater_clean)` redds were dewatered in report_year (Table \@ref(tab:dewateredRedds)).
+
+```{r dewateredRedds}
+kable(dewater_clean,
+      label = NA,
+      vline = "",
+      caption = paste("Dewatered Redds in", report_year),
+      valign = "t") %>%
+  kable_classic(html_font = "Cambria") 
 ```
 

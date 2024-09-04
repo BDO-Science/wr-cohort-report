@@ -2,11 +2,9 @@
 
 This section describes environmental attributes associated with and responses during the out-migrating juvenile life stage in the Sacramento-San Joaquin Delta.
 
-
 ```{r setup5, include = FALSE}
 knitr::opts_chunk$set(message = FALSE, warning = FALSE, echo = FALSE)
 ```
-
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library(ggplot2) 
@@ -30,8 +28,6 @@ source("parameters.R")
 1.  Rearing Habitat Capacity (Floodplain Connectivity)
 
 -   Weir overtopping
-
-2.  Entrainment Risk
 
 ### Food Availability
 
@@ -75,7 +71,7 @@ ggplot(macros) +
 
 ### Sacramento River Flow and Delta Outflow
 
-```{r deltaflow-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("FPT (Sacramento River at Freeport), Delta Outflow (DTO), OMR (OMR) Mean, Maximum, Minimum Monthly Flows (cfs) in", report_year, "-", report_year+1)}
+```{r deltaflow-tab}
 flow_fpt_monthly <- readRDS(paste0("data_raw/flow_fpt_monthly_", year(start), "-", year(end2), ".rds")) %>%
   filter(month_num %in% c(12, 1, 2, 3, 4, 5, 6))
 flow_OMR_monthly <- readRDS(paste0("data_raw/omr_OMR_monthly_", year(start), "-", year(end2), ".rds")) %>%
@@ -86,16 +82,29 @@ outflow_monthly <- readRDS(paste0("data_raw/outflow_monthly_", year(start), "-",
 flow_delta_monthly <- rbind(flow_fpt_monthly, outflow_monthly,flow_OMR_monthly) %>%
   select(-month_num)
 
-flextable(flow_delta_monthly)%>%
-  add_footer_lines() %>%
-  add_header_lines() %>%
-  width(width = 1, unit = "in") %>%
-  hline(i = c(7, 14, 21), part = 'body') %>%
-  vline()%>%
-  border_outer() %>%
-  bold(part = "header") %>%
-  colformat_num(j = "year", big.mark = "") %>%
-  set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (cfs)", max = "Max (cfs)", min =  "Min (cfs)", flag_days = "Days < 6 mg/L") 
+flow_delta_monthly_t <- flow_delta_monthly
+
+colnames(flow_delta_monthly_t) <- stringr::str_to_title(colnames(flow_delta_monthly_t))
+
+kable(flow_delta_monthly_t,
+      label = NA,
+      vline = "",
+      caption = paste("Sacramento River at Freeport (FPT), Delta Outflow (DTO), Old and Middle River (OMR) Mean, Maximum, Minimum Monthly Flows (cfs) in", report_year, "-", report_year+1),
+      valign = "t") %>%
+  kable_classic(html_font = "Cambria") %>%
+      row_spec(c(7,14,21),extra_css = "border-bottom: 1px solid;")
+
+
+# flextable(flow_delta_monthly)%>%
+#   add_footer_lines() %>%
+#   add_header_lines() %>%
+#   width(width = 1, unit = "in") %>%
+#   hline(i = c(7, 14, 21), part = 'body') %>%
+#   vline()%>%
+#   border_outer() %>%
+#   bold(part = "header") %>%
+#   colformat_num(j = "year", big.mark = "") %>%
+#   set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (cfs)", max = "Max (cfs)", min =  "Min (cfs)", flag_days = "Days < 6 mg/L") 
 
 ```
 
@@ -145,7 +154,6 @@ ggplotly(ggplot(omr) +
 #   layout(legend = list(orientation = "h"))
 ```
 
-
 ```{r ,echo = FALSE}
 monthly_fpt <- flow_delta_monthly %>% filter(station == "FPT")
 max_flow_fpt <- max(monthly_fpt$max)
@@ -176,7 +184,7 @@ min_mean_flow_omr_month <- monthly_omr %>% filter(mean == min_mean_flow_omr) %>%
 
 ### Water Temperature
 
-```{r FPTSUSSWEGSSMALwtemp-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("FPT (Sacramento River at Freeport), SUS (Steamboat Slough below Sutter Slough), SWE (Sacramento River at Walnut Grove), GSS (Georgiana Slough at Sacramento River), MAL (Sacramento River at Mallard Island) Mean, Maximum, Minimum Monthly Water Temperature (°F) in", report_year, "-", report_year+1)}
+```{r FPTSUSSWEGSSMALwtemp-tab}
 wtemp_delta_df <- readRDS(paste0("data_raw/wtemp_cdec_FPT_SUS_SWE_GSS_MAL_", year(start), "-", year(end2), ".rdsxz")) 
 
 wtemp_delta_monthly <- f_monthly_extrayear_thresh_greater(wtemp_delta_df, WaterTemp, 63) %>%
@@ -184,17 +192,30 @@ wtemp_delta_monthly <- f_monthly_extrayear_thresh_greater(wtemp_delta_df, WaterT
   filter(month_num %in% c(12, 1, 2, 3, 4, 5,6)) %>%
   select(-month_num) %>%
   arrange(station) 
-  
-flextable(wtemp_delta_monthly)%>%
-  add_footer_lines() %>%
-  add_header_lines() %>%
-  width(width = 1, unit = "in") %>%
-  hline(i = c(7, 14, 21, 28), part = 'body') %>%
-  vline()%>%
-  border_outer() %>%
-  bold(part = "header") %>%
-  colformat_num(j = "year", big.mark = "") %>%
-  set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (°F)", max = "Max (°F)", min =  "Min (°F)", flag_days = "Days > 63°F") 
+
+wtemp_delta_monthly_t <- wtemp_delta_monthly %>%
+  rename("Days < 63 degF" = flag_days)
+
+colnames(wtemp_delta_monthly_t) <- stringr::str_to_title(colnames(wtemp_delta_monthly_t))
+
+kable(wtemp_delta_monthly_t,
+      label = NA,
+      vline = "",
+      caption = paste("FPT (Sacramento River at Freeport), SUS (Steamboat Slough below Sutter Slough), SWE (Sacramento River at Walnut Grove), GSS (Georgiana Slough at Sacramento River), MAL (Sacramento River at Mallard Island) Mean, Maximum, Minimum Monthly Water Temperature (°F) in", report_year, "-", report_year+1),
+      valign = "t") %>%
+  kable_classic(html_font = "Cambria") %>%
+      row_spec(c(7,14,21,28),extra_css = "border-bottom: 1px solid;")
+
+# flextable(wtemp_delta_monthly)%>%
+#   add_footer_lines() %>%
+#   add_header_lines() %>%
+#   width(width = 1, unit = "in") %>%
+#   hline(i = c(7, 14, 21, 28), part = 'body') %>%
+#   vline()%>%
+#   border_outer() %>%
+#   bold(part = "header") %>%
+#   colformat_num(j = "year", big.mark = "") %>%
+#   set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (°F)", max = "Max (°F)", min =  "Min (°F)", flag_days = "Days > 63°F") 
 ```
 
 ```{r echo = FALSE}
@@ -232,7 +253,7 @@ max_mean_wtemp_mal_delta_month <- monthly_wtemp_mal_delta %>% filter(mean == max
 
 ### Dissolved Oxygen
 
-```{r SRHSXSBLPMALDO-tab, echo = FALSE, message = FALSE, warning = FALSE, tab.cap = paste("SRH (Sacramento River at Hood), SXS (Steamboat Slough near Sacramento River), BLP (Blind Point), MAL (Sacramento River at Mallard Island) Mean, Maximum, Minimum Monthly DO (mg/L) in", report_year, "-", report_year+1)}
+```{r SRHSXSBLPMALDO-tab}
 do_delta_df <- readRDS(paste0("data_raw/do_cdec_SRH_SXS_BLP_MAL_", year(start), "-", year(end2), ".rdsxz")) 
 
 do_delta_monthly <- f_monthly_extrayear_thresh(do_delta_df, DO, 6) %>%
@@ -240,17 +261,32 @@ do_delta_monthly <- f_monthly_extrayear_thresh(do_delta_df, DO, 6) %>%
   filter(month_num %in% c(12, 1, 2, 3, 4, 5,6)) %>%
   select(-month_num) %>%
   arrange(station) 
+
+do_delta_monthly_t <- do_delta_monthly %>%
+  rename("Days < 6 mg/L" = flag_days)
+
+colnames(do_delta_monthly_t) <- stringr::str_to_title(colnames(do_delta_monthly_t))
+
+kable(do_delta_monthly_t,
+      label = NA,
+      vline = "",
+      caption = paste("SRH (Sacramento River at Hood), SXS (Steamboat Slough near Sacramento River), BLP (Blind Point), MAL (Sacramento River at Mallard Island) Mean, Maximum, Minimum Monthly DO (mg/L) in", report_year, "-", report_year+1),
+      valign = "t") %>%
+  kable_classic(html_font = "Cambria") %>%
+      row_spec(c(7,14,21,28),extra_css = "border-bottom: 1px solid;")
+
+
   
-flextable(do_delta_monthly)%>%
-  add_footer_lines() %>%
-  add_header_lines() %>%
-  width(width = 1, unit = "in") %>%
-  hline(i = c(7, 14, 21, 28), part = 'body') %>%
-  vline()%>%
-  border_outer() %>%
-  bold(part = "header") %>%
-  colformat_num(j = "year", big.mark = "") %>%
-  set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (mg/L)", max = "Max (mg/L)", min =  "Min (mg/L)", flag_days = "Days < 6 mg/L") 
+# flextable(do_delta_monthly)%>%
+#   add_footer_lines() %>%
+#   add_header_lines() %>%
+#   width(width = 1, unit = "in") %>%
+#   hline(i = c(7, 14, 21, 28), part = 'body') %>%
+#   vline()%>%
+#   border_outer() %>%
+#   bold(part = "header") %>%
+#   colformat_num(j = "year", big.mark = "") %>%
+#   set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (mg/L)", max = "Max (mg/L)", min =  "Min (mg/L)", flag_days = "Days < 6 mg/L") 
 ```
 
 ```{r echo = FALSE}
@@ -292,7 +328,7 @@ max_mean_do_mal_delta_month <- monthly_do_mal_delta %>% filter(mean == max_mean_
 
 CalfishTrack
 
-```{r hatcherydelta-tab, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Table of Hatchery WR Juvenile Survival." }
+```{r hatcherydelta-tab}
 hatchery_release <- read_csv("data_raw/hatchery_release_data.csv") %>%
   mutate(rel_date = factor(rel_date)) %>%
   filter(!is.na(reach_start))
@@ -304,16 +340,23 @@ hatchery_table_delta <- hatchery_release %>%
          rkm_start = round(rkm_start)) %>%
   select(rel_date, reach_start, reach_end, rkm_start, ReachSurvival, CumulativeSurvival, count)
 
-flextable(hatchery_table_delta)%>%
-  add_footer_lines() %>%
-  add_header_lines() %>%
-  width(width = 1, unit = "in") %>%
-  hline(i = 9, part = 'body') %>%
-  vline()%>%
-  border_outer() %>%
-  bold(part = "header") %>%
-  # colformat_num(j = "year", big.mark = "") %>%
-  set_header_labels(CumulativeSurvival = "Cumulative Survival", ReachSurvival = "Reach Survival", rkm_start = "River Kilometer", rel_date = "Release Date")
+kable(hatchery_table_delta,
+      label = NA,
+      vline = "",
+      caption = "Table of Hatchery WR Juvenile Survival",
+      valign = "t") %>%
+  kable_classic(html_font = "Cambria") 
+
+# flextable(hatchery_table_delta)%>%
+#   add_footer_lines() %>%
+#   add_header_lines() %>%
+#   width(width = 1, unit = "in") %>%
+#   hline(i = 9, part = 'body') %>%
+#   vline()%>%
+#   border_outer() %>%
+#   bold(part = "header") %>%
+#   # colformat_num(j = "year", big.mark = "") %>%
+#   set_header_labels(CumulativeSurvival = "Cumulative Survival", ReachSurvival = "Reach Survival", rkm_start = "River Kilometer", rel_date = "Release Date")
 ```
 
 ```{r hatcherysurvival-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap ="Cumulative Survival by River Kilometer"}
@@ -336,7 +379,6 @@ STARS Did we figure out how to scrape stars results? Use Chase's code to remake.
 Survival, Routing, Migration
 
 ```{r}
-
 ```
 
 ### Routing
@@ -344,6 +386,41 @@ Survival, Routing, Migration
 ```{r}
 
 ```
+
+### Abundance
+
+Catch for all surveys
+
+```{r}
+index <- read_csv("data_raw/cohort_juv_index_data_cumulative_currentyear_long.csv")
+abund_delta_surveys <-  index %>%
+  group_by(Survey) %>%
+  summarize(Abund = max(Catch))
+
+juvdates <- read_csv("data_raw/cohort_juv_data_cumulative_currentyear.csv")
+delta_entry_first <- format(juvdates$date[match(FALSE, cummax(juvdates$`Sac Trawls`) == 0)], "%B %d, %Y")
+delta_entry_median <- format(juvdates$date[match(TRUE, juvdates$`Sac Trawls`== median(juvdates$`Sac Trawls`))], "%B %d, %Y")
+delta_entry_last <- format(juvdates$date[match(TRUE, juvdates$`Sac Trawls`== max(juvdates$`Sac Trawls`))], "%B %d, %Y")
+delta_exit_first <- format(juvdates$date[match(FALSE, cummax(juvdates$`Chipps Island Trawls`) == 0)], "%B %d, %Y")
+delta_exit_median <- format(juvdates$date[match(TRUE, juvdates$`Chipps Island Trawls`== median(juvdates$`Chipps Island Trawls`))], "%B %d, %Y")
+delta_exit_last <- format(juvdates$date[match(TRUE, juvdates$`Chipps Island Trawls`== max(juvdates$`Chipps Island Trawls`))], "%B %d, %Y")
+```
+
+**Summary**
+
+-   Juvenile WRCS cumulative total catch: 
+    - Sacramento Trawls at Sherwood Harbor: **`r abund_delta_surveys$Abund[abund_delta_surveys$Survey == "Sac Trawls"]`** (Index = **`r abund_delta_surveys$Abund[abund_delta_surveys$Survey == "Sac Trawls Index"]`**)
+    - Sacramento Beach Seines: **`r abund_delta_surveys$Abund[abund_delta_surveys$Survey == "Sac Beach Seines"]`** (Index = **`r abund_delta_surveys$Abund[abund_delta_surveys$Survey == "Sac Beach Seines Index"]`**)
+    - Chipps Island Trawl: **`r abund_delta_surveys$Abund[abund_delta_surveys$Survey == "Chipps Island Trawls"]`**
+-   Migration Timing: 
+    - Delta Entry (Sacramento Trawls at Sherwood Harbor): 
+      - First: **`r delta_entry_first`**    
+      - Median: **`r delta_entry_median`**
+      - Last: **`r delta_entry_last`**
+    - Delta Exit (Chipps Island Trawl): 
+      - First: **`r delta_exit_first`**    
+      - Median: **`r delta_exit_median`**
+      - Last: **`r delta_exit_last`**
 
 ### Migration Timing
 
@@ -368,19 +445,36 @@ SacPAS Migration Timing Figure
 
 ### Condition
 
-Body Size - histograms for body size for Salvage (genetic and LAD), Chipps (genetic and LAD) - look at Chase's plots
+Plot of current year sizes for Salvage, Chipps, Sacramento Beach Seines, Sac Trawls at Sherwood
 
 ```{r}
-salvage_wr <- read_csv("data_raw/salvage_allyears.csv")
 
-salvage_wr %>% #facets by clipped vs unclipped with WY on Y axis
-  filter(Length < 750) %>%
-  mutate(WY = if_else(Month > 9, Year + 1, Year))  %>%
-  filter(WY > 2004 & WY <= report_year + 1) %>%
-  ggplot(aes(x = Length, y = factor(WY), fill = Adipose.Clip)) +
-  geom_density_ridges(scale = 1.5, draw_baseline = FALSE) +
-  facet_wrap(~Adipose.Clip) +
+```
+
+```{r salvage_fl-fig, fig.cap = "Fork Lengths of Genetic and LAD Winter Run Chinook Salmon Juveniles at Salvage. Points indicate median fork length."}
+salvage_wr <- read_csv("data_raw/salvage_allyears.csv") %>%
+  mutate(WY = if_else(Month > 9, Year + 1, Year)) %>%
+  filter(Length <750, 
+         Adipose.Clip == "Unclipped") %>%
+  mutate(Race = LAD.Race, 
+         RaceType = "LAD") 
+
+salvage_dna_wr <- salvage_wr %>%
+  filter(DNA.Race == "Winter") %>%
+  mutate(Race = DNA.Race, 
+         RaceType = "DNA")
+
+salvage_wr_all <- bind_rows(salvage_wr, salvage_dna_wr) %>% filter(!is.na(RaceType)) %>%
+  filter(WY <= report_year)
+
+median_salvage_fl <- salvage_wr_all %>% group_by(WY, RaceType) %>%
+  summarize(Length = median(Length))
+
+ggplot() +
+  geom_density_ridges(data = salvage_wr_all, aes(x = Length, y = factor(WY), fill = RaceType), scale = 1.5, draw_baseline = FALSE) +
+  geom_point(data = median_salvage_fl, aes(x = Length, y = factor(WY)), shape = 21)+
   labs(x = 'Fork Length (mm)', y = 'Water Year') +
+  facet_wrap(~RaceType) + 
   theme_bw() +
   theme(legend.position = 'none',
         plot.margin = ggplot2::margin(0.5,0.5,0.25,0.25, unit = 'cm'),
@@ -388,8 +482,34 @@ salvage_wr %>% #facets by clipped vs unclipped with WY on Y axis
         axis.title.y = element_text(margin=ggplot2::margin(r=10)))
 ```
 
-```{r}
+```{r chipps_fl-fig, fig.cap = "Fork Lengths of Genetic and LAD Winter Run Chinook Salmon Juveniles at Chipps Trawl. Points indicate median fork length."}
+chipps_gen <- read_csv("data_raw/chipps_genetic_data.csv")
+chipps_lad <- chipps_gen %>%
+  filter(LengthByDate == "Winter") %>%
+  mutate(Race = LengthByDate, 
+         RaceType = "LAD") 
 
+chipps_genetic <- chipps_gen %>%
+  filter(GeneticID == "Winter") %>%
+  mutate(Race = GeneticID, 
+         RaceType = "DNA") 
+
+chipps_winter <- bind_rows(chipps_lad, chipps_genetic) %>%
+  mutate(WY = if_else(month(SampleDate) > 9, year(SampleDate) + 1, year(SampleDate))) 
+
+median_chipps_fl <- chipps_winter %>% group_by(WY, RaceType) %>%
+  summarize(ForkLength = median(ForkLength))
+
+ggplot() +
+  geom_density_ridges(data = chipps_winter, aes(x = ForkLength, y = factor(WY), fill = RaceType), scale = 1.5, draw_baseline = FALSE) +
+  geom_point(data = median_chipps_fl, aes(x = ForkLength, y = factor(WY)), shape = 21)+
+  labs(x = 'Fork Length (mm)', y = 'Water Year') +
+  facet_wrap(~RaceType) + 
+  theme_bw() +
+  theme(legend.position = 'none',
+        plot.margin = ggplot2::margin(0.5,0.5,0.25,0.25, unit = 'cm'),
+        axis.title.x = element_text(margin=ggplot2::margin(t=10)),
+        axis.title.y = element_text(margin=ggplot2::margin(r=10)))
 ```
 
 ### Loss
@@ -397,12 +517,12 @@ salvage_wr %>% #facets by clipped vs unclipped with WY on Y axis
 ```{r}
 daily_salvage <- read_csv("data_raw/delta_loss.csv")
 
-ggplot(daily_salvage) + 
-  geom_line(aes(Date, cumLoss, color = Facility)) +
-  geom_point(aes(Date, Expanded.Salvage, color = Facility), size = 0.7) + 
+ggplotly(ggplot(daily_salvage) + 
+  geom_line(aes(Date, cumLoss, color = Facility), size = 1.1) +
+  geom_point(aes(Date, Expanded.Salvage, color = Facility), size = 0.9) + 
   scale_color_manual(values = c("blue", "goldenrod3"))+
   labs(y = "Cumulative Loss") + 
-  theme_bw()
+  theme_bw())
 ```
 
 Winter-run Current and Historic Cumulative Salvage (Line plots)
@@ -457,8 +577,3 @@ Monitoring Sources for abundance, growth/size, migration timing/duration
 -   Hatchery Origin Smolt survival
 -   Modeled: \*\* Juvenile: STARS \*\* Fish Model
 -   Survival to Delta: Production (Hatchery JPE, Modeled JPE)
-
-7.  Loss and Salvage (Salvage)
-
--   Take Limit
--   Model
