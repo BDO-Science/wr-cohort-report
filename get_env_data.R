@@ -372,7 +372,7 @@ atemp_krdd <- rbind(atemp_krdd_mean, atemp_krdd_max, atemp_krdd_min) %>%
 
 atemp_krdd_wide <-  atemp_krdd %>% pivot_wider(values_from = "atemp", names_from = "var")
 atemp_daily_years <- atemp_krdd %>%
-  filter(year > 2002 & year <= report_year+1) %>%
+  filter(year > report_year-10 & year <= report_year+1) %>%
   mutate(date2 = ymd(paste0("1980-", month_num, "-", lubridate::day(date)))) %>%
   group_by(date2, var) %>%
   mutate(allyears = mean(atemp, na.rm = TRUE),
@@ -381,7 +381,24 @@ atemp_daily_years <- atemp_krdd %>%
                            mean(atemp, na.rm = TRUE))))   %>%
   ungroup()
 
+atemp_current <- atemp_daily_years %>%
+  filter(year == report_year)%>%
+  filter(var == "mean") %>%
+  mutate(plot_year = as.character(report_year)) %>%
+  select( date2, month_num, atemp, plot_year)
+
+atemp_mean <- atemp_daily_years %>%
+  filter(year > report_year-10 & year <= report_year) %>%
+  filter(var == "mean") %>%
+  group_by(date2, month_num) %>%
+  summarize(atemp = mean(atemp)) %>%
+  mutate(plot_year = as.character(paste0(report_year-10, "-", report_year)))%>%
+  select(date2, month_num, atemp, plot_year)
+
+atemp_krdd_plot_data = bind_rows(atemp_current, atemp_mean)
+
 write_csv(atemp_daily_years, here("data_raw", paste0("atemp_daily_krdd_allyears.csv")))
+write_csv(atemp_krdd_plot_data, here("data_raw", paste0("atemp_krdd_plot_data.csv")))
 
 
 # atemp_krdd <- rbind(atemp_krdd_mean, atemp_krdd_max, atemp_krdd_min) %>%

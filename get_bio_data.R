@@ -185,6 +185,30 @@ juvenile_data <- read_csv(catch_url)
 
 write_csv(juvenile_data, "data_raw/cohort_juv_data.csv")
 
+juv_ml <- read_csv("data_raw/cohort_juv_data.csv") %>%
+  filter(year(ymd(Date)) >= report_year)%>%
+  mutate(Date = lubridate::ymd(Date)) %>%
+  janitor::clean_names() %>%
+  mutate_all(~replace(., is.na(.), 0)) %>%
+  select(date,
+         `Tisdale Weir RST` = cumulative_raw_tisdale_weir_rst,
+         `Knights Landing RST` = cumulative_raw_knights_landing_rst,
+         `Lower Feather RST` = cumulative_raw_lower_feather_rst,
+         `Lower Sac RST` = cumulative_raw_lower_sacramento_rst,
+         `Sac Beach Seines` = cumulative_raw_sacramento_beach_seines_sr080e_sr071e_sr062e_sr057e_sr055e_sr060e_am001s_sr049e,
+         `Sac Trawls` = cumulative_raw_sacramento_trawls_sr055m_sr055e_sr055w_sr055x,
+         `Chipps Island Trawls` = cumulative_raw_chipps_island_trawls_sb018m_sb018n_sb018s_sb018x,
+         `RBDD Daily` = red_bluff_diversion_dam_daily_estimates)
+write_csv(juv_ml, "data_raw/cohort_juv_data_cumulative_currentyear.csv")
+
+juv_ml_long <- juv_ml %>%
+  tidyr::pivot_longer(cols = 2:9, names_to = "Survey", values_to = "Catch") %>%
+  mutate(separate = if_else(Survey == "RBDD Daily",  "Red Bluff Diversion Dam", "Other Rotary Screw Traps"),
+         separate = factor(separate, levels = c("Red Bluff Diversion Dam", "Other Rotary Screw Traps"))) %>%
+  filter(!(Survey == "RBDD Daily" & Catch==0 & date>as.Date("2021-10-01")))
+
+write_csv(juv_ml_long, "data_raw/cohort_juv_data_cumulative_currentyear_long.csv")
+
 ### RBDD Fork Length
 
 raw_rbdd_url <- "https://portal.edirepository.org/nis/dataviewer?packageid=edi.1365.10&entityid=58540ac4ed34ce05f3309510f4be91e5"
@@ -326,7 +350,7 @@ salvage_wr <- salvage_data %>%
   mutate(Date = date(Sample.Time),
          Year = year(Date),
          Month = month(Date)) %>%
-  select(Date, Year, Month, Facility, Adipose.Clip, Length, nfish, Expanded.Salvage, Loss, DNA.Sample.ID, X14.day.OMRI)
+  select(Date, Year, Month, Facility, Adipose.Clip, Length, nfish, Expanded.Salvage, Loss, LAD.Race, DNA.Race, X14.day.OMRI)
 write_csv(salvage_wr, "data_raw/salvage_allyears.csv")
 
 # summarize daily cumulative loss
@@ -348,4 +372,36 @@ write_csv(daily_salvage,"data_raw/delta_loss.csv")
 
 ### Abundance --------------------------
 
+chipps_gen <- read_csv("https://portal.edirepository.org/nis/dataviewer?packageid=edi.1055.1&entityid=4a3b853edcf849ea4cbeb2b826885f0a")
+djfmp <- read_csv("https://portal.edirepository.org/nis/dataviewer?packageid=edi.244.4&entityid=c4726f68b76c93a7e8a1e13e343ebae2")
 
+index_url <- paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/sampling_graph.php?sc=1&outputFormat=csv&year=", report_year, "&species=CHN%3AWinter&loc=all%3Aall%3Aall&cumData=1&typeData=index")
+juvindex_data <- read_csv(index_url)
+
+write_csv(chipps_gen, "data_raw/chipps_genetic_data.csv")
+write_csv(juvindex_data, "data_raw/cohort_juv_index_data.csv")
+
+juv_index <- juvindex_data %>%
+  mutate(Date = lubridate::ymd(Date)) %>%
+  janitor::clean_names() %>%
+  mutate_all(~replace(., is.na(.), 0)) %>%
+  # mutate(across(cumulative_raw_tisdale_weir_rst:cumulative_raw_chipps_island_trawls_sb018m_sb018n_sb018s_sb018x,
+                # ~fill(., .direction = "up"))) %>%
+  select(date,
+         `Tisdale Weir RST` = cumulative_raw_tisdale_weir_rst,
+         `Knights Landing RST` = cumulative_raw_knights_landing_rst,
+         `Lower Feather RST` = cumulative_raw_lower_feather_rst,
+         `Lower Sac RST` = cumulative_raw_lower_sacramento_rst,
+         `Sac Beach Seines` = cumulative_raw_sacramento_beach_seines_sr080e_sr071e_sr062e_sr057e_sr055e_sr060e_am001s_sr049e,
+         `Sac Beach Seines Index` = cumulative_index_sacramento_beach_seines_sr080e_sr071e_sr062e_sr057e_sr055e_sr060e_am001s_sr049e,
+         `Sac Trawls` = cumulative_raw_sacramento_trawls_sr055m_sr055e_sr055w_sr055x,
+         `Sac Trawls Index` = cumulative_index_sacramento_trawls_sr055m_sr055e_sr055w_sr055x,
+         `Chipps Island Trawls` = cumulative_raw_chipps_island_trawls_sb018m_sb018n_sb018s_sb018x)
+write_csv(juv_index, "data_raw/cohort_juv_data_index_cumulative_currentyear.csv")
+
+juv_index_long <- juv_index %>%
+  tidyr::pivot_longer(cols = 2:10, names_to = "Survey", values_to = "Catch") %>%
+  filter(Survey %in% c("Sac Beach Seines", "Sac Beach Seines Index",
+                       "Sac Trawls", "Sac Trawls Index", "Chipps Island Trawls"))
+
+write_csv(juv_index_long, "data_raw/cohort_juv_index_data_cumulative_currentyear_long.csv")
