@@ -16,12 +16,15 @@ library(viridis)
 library(sharpshootR)
 library(plotly)
 library(readr)
+library(here)
 
 library(kableExtra)
 library(flextable)
 source("functions.R")
 source("parameters.R")
 ```
+
+---
 
 ## Habitat Attributes
 
@@ -30,6 +33,8 @@ source("parameters.R")
 2.  Habitat Capacity: Depth/Shallow Water
 
 3.  In-Stream Habitat Capacity
+
+---
 
 ### Storage and Flows
 
@@ -123,7 +128,12 @@ Fish were not stranded in the Middle to Lower Sacramento River for Brood Year `r
 
 -   **Verona:** Peak flows were **`r max_flow_von`** cfs and occurred in **`r max_flow_von_month[1]`**. The highest mean flows were **`r max_mean_flow_von`** cfs and occurred in **`r max_mean_flow_von_month`**.
 
+
+---
+
 ### Environmental Drivers
+
+---
 
 #### Turbidity
 
@@ -195,6 +205,8 @@ min_mean_turb_rdb_ml_month <- monthly_rdb_turb_ml %>% filter(mean == min_mean_tu
 -   **Red Bluff Diversion Dam:** Minimum turbidity was **`r min_turb_rdb_ml`** FNU and occurred in **`r min_turb_rdb_ml_month`**. The lowest mean turbidity was **`r min_mean_turb_rdb_ml`** FNU and occurred in **`r min_mean_turb_rdb_ml_month`**. 
 -   **Sacramento River at Freeport:** Minimum turbidity was **`r min_turb_fpt_ml`** FNU and occurred in **`r min_turb_fpt_ml_month`**. The lowest mean turbidity was **`r min_mean_turb_fpt_ml`** FNU and occurred in **`r min_mean_turb_fpt_ml_month`**. 
 
+---
+
 #### Water Temperature
 
 ```{r WLKwtemp-tab}
@@ -243,6 +255,8 @@ max_wtemp_exceed_wlk_ml_month <- monthly_wtemp_wlk_ml %>% filter(flag_days == ma
 
 - Maximum water temperature was **`r max_wtemp_wlk_ml`** degrees F and occurred in **`r max_wtemp_wlk_ml_month`**. The highest mean water temperature was **`r max_mean_wtemp_wlk_ml`** degrees F and occurred in **`r max_mean_wtemp_wlk_ml_month`**.
 - The month with greatest days exceeding 63 degrees F (**`r max_wtemp_exceed_wlk_ml`** days) was **`r max_wtemp_exceed_wlk_ml_month`**.
+
+---
 
 #### Dissolved Oxygen
 
@@ -301,7 +315,7 @@ min_mean_do_srh_ml_month <- monthly_do_srh_ml %>% filter(mean == min_mean_do_srh
 -   **Sacramento River at Hood:** Minimum dissolved oxygen was **`r min_do_srh_ml`** mg/L and occurred in **`r min_do_srh_ml_month[1]`**. The lowest mean dissolved oxygen was **`r min_mean_do_srh_ml`** mg/L and occurred in **`r min_mean_do_srh_ml_month`**.
 
 
-## Rearing Habitat Capacity 
+---
 
 ## Biological Response
 
@@ -319,7 +333,9 @@ Monitoring Sources for abundance, growth/size, migration timing/duration
 **Data Sources** 
 
 * JPE, Smolt survival from JPE Letters (link)
-* 
+ 
+
+---
 
 ### Juvenile Production Estimate (Abundance)
 ```{r}
@@ -333,6 +349,8 @@ plot_metric(metric = "Total natural production entering the Delta", fill = "plum
 ```{r jpeH-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Total Hatchery Production entering the Delta (Hatchery JPE)"}
 plot_metric(metric = "Total LSNFH production entering the Delta")
 ```
+
+---
 
 ### Smolt Survival 
 
@@ -393,6 +411,8 @@ kable(hatchery_table,
 #   set_header_labels(CumulativeSurvival = "Cumulative Survival", ReachSurvival = "Reach Survival", rkm_start = "River Kilometer", rel_date = "Release Date")
 ```
 
+---
+
 ### Migration Timing 
 
 Cumulative Raw Catch: RBDD, Chipps, Tisdale, Knights, Sac Beach Seines, Sac Trawls
@@ -419,10 +439,18 @@ Median Passage Dates
 ```
 
 Migration Timing
-```{r}
 
+```{r knights-timing-fig, fig.cap = "Knights Landing Timing"}
+# knights_link <- paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt.php?species=CHN%3AWinter&loc=KNL&years=10&typeData=raw&histYear=", report_year,"&outputFormat=hrtplotOnly")
+# knitr::include_graphics(knights_link)
 ```
 
+```{r sactrawl-timing-fig, fig.cap = "Sac Trawl Timing"}
+# sactrawl_link <- paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt.php?species=CHN%3AWinter&loc=SR055&years=10&typeData=raw&histYear=", report_year,"&outputFormat=hrtplotOnly")
+# knitr::include_graphics(sactrawl_link)
+```
+
+---
 
 ### Condition
 

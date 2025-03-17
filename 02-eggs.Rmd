@@ -2,6 +2,8 @@
 
 This section describes environmental attributes associated with and responses during the egg-to-fry life stage.
 
+
+
 ```{r setup2, include = FALSE}
 knitr::opts_chunk$set(message = FALSE, warning = FALSE, echo = FALSE)
 ```
@@ -18,6 +20,7 @@ library(readr)
 library(here)
 library(scales)
 library(rvest)
+library(janitor)
 
 library(kableExtra)
 library(flextable)
@@ -26,13 +29,15 @@ source("functions.R")
 source("parameters.R")
 ```
 
+---
+
 ## Environmental Drivers
 
 ### Storage and Flow
 
 #### Shasta Storage 
 
--   See \@ref(shasta-storage) for summary of storage conditions.
+-   See Section \@ref(shasta-storage) for a summary of storage conditions.
 
 #### Flow Conditions on the Upper Sacramento River
 
@@ -54,18 +59,6 @@ kable(flow_kwk_bnd_monthly_egg_t,
       valign = "t") %>%
   kable_classic(html_font = "Cambria") %>%
       row_spec(7,extra_css = "border-bottom: 1px solid;")
-
-
-# flextable(flow_kwk_bnd_monthly_egg)%>%
-#   add_footer_lines() %>%
-#   add_header_lines() %>%
-#   width(width = 1, unit = "in") %>%
-#   hline(i = 7, part = 'body') %>%
-#   vline()%>%
-#   border_outer() %>%
-#   bold(part = "header") %>%
-#   colformat_num(j = "Year", big.mark = "") %>%
-#   set_header_labels(month = "Month", station = "Station", mean = "Mean (cfs)", max = "Max (cfs)", min =  "Min (cfs)")
 ```
 
 
@@ -86,14 +79,17 @@ max_mean_flow_bnd_month_egg <- monthly_bnd_egg %>% filter(mean == max_mean_flow_
 -   **Keswick:** Peak flows were **`r max_flow_kwk_egg`** cfs and occurred in **`r max_flow_kwk_month_egg[1]`**. The highest mean flows were **`r max_mean_flow_kwk_egg`** cfs and occurred in **`r max_mean_flow_kwk_month_egg`**.
 -   **Bend Bridge:** Peak flows were **`r max_flow_bnd_egg`** cfs and occurred in **`r max_flow_bnd_month_egg[1]`**. The highest mean flows were **`r max_mean_flow_bnd_egg`** cfs and occurred in **`r max_mean_flow_bnd_month_egg`**.
 
+---
+
 ### Water Temperature on the Upper Sacramento River
 
-- See \@ref(temp-thresholds) for discussion around temperature threshold analysis.
+- See Section \@ref(temp-thresholds) for discussion around temperature threshold analysis.
+
+---
 
 ### Dissolved Oxygen Conditions on the Upper Sacramento River
 
 ```{r CCRKWKdoegg-tab}
-
 do_kwk_ccr_monthly_egg <- readRDS(paste0("data_raw/do_KWK_CCR_monthly_", year(start), "-", year(end), ".rds"))%>%
   filter(!month %in% c("January", "February", "March", "April", "December")) %>%
   mutate(station = factor(station, levels = c("KWK", "CCR"))) %>%
@@ -111,17 +107,6 @@ kable(do_kwk_ccr_monthly_egg_t,
       valign = "t") %>%
   kable_classic(html_font = "Cambria") %>%
       row_spec(7,extra_css = "border-bottom: 1px solid;")
-
-# flextable(do_kwk_ccr_monthly_egg)%>%
-#   add_footer_lines() %>%
-#   add_header_lines() %>%
-#   width(width = 1, unit = "in") %>%
-#   hline(i = 7, part = 'body') %>%
-#   vline()%>%
-#   border_outer() %>%
-#   bold(part = "header") %>%
-#   colformat_num(j = "Year", big.mark = "") %>%
-#   set_header_labels(month = "Month", station = "Station", mean = "Mean (mg/L)", max = "Max (mg/L)", min =  "Min (mg/L)")
 ```
 
 ```{r echo = FALSE}
@@ -143,6 +128,7 @@ min_mean_do_ccr_egg_month <- monthly_ccr_egg %>% filter(mean == min_mean_do_ccr_
 -   **Keswick:** Minimum dissolved oxygen was **`r min_do_kwk_egg`** mg/L and occurred in **`r min_do_kwk_egg_month[1]`**. The lowest mean dissolved oxygen was **`r min_mean_do_kwk_egg`** mg/L and occurred in **`r min_mean_do_kwk_egg_month`**.
 -   **Clear Creek:** Minimum dissolved oxygen was **`r min_do_ccr_egg`** mg/L and occurred in **`r min_do_ccr_egg_month[1]`**. The lowest mean dissolved oxygen was **`r min_mean_do_ccr_egg`** mg/L and occurred in **`r min_mean_do_ccr_egg_month`**.
 
+---
 
 ### Air Temperature 
 
@@ -173,10 +159,13 @@ plotly::ggplotly(ggplot() +
 ```
 
 
+---
+
 ## Biological Response
 
-### Egg to Fry Survival
+---
 
+### Egg to Fry Survival
 
 ```{r}
 jpe_data <- read_csv("data_raw/jpe_data.csv")
@@ -186,28 +175,41 @@ twentyyear = eggs %>% filter(brood_year > report_year-20 & brood_year<= report_y
 ```
 
 ```{r}
-jpe <- url_jpe <- "https://www.cbr.washington.edu/sacramento/data/jpe_data.html"
-jpi <- url_jpe %>%
-  read_html() %>%
-  html_nodes(xpath = '/html/body/div[2]/div[12]/table') %>%
-  html_table() %>%
-  bind_rows() %>%
-  janitor::clean_names() %>%
-  filter(row_number() <= n()-1,
-         !brood_year %in% c(2003, 2004)) %>%
+# Read JPI data from SacPAS
+jpi_sacpas <- read.delim("https://www.cbr.washington.edu/sacramento/data/php/rpt/jpe.php?sc=1&year=all")%>%
+  filter(component == "Fry equivalents of juvenile production at RBDD",
+         !is.na(value)) %>%
   mutate(brood_year = as.numeric(brood_year),
          value = stringr::str_replace(value, ",", ""),
          jpi = as.numeric(value))
-jpi_tenyear <- jpi %>% filter(brood_year >= report_year-10 & brood_year <=report_year) %>%
+
+jpi_tenyear <- jpi_sacpas %>% filter(brood_year >= report_year-10 & brood_year <=report_year) %>%
   mutate(value = as.numeric(value))
+
+# url_jpe <- "https://www.cbr.washington.edu/sacramento/data/jpe_data.html"
+
+
+# jpi <- url_jpe %>%
+#   read_html() %>%
+#   html_nodes(xpath = '/html/body/div[2]/div[12]/table') %>%
+#   html_table() %>%
+#   bind_rows() %>%
+#   janitor::clean_names() %>%
+#   filter(row_number() <= n()-1,
+#          !brood_year %in% c(2003, 2004)) %>%
+#   mutate(brood_year = as.numeric(brood_year),
+#          value = stringr::str_replace(value, ",", ""),
+#          jpi = as.numeric(value))
+
 ```
 
 ```{r}
-jpi <- read.csv("data_raw/JPI_2002_2023.csv") %>%
-  filter(BY <= report_year) %>%
-  rename(JPI = Fry.Equivalent.JPI,
-         ETF_Survival = ETF.Survival.Rate....) %>%
-  select(BY, JPI, ETF_Survival) %>%
+jpi <- read_csv("data_raw/JPI_2002_2023.csv") %>%
+  clean_names() %>%
+  # filter(by == report_year) %>%
+  rename(JPI = fry_equivalent_jpi,
+         ETF_Survival = etf_survival_rate_percent) %>%
+  select(BY=by, JPI, ETF_Survival) %>%
   mutate(JPI = JPI/1000000,
          JPI_lab = round(JPI, 2),
          ETF_Survival_lab = round(ETF_Survival)) %>%
@@ -242,7 +244,6 @@ current.ETF = jpi$ETF_Survival[1]
 dir_etf <- ifelse(current.ETF<avg.ETF, "below", "above")
 ```
 
-
 **Egg-to-Fry Metrics**
 
 -   **Total potential eggs:** `r paste(scales::comma(eggs$value[eggs$brood_year == report_year]), "eggs")`
@@ -251,53 +252,9 @@ dir_etf <- ifelse(current.ETF<avg.ETF, "below", "above")
 -   **Fry-equivalents at RBDD (JPE Letter):** `r scales::comma(as.numeric(jpi$value[jpi$brood_year == report_year]))`. 
     -   **10-year average:** `r scales::comma(mean(as.numeric(jpi_tenyear$value), na.rm = TRUE))` including 2011, 2014-2017, 2021
 -   **Egg to Fry Survival (ETF Survival):** ETF Survival in `r report_year` was `r dir_etf` the average ETF between 2002 and `r report_year` at `r current.ETF`% (Figure \@ref(fig:ETFSurv-fig)). 
-    -   The average ETF from `r min(year(jpi$BY))` to `r report_year` was `r avg.ETF`%
+    -   The average ETF from `r min(year(jpi$BY))` to `r report_year` was `r round(avg.ETF,1)`%
 
-
-#### SacPAS Fish Model 
-
--   Redds exposed to Tcritical = 11.82°C (53.28°F) are shown in Figure X.
-    -   Pre-hatching exposure: 
-    -   Pre-emergence exposure: 
--   Estimated total egg-to-fry emergence survival:
-    -   Temperature-dependent survival: 
--   TDM
-    -   Spawner density-based survival:
-    ‒   Background survival: 
-    ‒	  Dewater-based survival: 
-    ‒	  Survival by reach is shown in Table X
-
-
-Table of Survival by Reach (Fish Model)
-```{r survByReachTab}
-
-```
-
-```{r totaleggs-fig, fig.cap = "Potential Total Eggs in the Upper Sacramento"}
-ggplot(eggs) + 
-  geom_col(aes(x = brood_year, y = value), fill = "chartreuse4") +
-  geom_segment(aes(x = report_year-10+0.5, xend = report_year+0.5, y = mean(tenyear$value, na.rm = TRUE), yend = mean(tenyear$value, na.rm = TRUE)), linetype = "dashed", size = 0.6) + 
-  geom_segment(aes(x = report_year-20+0.5, xend = report_year+0.5, y = mean(twentyyear$value, na.rm = TRUE), yend = mean(twentyyear$value, na.rm = TRUE)), linetype = "dotted", size = 0.7) + 
-  labs(y = "Total eggs", x = "Year") + 
-  theme_bw()
-```
-
-```{r TDM-etf-fig, message = FALSE, warning = FALSE, echo = FALSE, fig.cap = paste0("Annual Percent of Egg to Fry Survival, Temperature-Dependent Mortality, and Unattributed Survival from 2002 to ",report_year, ". Labels in parentheses indicate Water Year Type.")}
-yrcolors <- rev(tdm$color)
-
-(plot_tdm <- ggplot(tdm_long, aes(Brood.Year.Type, Percent, fill = Fate)) + 
-  geom_col(width = 0.65, alpha = 0.9) +
-  geom_text(aes(label = Percent_label), position = position_stack(vjust = 0.5), size = 4.5) +
-  scale_fill_manual(values = c("goldenrod","steelblue" ,"gray70")) + 
-  labs(x = "Brood Year") + 
-  theme_classic() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 0.5, vjust = 0.5, size = 11.5, colour = yrcolors),
-        axis.text.y = element_text(size = 12),
-        legend.position = "bottom",
-        legend.title = element_blank()))
-```
-
-```{r ETFSurv-fig, echo = FALSE}
+```{r ETFSurv-fig, fig.cap = "Egg to Fry Survival" }
 tenyear_etf = jpi %>% filter(BY > report_year-10 & BY<= report_year)
 twentyyear_etf = jpi %>% filter(BY > report_year-20 & BY<= report_year)
 
@@ -321,31 +278,104 @@ twentyyear_etf = jpi %>% filter(BY > report_year-20 & BY<= report_year)
 ```
 
 
-SacPAS Fish Model Results for Temperature Exposure (Plot)
-```{r tempExposure-fig}
+#### SacPAS Fish Model 
 
+```{r sacpasfishmodel}
+fish_model_params <- read_csv(here("data_raw", "fish_model_parameters_2021_hatchmort_dbcarcass.csv")) %>%
+  pivot_wider(names_from = "What", values_from = "Value") %>%
+  clean_names() %>%
+  mutate_at(vars(c(incubation_survival:temp_watch_period_in_days)), as.numeric) %>%
+  mutate_at(vars(c(incubation_survival:background_mortality)), ~.*100)
+
+fish_model_summary <- read_csv(here("data_raw", "fish_model_summary.csv"))%>%
+  pivot_wider(names_from = "What", values_from = "Value") %>%
+  clean_names() %>%
+  mutate_at(vars(c(grand_tdm:survival)), as.numeric) %>%
+  mutate_at(vars(c(grand_tdm:survival)), ~.*100)
 ```
 
-### Emergence
 
-**Placeholder for SacPAS fish model output for emergence timing**
-```{r}
+-   Redds exposed to Tcritical = **11.82°C (53.28°F)** are shown in Figure \@ref(fig:fishmodel-hatching-fig).
+    -   **Pre-hatching exposure:** `r fish_model_params$prehatch_exposure_percent`%
+    -   **Pre-emergence exposure:** `r fish_model_params$pre_emerge_exposure_percent`%
+-   **Estimated total egg-to-fry emergence survival:** `r fish_model_params$incubation_survival`%
+    -   **Temperature-dependent survival:** `r fish_model_summary$survival`%
+    -   **Temperature-dependent mortality (TDM):** `r fish_model_summary$grand_tdm`%
+    -   **Spawner density-based mortality:** `r fish_model_params$spawner_density_mortality`%
+    -   **Background mortality:** `r fish_model_params$background_mortality`%
+    -   **Dewater-based mortality:** `r fish_model_params$dewater_mortality`%
+    -   Survival by reach is shown in Table \@ref(tab:survByReach-tab)
 
+
+```{r survByReach-tab}
+survival_reach <- read_csv(here("data_raw/fish_model_reachspecific_outputs.csv")) %>%
+  mutate(TotS = TotS*100) %>%
+  select(Reach = reach, `Redd Counts` = Count, `Total Survival` = TotS)
+
+kable(survival_reach %>% mutate(`Total Survival` = formattable::percent(`Total Survival`/100, 1)),
+      label = NA,
+      vline = "",
+      caption = paste("SacPAS Fish Model Estimated Survival by Reach for BY ", report_year),
+      valign = "t") %>%
+  kable_classic(html_font = "Cambria") 
 ```
 
+
+```{r totaleggs-fig, fig.cap = "Potential Total Eggs in the Upper Sacramento"}
+ggplot(eggs) + 
+  geom_col(aes(x = brood_year, y = value), fill = "chartreuse4") +
+  geom_segment(aes(x = report_year-10+0.5, xend = report_year+0.5, y = mean(tenyear$value, na.rm = TRUE), yend = mean(tenyear$value, na.rm = TRUE)), linetype = "dashed", size = 0.6) + 
+  geom_segment(aes(x = report_year-20+0.5, xend = report_year+0.5, y = mean(twentyyear$value, na.rm = TRUE), yend = mean(twentyyear$value, na.rm = TRUE)), linetype = "dotted", size = 0.7) + 
+  labs(y = "Total eggs", x = "Year") + 
+  scale_x_continuous(breaks = seq(min(eggs$brood_year), max(eggs$brood_year), 2))+
+  theme_bw()
+```
+ 
+ 
+```{r TDM-etf-fig, message = FALSE, warning = FALSE, echo = FALSE, fig.cap = paste0("Annual Percent of Egg to Fry Survival, Temperature-Dependent Mortality, and Unattributed Survival from 2002 to ",report_year, ". Labels in parentheses indicate Water Year Type.")}
+yrcolors <- rev(tdm$color)
+
+(plot_tdm <- ggplot(tdm_long, aes(Brood.Year.Type, Percent, fill = Fate)) + 
+  geom_col(width = 0.65, alpha = 0.9) +
+  geom_text(aes(label = Percent_label), position = position_stack(vjust = 0.5), size = 4.5) +
+  scale_fill_manual(values = c("goldenrod","steelblue" ,"gray70")) + 
+  labs(x = "Brood Year") + 
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 0.5, vjust = 0.5, size = 11.5, colour = yrcolors),
+        axis.text.y = element_text(size = 12),
+        legend.position = "bottom",
+        legend.title = element_blank()))
+```
+
+
+```{r fishmodel-hatching-fig, fig.cap = paste0("SacPAS Fish Model v3.0 Results for BY", report_year, " Temperature Exposure for Hatching. Redds are represented by filled circles, with larger circles indicating more numerous redds. Redd data from CDFW Carcass Surveys."), out.width = "200%", fig.align = "center"}
+
+knitr::include_graphics(here(paste0("figures/fishmodel_",report_year, "_hatchplot.png")))
+```
+
+---
+
+### Emergence Timing
 
 SacPAS fish model estimates for emergence:
 
-- **First occupancy:**
+- **First occupancy:** `r fish_model_params$first_redd_day`
 - **Emergence:**
-      - **First:**
-      - **Mean:**
-      - **Last:**
+  - **First: **  `r fish_model_params$first_emergence_day`
+  - **Mean: ** `r fish_model_params$mean_emergence_day`
+  - **Last: ** `r fish_model_params$last_emergence_day`
+  
 
-SacPAS Fish Model Results for Redd Occupation and Emergency Timing (Plot)
-```{r}
-
+```{r fishmodel-emergence-fig, fig.cap = paste0("SacPAS Fish Model v3.0 Results for BY", report_year, " Temperature Exposure for Emergence. Redds are represented by filled circles, with larger circles indicating more numerous redds. Redd data from CDFW Carcass Surveys."), out.width = "150%", fig.align = "center" }
+knitr::include_graphics(here(paste0("figures/fishmodel_",report_year, "_emergenceplot.png")))
 ```
+
+
+```{r redd-occupation-emergence-timing-fig, fig.cap = paste0("SacPAS Fish Model v3.0 Results for BY", report_year, " Temperature Exposure for Redd Occupation and Emergence Timing. Temperature data at Sacramento River at Keswick (KWK), Sacramento River at Balls Ferry Bridge (BSF), and BND (Sacramento River at Bend Bridge) Redd data from CDFW Carcass Surveys.") ,fig.width = 9, fig.height = 7, fig.align = "center"}
+knitr::include_graphics(here(paste0("figures/fishmodel_",report_year, "_reddstagesplot.png")))
+```
+
+---
 
 ### Redd Dewatering 
 
@@ -366,12 +396,11 @@ dewater_clean <- dewater %>%
          `River Section` = RiverSection,
          `Water Depth` = depth,
          `Flow at Keswick Dam (cfs)` = flowkwk)
-
 ```
 
-- `r nrow(dewater_clean)` redds were dewatered in report_year (Table \@ref(tab:dewateredRedds)).
+- `r nrow(dewater_clean)` redds were dewatered in `r report_year` (Table \@ref(tab:dewateredRedds-tab)).
 
-```{r dewateredRedds}
+```{r dewateredRedds-tab}
 kable(dewater_clean,
       label = NA,
       vline = "",

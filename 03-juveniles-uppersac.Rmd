@@ -26,7 +26,11 @@ source("parameters.R")
 
 ## Habitat Attributes
 
+---
+
 ## Environmental Drivers
+
+---
 
 ### Flow
 
@@ -92,6 +96,8 @@ max_mean_flow_bnd_month_us <- monthly_bnd_us %>% filter(mean == max_mean_flow_bn
 -   **Keswick:** Peak flows were **`r max_flow_kwk_us`** cfs and occurred in **`r max_flow_kwk_month_us[1]`**. The highest mean flows were **`r max_mean_flow_kwk_us`** cfs and occurred in **`r max_mean_flow_kwk_month_us`**.
 -   **Bend Bridge:** Peak flows were **`r max_flow_bnd_us`** cfs and occurred in **`r max_flow_bnd_month_us[1]`**. The highest mean flows were **`r max_mean_flow_bnd_us`** cfs and occurred in **`r max_mean_flow_bnd_month_us`**.
 
+---
+
 ### Water Temperature
 
 ```{r wtempBND-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Water Temperature (degF) at Sacramento River at Bend (BND) in",report_year,"and 10-year average between July and December.") , fig.width = 8, fig.height = 4.5}
@@ -149,6 +155,8 @@ max_mean_wtemp_bnd_us_month <- monthly_wtemp_bnd_us %>% filter(mean == max_mean_
 
 - In `r report_year` water temperature was below average for most of the season between July and December. 
 - **Sacramento River at Bend Bridge:** Maximum water temperature was **`r max_wtemp_bnd_us`** degrees F and occurred in **`r max_wtemp_bnd_us_month`**. The highest mean water temperature was **`r max_mean_wtemp_bnd_us`** degrees F and occurred in **`r max_mean_wtemp_bnd_us_month`**.
+
+---
 
 ### Dissolved Oxygen
 
@@ -213,6 +221,7 @@ min_mean_do_bnd_us_month <- monthly_bnd_us %>% filter(mean == min_mean_do_bnd_us
 
 -   **Sacramento River at Bend Bridge:** Minimum dissolved oxygen was **`r min_do_bnd_us`** mg/L and occurred in **`r min_do_bnd_us_month[1]`**. The lowest mean dissolved oxygen was **`r min_mean_do_bnd_us`** mg/L and occurred in **`r min_mean_do_bnd_us_month`**.
 
+---
 
 ### Turbidity
 ```{r TurbBNDRDB-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Turbidity at Sacramento River at Bend Bridge (BND) and Red Bluff Diversion Dam (RDB) in",report_year, "and 10-year average between July and December. Turbidity data have not undergone QC, other than values filtered to less than 300 NTU."), fig.width = 8, fig.height = 5}
@@ -283,7 +292,11 @@ min_mean_turb_rdb_us_month <- monthly_rdb_turb_us %>% filter(mean == min_mean_tu
 -   **Red Bluff Diversion Dam:** Minimum turbidity was **`r min_turb_rdb_us`** FNU and occurred in **`r min_turb_rdb_us_month`**. The lowest mean turbidity was **`r min_mean_turb_rdb_us`** FNU and occurred in **`r min_mean_turb_rdb_us_month`**. Turbidity was below average between September and mid-December and similar at other times of the season 
 
 
+---
+
 ## Biological Response
+
+---
 
 ### Fry abundance 
 
@@ -329,7 +342,6 @@ current.JPI = jpi$JPI[1]
 
 ```{r echo = FALSE}
 dir_jpi <- ifelse(current.JPI<avg.JPI, "below", "above")
-dir_etf <- ifelse(current.ETF<avg.ETF, "below", "above")
 ```
 
 -   **Juvenile Production Index** JPI in `r report_year` was `r dir_jpi` the average JPI between 2002 and `r report_year` at `r current.JPI`.
@@ -343,6 +355,40 @@ dir_etf <- ifelse(current.ETF<avg.ETF, "below", "above")
 
 4. Fry-to-Smolt Survival
 * Model?
+
+---
+
+### Migration Timing 
+
+```{r}
+rbdd_timing <- read_csv("data_raw/migration_timing_rbdd.csv")
+rbdd_by <- rbdd_timing %>% 
+  filter(brood_year == report_year) %>%
+  mutate_at(vars(first_passage_date:last_passage_date), as_date, format = "%m/%d/%Y")
+rbdd_median <- rbdd_timing %>%
+  filter(stringr::str_detect(brood_year, "Median"))%>%
+  mutate_at(vars(first_passage_date:last_passage_date), as_date, format = "%m/%d")
+```
+
+Passage at RBDD: 
+
+- **First:** 
+    - BY`r report_year`: `r format(rbdd_by$first_passage_date, "%B %d, %Y")`
+    - 10-year median: `r format(rbdd_median$first_passage_date, "%B %d")`
+- **Middle 50% (25% to 75%):**
+    - BY`r report_year`: `r format(rbdd_by$x25_percent_passage_date, "%B %d, %Y")` to `r format(rbdd_by$x75_percent_passage_date, "%B %d, %Y")`
+    - 10-year median: `r format(rbdd_median$x25_percent_passage_date, "%B %d")` to `r format(rbdd_median$x75_percent_passage_date, "%B %d")`
+- **Last:**
+    - BY`r report_year`: `r format(rbdd_by$last_passage_date, "%B %d, %Y")`
+    - 10-year median: `r format(rbdd_median$last_passage_date, "%B %d")` 
+
+
+```{r rbdd-timing-fig, fig.cap = "RBDD Timing"}
+# rbdd_link <- paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt.php?species=CHN%3AWinter&loc=RBDD&years=10&typeData=raw&histYear=", report_year, "&outputFormat=hrtplotOnly")
+# knitr::include_graphics(rbdd_link)
+```
+
+---
 
 ### Stranding
 
@@ -359,7 +405,7 @@ flow_stranding <- flow_kwk_bnd_juv %>%
 section_url <- "https://www.cbr.washington.edu/sacramento/data/query_stranding.html"
 section <- section_url %>%
   read_html() %>%
-  html_nodes(xpath='//*[@id="notes"]/table') %>%
+  html_nodes(xpath='//*[@id="query"]/table') %>%
   html_table()
 section_names <- (section[[1]]) %>%
   rename(Section = Survey)
@@ -382,16 +428,6 @@ stranding_current <- stranding%>%
   select(Date, `Section Number` = Section, `Section Name` = `River Section`, `River Miles`, everything()) %>%
   arrange(`Section Number`)
 
-# 
-# flextable(stranding_current)  %>%
-#   add_footer_lines() %>%
-#   add_header_lines() %>%
-#   width(width = 1.2, unit = "in") %>%
-#   vline()%>%
-#   border_outer() %>%
-#   bold(part = "header") %>%
-#   align(align = "center", part = "all")
-
 total_stranded <- sum(stranding_current$Count)
 ```
 
@@ -406,6 +442,7 @@ kable(stranding_current,
   kable_classic(html_font = "Cambria")
 ```
 
+---
 
 ### Condition
 

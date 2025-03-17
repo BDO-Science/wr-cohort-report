@@ -24,11 +24,15 @@ source("functions.R")
 source("parameters.R")
 ```
 
+--- 
+
 ## Habitat Attributes
 
 1.  Hatchery Influence (Proportion of hatchery return)
 
 2.  Spawning Habitat Capacity (SIT model)
+
+---
 
 ## Environmental Drivers {#wq}
 
@@ -122,17 +126,26 @@ max_flow_bnd_month <- monthly_bnd %>% filter(max == max_flow_bnd) %>% select(mon
 max_mean_flow_bnd_month <- monthly_bnd %>% filter(mean == max_mean_flow_bnd) %>% select(month)
 ```
 
+---
+
 **Summary**
 
 -   In `r report_year`, storage was consistently below the 10-year average (Figure \@ref(fig:SHAstor-fig)), with peak storage at **`r max_storage_sha`** TAF in **`r max_storage_sha_month`**.
 -   **Keswick:** Peak flows were **`r max_flow_kwk`** cfs and occurred in **`r max_flow_kwk_month[1]`**. The highest mean flows were **`r max_mean_flow_kwk`** cfs and occurred in **`r max_mean_flow_kwk_month`**.
 -   **Bend Bridge:** Peak flows were **`r max_flow_bnd`** cfs and occurred in **`r max_flow_bnd_month[1]`**. The highest mean flows were **`r max_mean_flow_bnd`** cfs and occurred in **`r max_mean_flow_bnd_month`**.
 
+---
+
+
 ### Water Temperature
 
 #### Temperature Threshold Analysis {#temp-thresholds}
 
 The temperature compliance point (location of compliance to daily average temperature (DAT) of ≤56°F) varies annually based on USBR's Temperature Management Plan.
+
+- Conditions in `r report_year` indicated it was to be a Tier 4 temperature management season. 
+- Temperature compliance points existed on the Sacramento River at the SAC and CCR gauges and varied by month. 
+- See <https://www.usbr.gov/mp/bdo/lto/archive/apr.html> for more details.
 
 ```{r tempthresholdanalysis-fig,fig.cap = "2021 Sacramento River Temperature Threshold Analysis between Keswick Dam and Bend Bridge"}
 # knitr::include_graphics("https://www.cbr.washington.edu/sacramento/tmp/tc_sacramento_1704298322_382_temp.png")
@@ -144,13 +157,13 @@ The temperature compliance point (location of compliance to daily average temper
 
 #### Water Temperature at Balls Ferry Bridge and Clear Creek
 
-```{r historicalwtemp-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Water Temperature at Sacramento River at Clear Creek (CCR) and Sacramento River at Balls Ferry Bridge (BSF) in", report_year, "and over the 10-year average"), fig.width = 8, fig.height = 6}
+```{r historicalwtemp-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Average Water Temperature at Sacramento River at Clear Creek (CCR) and Sacramento River at Balls Ferry Bridge (BSF) in", report_year, "and over the 10-year average"), fig.width = 8, fig.height = 6}
 
-wtemp_bsf_ccr_plot_data <- readRDS(paste0("data_raw/wtemp_CCR_BSF_plot_data_", year(start), "-", year(end), ".rds"))
+wtemp_bsf_ccr_sac_plot_data <- readRDS(paste0("data_raw/wtemp_CCR_BSF_SAC_plot_data_", year(start), "-", year(end), ".rds"))
 
-ggplotly(ggplot(wtemp_bsf_ccr_plot_data) + geom_line(aes(date, WaterTemp, color = plot_year, linetype = plot_year)) +
+ggplotly(ggplot(wtemp_bsf_ccr_sac_plot_data) + geom_line(aes(date, WaterTemp, color = plot_year, linetype = plot_year)) +
   geom_hline(yintercept  = 56, linetype = "dotdash", color = "gray50", size  = 0.7) + 
-  facet_wrap(~station, nrow = 2) + 
+  facet_wrap(~station, nrow = 3) + 
   viridis::scale_color_viridis(option = "turbo", discrete = TRUE) + 
   scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
   scale_linetype_manual(values = c("dashed", "solid", "solid"))+
@@ -159,39 +172,50 @@ ggplotly(ggplot(wtemp_bsf_ccr_plot_data) + geom_line(aes(date, WaterTemp, color 
 ```
 
 ```{r}
-wtemp_bsf_ccr_monthly <- readRDS(paste0("data_raw/wtemp_CCR_BSF_monthly_", year(start), "-", year(end), ".rds"))
-wtemp_bsf_ccr_monthly_t <- wtemp_bsf_ccr_monthly
+wtemp_bsf_ccr_sac_monthly <- readRDS(paste0("data_raw/wtemp_CCR_BSF_SAC_monthly_", year(start), "-", year(end), ".rds"))
+wtemp_bsf_ccr_sac_monthly_t <- wtemp_bsf_ccr_sac_monthly
 
-colnames(wtemp_bsf_ccr_monthly_t) <- stringr::str_to_title(colnames(wtemp_bsf_ccr_monthly_t))
+colnames(wtemp_bsf_ccr_sac_monthly_t) <- stringr::str_to_title(colnames(wtemp_bsf_ccr_sac_monthly_t))
 
-kable(wtemp_bsf_ccr_monthly_t,
+kable(wtemp_bsf_ccr_sac_monthly_t,
       label = NA,
       vline = "",
-      caption = paste("Mean, Maximum, Minimum Monthly Water Temperature (°F) at Sacramento River at Balls Ferry Bridge (BSF) and Sacramento River upstream from Confluence with Clear Creek (CCR) in", report_year),
+      caption = paste("Mean, Maximum, Minimum Monthly Water Temperature (°F) at Sacramento River at Balls Ferry Bridge (BSF), Sacramento River upstream from Confluence with Clear Creek (CCR), and Sacramento River Upstream of Hwy 44 (SAC) in", report_year),
       valign = "t") %>%
   kable_classic(html_font = "Cambria") %>%
-  row_spec(12,extra_css = "border-bottom: 1px solid;")
+  row_spec(c(12,24), extra_css = "border-bottom: 1px solid;")
 ```
 
 ```{r echo = FALSE}
-monthly_bsf <- wtemp_bsf_ccr_monthly %>% filter(station == "BSF")
+monthly_bsf <- wtemp_bsf_ccr_sac_monthly %>% filter(station == "BSF")
 max_wtemp_bsf <- max(monthly_bsf$max)
 max_mean_wtemp_bsf <- max(monthly_bsf$mean)
 max_wtemp_bsf_month <- monthly_bsf %>% filter(max == max_wtemp_bsf) %>% select(month)
 max_mean_wtemp_bsf_month <- monthly_bsf %>% filter(mean == max_mean_wtemp_bsf) %>% select(month)
 
-monthly_ccr <- wtemp_bsf_ccr_monthly %>% filter(station == "CCR")
+monthly_ccr <- wtemp_bsf_ccr_sac_monthly %>% filter(station == "CCR")
 max_wtemp_ccr <- max(monthly_ccr$max)
 max_mean_wtemp_ccr <- max(monthly_ccr$mean)
 max_wtemp_ccr_month <- monthly_ccr %>% filter(max == max_wtemp_ccr) %>% select(month)
 max_mean_wtemp_ccr_month <- monthly_ccr %>% filter(mean == max_mean_wtemp_ccr) %>% select(month)
+
+monthly_sac <- wtemp_bsf_ccr_sac_monthly %>% filter(station == "SAC")
+max_wtemp_sac <- max(monthly_sac$max)
+max_mean_wtemp_sac <- max(monthly_sac$mean)
+max_wtemp_sac_month <- monthly_sac %>% filter(max == max_wtemp_sac) %>% select(month)
+max_mean_wtemp_sac_month <- monthly_sac %>% filter(mean == max_mean_wtemp_sac) %>% select(month)
 ```
+
+---
 
 **Summary**
 
 -   Water temperatures were warmer than average and warmer than 56°F in 2021 (Figure \@ref(fig:historicalwtemp-fig)).
--   **Balls Ferry:** Maximum water temperature was **`r max_wtemp_bsf`** degrees F and occurred in **`r max_wtemp_bsf_month[1]`**. The highest mean water temperature was **`r max_mean_wtemp_bsf`** degrees F and occurred in **`r max_mean_wtemp_bsf_month`**.
--   **Clear Creek:** Maximum water temperature was **`r max_wtemp_ccr`** degrees F and occurred in **`r max_wtemp_ccr_month[1]`**. The highest mean water temperature was **`r max_mean_wtemp_ccr`** degrees F and occurred in **`r max_mean_wtemp_ccr_month`**.
+-   **Sac R at Balls Ferry Bridge:** Maximum water temperature was **`r max_wtemp_bsf`** degrees F and occurred in **`r max_wtemp_bsf_month[1]`**. The highest mean water temperature was **`r max_mean_wtemp_bsf`** degrees F and occurred in **`r max_mean_wtemp_bsf_month`**.
+-   **Sac R upstream from Confluence with Clear Creek:** Maximum water temperature was **`r max_wtemp_ccr`** degrees F and occurred in **`r max_wtemp_ccr_month[1]`**. The highest mean water temperature was **`r max_mean_wtemp_ccr`** degrees F and occurred in **`r max_mean_wtemp_ccr_month`**.
+-  **Sac R upstream of Hwy 44:** Maximum water temperature was **`r max_wtemp_sac`** degrees F and occurred in **`r max_wtemp_sac_month[1]`**. The highest mean water temperature was **`r max_mean_wtemp_sac`** degrees F and occurred in **`r max_mean_wtemp_sac_month`**.
+
+---
 
 ### Dissolved Oxygen Conditions at Keswick Dam and Clear Creek
 
@@ -224,15 +248,6 @@ kable(do_kwk_ccr_monthly_t,
   kable_classic(html_font = "Cambria") %>%
       row_spec(12,extra_css = "border-bottom: 1px solid;")
 
-# flextable(do_kwk_ccr_monthly)%>%
-#   add_footer_lines() %>%
-#   add_header_lines() %>%
-#   width(width = 1, unit = "in") %>%
-#   hline(i = 12, part = 'body') %>%
-#   vline()%>%
-#   border_outer() %>%
-#   bold(part = "header") %>%
-#   set_header_labels(month = "Month", station = "Station", mean = "Mean (mg/L)", max = "Max (mg/L)", min =  "Min (mg/L)")
 ```
 
 ```{r echo = FALSE}
@@ -249,19 +264,18 @@ min_do_ccr_month <- monthly_ccr %>% filter(min == min_do_ccr) %>% select(month)
 min_mean_do_ccr_month <- monthly_ccr %>% filter(mean == min_mean_do_ccr) %>% select(month)
 ```
 
+---
+
 **Summary**
 
 -   **Keswick:** Minimum dissolved oxygen was **`r min_do_kwk`** mg/L and occurred in **`r min_do_kwk_month[1]`**. The lowest mean dissolved oxygen was **`r min_mean_do_kwk`** mg/L and occurred in **`r min_mean_do_kwk_month`**.
 -   **Clear Creek:** Minimum dissolved oxygen was **`r min_do_ccr`** mg/L and occurred in **`r min_do_ccr_month[1]`**. The lowest mean dissolved oxygen was **`r min_mean_do_ccr`** mg/L and occurred in **`r min_mean_do_ccr_month`**.
 
+---
+
 ## Biological Response
 
-**Data Sources**
-
--   Sex and age class distribution, % spawned, spawn origin, spawn timing: Carcass Survey Data (link)
--   Pre-spawn mortality: JPE Letters and USFWS Reports (link)
--   Redd abundance and distribution: Aerial redd data
--   Carcass abundance and distribution: Carcass data
+--- 
 
 ### Adult Survival
 
@@ -361,12 +375,15 @@ percent_ageclass <- carcass_current %>%
   group_by(Size, total) %>%
   summarize(n = n())%>%
   mutate(percent = round(n/total*100,1))
+
+options(scipen = 999) # turn off scientific notation
 ```
 
--   Sacramento River system-wide total adult escapement: `r esc_all_summary$Escapement[esc_all_summary$Year == report_year]`
+
+-   Sacramento River system-wide total adult escapement (currently GrandTab): `r esc_all_summary$Escapement[esc_all_summary$Year == report_year]` 90% Confidence Interval: []
     -   10-year average: `r esc_all_group$mean[esc_all_group$group == "10year"]`
     -   20-year average: `r esc_all_group$mean[esc_all_group$group == "20year"]`
--   Total mainstem in-river spawner estimate (Killam): `r esc_sacriver$Escapement[esc_sacriver$Year == report_year]`, 90% Confidence Interval: []
+-   Total mainstem in-river spawner estimate: `r esc_sacriver$Escapement[esc_sacriver$Year == report_year]`,
     -   10-year average: `r esc_sac_group$mean[esc_sac_group$group == "10year"]`
     -   20-year average: `r esc_sac_group$mean[esc_sac_group$group == "20year"]`
 -   Mainstem natural-origin spawners (Killam): `r spawn_origin_current$percent[spawn_origin_current$clip == "No Clip"]` %
@@ -433,6 +450,8 @@ kable(esc_reach_wide,
 #   colformat_num(j = "Year", big.mark = "") 
 ```
 
+--- 
+
 ### Fish Condition and Age Class
 
 -   Pre-spawn mortality: `r paste0(spawned$percent[spawned$spawn == "Unspawned"],"%")`
@@ -489,6 +508,8 @@ ggplot(carcass_current) + geom_histogram(aes(forklength, fill = sex), color = "b
   theme_bw() +
   theme(legend.position = "none")
 ```
+
+---
 
 ### Migration and Spawn Timing
 
@@ -555,6 +576,8 @@ ggplot(peak_spawning) + geom_point(aes(year_fac, week), fill = "steelblue4", siz
 ```
 
 Expand data to include more years (should have 10-year median and 20-year median)
+
+---
 
 ### Carcass and Redd Abundance and Distribution
 
@@ -681,19 +704,6 @@ kable(redd_hist_table %>%
       caption = paste("Redd Abundance by Section in", report_year),
       valign = "t") %>%
   kable_classic(html_font = "Cambria")
-
-# flextable(redd_hist_table %>%
-#             mutate(Percent = Percent/100,
-#                    Average = Average/100)) %>%
-#   add_footer_lines() %>%
-#   add_header_lines() %>%
-#   width(width = 1.2, unit = "in") %>%
-#   vline()%>%
-#   border_outer() %>%
-#   bold(part = "header") %>%
-#   align(align = "center", part = "all") %>%
-#   mk_par(j = 5, part = "body", value = as_paragraph(as_chunk(Average, formatter = fmt_pct)))%>%
-#   mk_par(j = 4, part = "body", value = as_paragraph(as_chunk(Percent, formatter = fmt_pct)))
 ```
 
 #### Carcass Abundance
@@ -701,28 +711,15 @@ kable(redd_hist_table %>%
 ```{r carcassbysection}
 
 kable(carcass_hist_table %>%
-            mutate(Percent = formattable::percent(Percent/100),
-                   Average = formattable::percent(Average/100)),
+            mutate(Percent = formattable::percent(Percent/100,1),
+                   Average = formattable::percent(Average/100,1)),
       label = NA,
       vline = "",
       caption = paste("Carcass Abundance by Section in", report_year),
       valign = "t") %>%
   kable_classic(html_font = "Cambria")
-
-
-# flextable(carcass_hist_table %>%
-#             mutate(Percent = Percent/100,
-#                    Average = Average/100)) %>%
-#   add_footer_lines() %>%
-#   add_header_lines() %>%
-#   width(width = 1.2, unit = "in") %>%
-#   vline()%>%
-#   border_outer() %>%
-#   bold(part = "header") %>%
-#   align(align = "center", part = "all")%>%
-#   mk_par(j = 5, part = "body", value = as_paragraph(as_chunk(Average, formatter = fmt_pct))) %>%
-#   mk_par(j = 4, part = "body", value = as_paragraph(as_chunk(Percent, formatter = fmt_pct)))
 ```
+
 
 ```{r redds-fig, fig.cap = paste("Redd Counts by Year. Dashed line indicates average from 2013 to", report_year)}
 ggplotly(ggplot(redd_table) + 

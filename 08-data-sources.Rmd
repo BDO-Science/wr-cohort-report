@@ -1,0 +1,36 @@
+# Data Sources
+
+
+## Environmental Data
+
+- CDEC
+- USGS
+
+
+## Biological Data
+
+### Adults
+
+- CDFW Carcass Data (<https://www.cbr.washington.edu/sacramento/data/query_carcass_detail.html>)
+  - Data courtesy of CDFW
+  - Metrics: 
+      - Escapement
+      - Sex and Age class distribution
+      - Spawners
+      - % Spawned
+      - Spawn origin
+      - Spawn timing
+      - Spatial distribution
+- Aerial Redd Data (<https://www.cbr.washington.edu/sacramento/data/query_redd_aerial.html>)
+  - Data courtesy of CDFW
+  - Metrics:
+      - Aerial Redd Count
+- JPE Data (<https://www.cbr.washington.edu/sacramento/data/jpe_data.html>)
+  - Data originally from JPE letters
+  - Metrics: 
+      - Pre-spawn mortality
+
+### Egg to Fry
+
+### Juveniles 
+

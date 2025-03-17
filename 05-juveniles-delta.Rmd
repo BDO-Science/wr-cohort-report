@@ -23,11 +23,16 @@ source("functions.R")
 source("parameters.R")
 ```
 
+---
+
 ## Habitat Attributes
 
 1.  Rearing Habitat Capacity (Floodplain Connectivity)
 
 -   Weir overtopping
+
+---
+
 
 ### Food Availability
 
@@ -67,7 +72,11 @@ ggplot(macros) +
   theme(legend.position = "top")
 ```
 
+---
+
 ## Environmental Drivers
+
+---
 
 ### Sacramento River Flow and Delta Outflow
 
@@ -94,17 +103,6 @@ kable(flow_delta_monthly_t,
   kable_classic(html_font = "Cambria") %>%
       row_spec(c(7,14,21),extra_css = "border-bottom: 1px solid;")
 
-
-# flextable(flow_delta_monthly)%>%
-#   add_footer_lines() %>%
-#   add_header_lines() %>%
-#   width(width = 1, unit = "in") %>%
-#   hline(i = c(7, 14, 21), part = 'body') %>%
-#   vline()%>%
-#   border_outer() %>%
-#   bold(part = "header") %>%
-#   colformat_num(j = "year", big.mark = "") %>%
-#   set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (cfs)", max = "Max (cfs)", min =  "Min (cfs)", flag_days = "Days < 6 mg/L") 
 
 ```
 
@@ -154,7 +152,7 @@ ggplotly(ggplot(omr) +
 #   layout(legend = list(orientation = "h"))
 ```
 
-```{r ,echo = FALSE}
+```{r calculate_env_juv_delta,echo = FALSE}
 monthly_fpt <- flow_delta_monthly %>% filter(station == "FPT")
 max_flow_fpt <- max(monthly_fpt$max)
 max_mean_flow_fpt <- max(monthly_fpt$mean)
@@ -181,6 +179,8 @@ min_mean_flow_omr_month <- monthly_omr %>% filter(mean == min_mean_flow_omr) %>%
 -   **Delta Outflow:** Peak Delta outflow was **`r max_flow_dto`** cfs and occurred in **`r max_flow_dto_month[1]`**. The highest mean Delta outflow was **`r max_mean_flow_dto`** cfs and occurred in **`r max_mean_flow_dto_month`**. Flow was generally lower than average.
 
 -   **OMR:** The most negative OMR flows were **`r min_flow_omr`** cfs and occurred in **`r min_flow_omr_month[1]`**. The most negative mean OMR flows were **`r min_mean_flow_omr`** cfs and occurred in **`r min_mean_flow_omr_month`**. OMR was generally similar to average.
+
+---
 
 ### Water Temperature
 
@@ -218,7 +218,7 @@ kable(wtemp_delta_monthly_t,
 #   set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (°F)", max = "Max (°F)", min =  "Min (°F)", flag_days = "Days > 63°F") 
 ```
 
-```{r echo = FALSE}
+```{r calculate_temps_juv_delta, echo = FALSE}
 monthly_wtemp_fpt_delta <- wtemp_delta_monthly %>% filter(station == "FPT")
 max_wtemp_fpt_delta <- max(monthly_wtemp_fpt_delta$max)
 max_mean_wtemp_fpt_delta <- max(monthly_wtemp_fpt_delta$mean)
@@ -250,6 +250,8 @@ max_mean_wtemp_mal_delta_month <- monthly_wtemp_mal_delta %>% filter(mean == max
 -   Maximum water temperature was **`r max_wtemp_sus_delta`** degrees F and occurred in **`r max_wtemp_sus_delta_month`**. The highest mean water temperature was **`r max_mean_wtemp_sus_delta`** degrees F and occurred in **`r max_mean_wtemp_sus_delta_month`**.
 -   Maximum water temperature was **`r max_wtemp_gss_delta`** degrees F and occurred in **`r max_wtemp_gss_delta_month`**. The highest mean water temperature was **`r max_mean_wtemp_gss_delta`** degrees F and occurred in **`r max_mean_wtemp_gss_delta_month`**.
 -   Maximum water temperature was **`r max_wtemp_mal_delta`** degrees F and occurred in **`r max_wtemp_mal_delta_month`**. The highest mean water temperature was **`r max_mean_wtemp_mal_delta`** degrees F and occurred in **`r max_mean_wtemp_mal_delta_month`**.
+
+---
 
 ### Dissolved Oxygen
 
@@ -289,7 +291,7 @@ kable(do_delta_monthly_t,
 #   set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (mg/L)", max = "Max (mg/L)", min =  "Min (mg/L)", flag_days = "Days < 6 mg/L") 
 ```
 
-```{r echo = FALSE}
+```{r calculate_do_juv_delta, echo = FALSE}
 monthly_do_srh_delta <- do_delta_monthly %>% filter(station == "SRH")
 max_do_srh_delta <- max(monthly_do_srh_delta$max)
 max_mean_do_srh_delta <- max(monthly_do_srh_delta$mean)
@@ -322,11 +324,13 @@ max_mean_do_mal_delta_month <- monthly_do_mal_delta %>% filter(mean == max_mean_
 -   Maximum water temperature was **`r max_do_blp_delta`** degrees F and occurred in **`r max_do_blp_delta_month`**. The highest mean water temperature was **`r max_mean_do_blp_delta`** degrees F and occurred in **`r max_mean_do_blp_delta_month`**.
 -   Maximum water temperature was **`r max_do_mal_delta`** degrees F and occurred in **`r max_do_mal_delta_month`**. The highest mean water temperature was **`r max_mean_do_mal_delta`** degrees F and occurred in **`r max_mean_do_mal_delta_month`**.
 
+---
+
 ## Biological Response
 
-### Survival
+---
 
-CalfishTrack
+### Survival
 
 ```{r hatcherydelta-tab}
 hatchery_release <- read_csv("data_raw/hatchery_release_data.csv") %>%
@@ -374,24 +378,13 @@ plotly::ggplotly(ggplot(hatchery_release) +
 
 ```
 
-STARS Did we figure out how to scrape stars results? Use Chase's code to remake.
-
-Survival, Routing, Migration
-
-```{r}
-```
-
-### Routing
-
-```{r}
-
-```
+---
 
 ### Abundance
 
 Catch for all surveys
 
-```{r}
+```{r catch_surveys, echo = FALSE}
 index <- read_csv("data_raw/cohort_juv_index_data_cumulative_currentyear_long.csv")
 abund_delta_surveys <-  index %>%
   group_by(Survey) %>%
@@ -422,26 +415,95 @@ delta_exit_last <- format(juvdates$date[match(TRUE, juvdates$`Chipps Island Traw
       - Median: **`r delta_exit_median`**
       - Last: **`r delta_exit_last`**
 
+---
+
 ### Migration Timing
 
 Sac Trawl Data (Raw Catch by Day or Week?)
 
-```{r}
-
-```
-
 SacPAS Migration Timing Table - LAD Median Dates, 10 Year Comparison Sacramento Beach Seines, Trawls, Chipps Island Trawls
 
-```{r}
-
-```
 
 SacPAS Migration Timing Figure
 
-```{r}
-
-  
+```{r chipps-timing-fig,fig.cap = "Delta Exit Timing"}
+# chipps_link <- paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt.php?species=CHN%3AWinter&loc=SB018&years=10&typeData=index&histYear=",report_year,"&outputFormat=hrtplotOnly")
+# knitr::include_graphics(chipps_link)
 ```
+
+---
+
+### STARS Survival and Routing
+```{r survival-routing-data, echo = FALSE}
+year_specific_data <- read_csv("data_raw/STARS_data.csv")
+```
+
+```{r survival-fig}
+# Define colors for each route
+colors <- c("Overall" = "black", "Yolo" = "lightblue", "Sutter" = "blue", "Steamboat" = "purple", "Sacramento" = "darkgrey", "Interior Delta" = "orange")
+
+(survival_plot <- year_specific_data %>%
+  dplyr::filter(metric == "Survival",
+                !(lubridate::month(date) %in% c(6,7,8))) %>%
+  group_by(route) %>%
+  ggplot(aes(x = date)) +
+  geom_ribbon( aes(ymin = lowerCI, ymax = upperCI,  fill = route), alpha = .1) +
+  geom_line(aes(y = median, color = route), size = 1) +
+  labs(x = 'Month',
+       y = 'Apparent survival probability',
+       subtitle = "Delta STARS Model -\nPredicted Natural Winter-run Chinook Daily Cohorts Passage, Knights Landing to Chipps Island",
+       title = paste0("WY", report_year, " Survival: Median survival of daily cohorts by route"),
+       caption = paste0("Data source: Delta STARS developed by USGS Quantitative Fisheries Ecology Section and deployed by SacPAS."),
+       color = "Route survival,\nmedian with 80% CI",
+       fill = "Route survival,\nmedian with 80% CI") +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b") +
+  scale_color_manual(values = colors) +
+  scale_fill_manual(values = colors) +
+  theme_minimal() +
+  theme(
+    text = element_text(size = 15),
+    panel.grid.major = element_line(linetype = "dotted"),
+    panel.border = element_rect(colour = "black", fill = NA, size = .5),
+    axis.ticks = element_line(size = 0.5),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.minor.y = element_blank()
+  ))
+
+```
+
+```{r routing-fig}
+(route_probability_plot <- year_specific_data %>%
+  dplyr::filter(metric == "Routing Probability",
+                !(lubridate::month(date) %in% c(6,7,8))) %>%
+  group_by(route) %>%
+  ggplot(aes(x = date)) +
+  geom_ribbon( aes(ymin = lowerCI, ymax = upperCI,  fill = route), alpha = .1) +
+  geom_line(aes(y = median, color = route), size = 0.9) +
+  labs(x = 'Month',
+       y = 'Routing Probability',
+       subtitle = "Delta STARS Model -\nPredicted Natural Winter-run Chinook Daily Cohorts Passage, Knights Landing to Chipps Island",
+       title = paste0("WY",report_year, " Route-specific probability: Proportion of daily cohorts using a specific route"),
+       caption = paste0("Data source: Delta STARS developed by USGS Quantitative Fisheries Ecology Section and deployed by SacPAS.\n"),
+       color = "Route probability,\nmedian with 80% CI",
+       fill = "Route probability,\nmedian with 80% CI") +
+  scale_y_continuous( expand = c(0,0)) +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b") +
+  scale_color_manual(values = colors) +
+  scale_fill_manual(values = colors) +
+  theme_minimal() +
+  theme(
+    text = element_text(size = 15),
+    panel.grid.major = element_line(linetype = "dotted"),
+    panel.border = element_rect(colour = "black", fill = NA, size = .5),
+    axis.ticks = element_line(size = 0.5),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.minor.y = element_blank()
+
+  ))
+```
+
+---
 
 ### Condition
 
@@ -511,6 +573,8 @@ ggplot() +
         axis.title.x = element_text(margin=ggplot2::margin(t=10)),
         axis.title.y = element_text(margin=ggplot2::margin(r=10)))
 ```
+
+---
 
 ### Loss
 

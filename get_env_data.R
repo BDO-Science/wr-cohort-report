@@ -282,8 +282,8 @@ f_turb_data(turb_raw_ml, sta_text_turb_ml, "ml")
 # Water Temperature in F-------------------------------------------------------------------------
 
 ## Adult -----------------------------------------------
-stations_wtemp_adult <- c("CCR", "BSF")
-sta_text_wtemp_adult <- "CCR_BSF"
+stations_wtemp_adult <- c("CCR", "BSF", "SAC")
+sta_text_wtemp_adult <- "CCR_BSF_SAC"
 wtemp_raw_adult <- lapply(stations_wtemp_adult,
                function(x){CDECquery(id = x, sensor = 25, interval = "H", start = start, end = end)})
 f_wtemp_data(wtemp_raw_adult, sta_text_wtemp_adult, "adult")

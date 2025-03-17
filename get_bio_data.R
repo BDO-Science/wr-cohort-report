@@ -5,6 +5,7 @@ library(dplyr)
 library(readr)
 library(here)
 library(rvest)
+library(janitor)
 source("functions.R")
 source("parameters.R")
 
@@ -80,7 +81,7 @@ write_csv(hatchery, "data_raw/hatchery_transfer.csv")
 
 ## Carcass Survey ------------------------------
 
-url_carcass <- "https://www.cbr.washington.edu/sacramento/data/php/rpt/carcass_detail.php?sc=1&outputFormat=csv&year=all&run=winter&clip=all&sex=all"
+url_carcass <- "https://www.cbr.washington.edu/sacramento/data/php/rpt/carcass_detail.php?sc=1&outputFormat=csv&year=all&run=winter&clip=N&sex=all&condition=all"
 carcass <- read_csv(url_carcass) %>%
   mutate(surveydate = ymd(surveydate),
          year = year(surveydate)) %>%
@@ -141,14 +142,25 @@ write_csv(current_year_dewatering, "data_raw/current_year_dewatering.csv")
 
 
 ## Upper Sac -----------------------
+
+### Juv stranding ---------------------
 url_stranding <- "https://www.cbr.washington.edu/sacramento/data/php/rpt/juv_stranding.php?sc=1&outputFormat=csv&year=all&section=all"
 stranding_data <- read_csv(url_stranding)
 write_csv(stranding_data, "data_raw/stranding_data.csv")
 
+### Migration Timing -------------------
+rbdd_timing <- read_csv(paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt.php?species=CHN%3AWinter&loc=RBDD&years=10&typeData=raw&histYear=",
+                               report_year,"&outputFormat=csv")) %>%
+  filter(!is.na(FirstPassageDate)) %>%
+  clean_names() %>%
+  mutate(Survey = "RBDD")
+
+write_csv(rbdd_timing, "data_raw/migration_timing_rbdd.csv")
+
 
 ## Mid-low ----------------------------
 
-### Hatchery Releases
+### Hatchery Releases----
 hatcheryreach_url <- paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/calfishtrack.php?sc=1&outputFormat=csv&surv=reach&population=Winter_H_",report_year+1)
 hatchreach_data <- read_csv(hatcheryreach_url) %>%
   filter(!is.na(rkm_start)) %>%
@@ -177,7 +189,7 @@ hatchery_data <- left_join(hatchcum_data, hatchreach_data, by= c("rkm_start", "r
 
 write_csv(hatchery_data, "data_raw/hatchery_release_data.csv")
 
-### Catch
+### Catch----
 
 catch_url <- paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/sampling_graph.php?sc=1&outputFormat=csv&year=", report_year,
 "&species=CHN%3AWinter&loc=all%3Aall%3Aall&cumData=1&typeData=raw&addData=1")
@@ -209,7 +221,7 @@ juv_ml_long <- juv_ml %>%
 
 write_csv(juv_ml_long, "data_raw/cohort_juv_data_cumulative_currentyear_long.csv")
 
-### RBDD Fork Length
+### RBDD Fork Length----
 
 raw_rbdd_url <- "https://portal.edirepository.org/nis/dataviewer?packageid=edi.1365.10&entityid=58540ac4ed34ce05f3309510f4be91e5"
 rbdd <- read_csv(raw_rbdd_url) %>%
@@ -224,6 +236,23 @@ fl_data <- read_csv(fl_url) %>%
   filter(!is.na(brood_year))
 
 write_csv(fl_data, "data_raw/rbdd_juv_fl.csv")
+
+### Migration Timing----
+tisdale_timing <- read_csv(paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt.php?species=CHN%3AWinter&loc=TIS&years=10&typeData=raw&histYear=",report_year,"&outputFormat=csv")) %>%
+  filter(!is.na(FirstPassageDate)) %>%
+  clean_names() %>%
+  mutate(Survey = "Tisdale Weir")
+knights_timing <- read_csv(paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt.php?species=CHN%3AWinter&loc=KNL&years=10&typeData=raw&histYear=",report_year,"&outputFormat=csv")) %>%
+  filter(!is.na(FirstPassageDate)) %>%
+  clean_names() %>%
+  mutate(Survey = "Knights Landing")
+sactrawl_timing <- read_csv(paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt.php?species=CHN%3AWinter&loc=SR055&years=10&typeData=raw&histYear=",report_year,"&outputFormat=csv")) %>%
+  filter(!is.na(FirstPassageDate)) %>%
+  clean_names() %>%
+  mutate(Survey = "Sac Trawls")
+midlowsac <- bind_rows(tisdale_timing, knights_timing, sactrawl_timing)
+
+write_csv(midlowsac, "data_raw/migration_timing_tis_knl_shr.csv")
 
 ## Delta  ---------------------------
 
@@ -370,6 +399,95 @@ daily_salvage <- salvage_wr %>%
 
 write_csv(daily_salvage,"data_raw/delta_loss.csv")
 
+### STARS ------------------------------
+
+#load STARS data
+# url of .Rdata file generated for STARS ShinyApp on SacPAS server (in-house)
+url <- "https://www.cbr.washington.edu/sacramento/cohort/include_wrc/STARS.shinyinputs.Rdata"
+# make url connection live
+source <-url(url)
+# load live url
+load(source)
+#close url connection
+close(source)
+
+#Once the url is loaded, the data is stored in a xts object.
+#The data is then converted to a tibble and the column names are adjusted to match the STARS data featured the track-a-cohort static plot and interactive plot.
+#Select/view the `WR_xts` loaded into the environment to see all columns available and adjust tibble call below as needed.
+
+# Subset the data and convert to tibble
+df_stars_raw <- tibble::as_tibble(WR_xts[, c(
+  "Survival Overall Est",
+  "Survival Overall LCL 80",
+  "Survival Overall UCL 80",
+  "Survival Sacramento Est",
+  "Survival Sacramento LCL 80",
+  "Survival Sacramento UCL 80",
+  "Survival Yolo Est",
+  "Survival Yolo LCL 80",
+  "Survival Yolo UCL 80",
+  "Survival Sutter Est",
+  "Survival Sutter LCL 80",
+  "Survival Sutter UCL 80",
+  "Survival Steamboat Est",
+  "Survival Steamboat LCL 80",
+  "Survival Steamboat UCL 80",
+  "Survival Interior Delta Est",
+  "Survival Interior Delta LCL 80",
+  "Survival Interior Delta UCL 80",
+  "Routing Probability Sacramento Est",
+  "Routing Probability Sacramento LCL 80",
+  "Routing Probability Sacramento UCL 80",
+  "Routing Probability Yolo Est",
+  "Routing Probability Yolo LCL 80",
+  "Routing Probability Yolo UCL 80",
+  "Routing Probability Sutter Est",
+  "Routing Probability Sutter LCL 80",
+  "Routing Probability Sutter UCL 80",
+  "Routing Probability Steamboat Est",
+  "Routing Probability Steamboat LCL 80",
+  "Routing Probability Steamboat UCL 80",
+  "Routing Probability Interior Delta Est",
+  "Routing Probability Interior Delta LCL 80",
+  "Routing Probability Interior Delta UCL 80"
+)]) %>%
+  # Add the first date as a new column
+  mutate(date = zoo::index(WR_xts)) %>%
+  # Make date the first column
+  select(date, everything()) %>%
+  # Pivot longer
+  pivot_longer(
+    cols = -date,
+    names_to = c("metric", "route", "stat"),
+    names_pattern = "(Survival|Routing Probability) (.*) (Est|LCL 80|UCL 80)",
+    values_to = "value"
+  ) %>%
+  # Rename the stat column values
+  mutate(stat = recode(stat, "Est" = "median", "LCL 80" = "lowerCI", "UCL 80" = "upperCI")) %>%
+  # Pivot wider to have median, lowerCI, and upperCI as separate columns
+  pivot_wider(
+    names_from = stat,
+    values_from = value
+  ) %>%
+  # Convert date to WY, wDay
+  arrange(date) %>%
+  mutate(WY = year(date) + (month(date) >= 10),
+         wDay = if_else(month(date) >= 10, yday(date) - 273, yday(date) + 92),
+         doy = yday(date),
+         CY = year(date),
+         wDate = if_else(month(date) >= 10, date + years(1), date))
+
+#based on Nick Beer feedback, the model only forecasts through 7/31 and then returns 0 since no fish are running. Therefore, currently filtering dates beyond 7/31 in the CY to only show WY: 10-01 to 07-31
+filtered_dates <- df_stars_raw %>%
+  filter(!(year(wDate) == CY & (month(wDate) > 7 | (month(wDate) == 7 & day(wDate) > 31))))
+
+# Select a specific year to plot -- currently set WY 2021, adjust as needed
+year_specific_data <- filtered_dates %>%
+  filter(WY == report_year)
+
+write_csv(year_specific_data, "data_raw/STARS_data.csv")
+
+
 ### Abundance --------------------------
 
 chipps_gen <- read_csv("https://portal.edirepository.org/nis/dataviewer?packageid=edi.1055.1&entityid=4a3b853edcf849ea4cbeb2b826885f0a")
@@ -405,3 +523,30 @@ juv_index_long <- juv_index %>%
                        "Sac Trawls", "Sac Trawls Index", "Chipps Island Trawls"))
 
 write_csv(juv_index_long, "data_raw/cohort_juv_index_data_cumulative_currentyear_long.csv")
+
+### Migration Timing ---------
+
+chipps_timing <- read_csv(paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt.php?species=CHN%3AWinter&loc=SB018&years=10&typeData=index&histYear=",report_year,"&outputFormat=csv")) %>%
+  filter(!is.na(FirstPassageDate)) %>%
+  clean_names() %>%
+  mutate(Survey = "Chipps")
+seines_timing <- read_csv(paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt.php?loc=beach&species=CHN%3AWinter&years=15&typeData=raw&histYear=",report_year,"&outputFormat=csv")) %>%
+  filter(!is.na(FirstPassageDate)) %>%
+  clean_names() %>%
+  mutate(Survey = "Beach Seines")
+delta <- bind_rows(seines_timing, chipps_timing)
+
+write_csv(delta, "data_raw/migration_timing_seines_chipps.csv")
+
+### Salvage Timing ----------
+salvage_timing <- read_csv(paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt_salvage.php?species=LAD%3A1%3AWinter%3Af&years=10&histYear=", report_year,"&outputFormat=csv")) %>%
+  filter(!is.na(FirstPassageDate)) %>%
+  clean_names() %>%
+  mutate(Survey = "Salvage")
+salvage_dna_timing <- read_csv(paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt_salvage.php?species=DNA%3A1%3AWinter%3Af&years=10&outputFormat=csv&histYear=",report_year,"&outputFormat=csv")) %>%
+  filter(!is.na(FirstPassageDate)) %>%
+  clean_names() %>%
+  mutate(Survey = "Salvage DNA")
+salvage_timing <- bind_rows(salvage_timing, salvage_dna_timing)
+
+write_csv(salvage_timing, "data_raw/salvage_timing.csv")

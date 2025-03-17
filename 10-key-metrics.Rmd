@@ -1,0 +1,47 @@
+# Key metrics
+
+```{r setup10, include = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, echo = FALSE)
+```
+
+This section summarizes key metrics listed in the 3.3.3 of the Proposed Action (Annual Winter-run Chinook Salmon Broodyear Assessment)
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+library(ggplot2) 
+library(dplyr) 
+library(lubridate) 
+library(viridis)
+library(sharpshootR)
+library(plotly)
+library(here)
+library(readr)
+library(forcats)
+library(knitr)
+
+library(kableExtra)
+library(flextable)
+source("functions.R")
+source("parameters.R")
+```
+
+## Metrics
+
+* greater than 30% TDM
+* less than 20% ETF survival
+* 25 percentile of historic JPE
+* TMP compliance point was above CCR
+* Adverse Population Viability Trends (per previous year's annual brood year report if there was an increase in any of the five criteria in Lindley et al. 2007)
+* High risk of extinction (per 5 year status review)
+* Outyear adult escapement forecast based on PFMC winter-run stock abundance analyses
+
+The JPE Subteam will provide the broodyear assessment to Reclamation and the SHOT. If the broodyear assessment determines Adverse Conditions for Winter-run Chinook salmon and identifies that Shasta storage and hydrology are expected to result in continuing adverse conditions to the coming broodyear, the SHOT will report these conditions and proposed actions to the Directors and all reasonable actions will be taken to avoid continued adverse conditions. These indicators of broodyear strength can be revised by the SHOT with NMFS approval .
+
+--- 
+
+### TDM
+
+
+### ETF survival 
+
+
+### Percentile of historic JPE 
