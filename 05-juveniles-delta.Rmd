@@ -424,11 +424,18 @@ Sac Trawl Data (Raw Catch by Day or Week?)
 SacPAS Migration Timing Table - LAD Median Dates, 10 Year Comparison Sacramento Beach Seines, Trawls, Chipps Island Trawls
 
 
-SacPAS Migration Timing Figure
+```{r}
+chipps_link <- paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt.php?species=CHN%3AWinter&loc=SB018&years=10&typeData=index&histYear=",report_year,"&outputFormat=hrtplotOnly")
 
-```{r chipps-timing-fig,fig.cap = "Delta Exit Timing"}
-# chipps_link <- paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt.php?species=CHN%3AWinter&loc=SB018&years=10&typeData=index&histYear=",report_year,"&outputFormat=hrtplotOnly")
-# knitr::include_graphics(chipps_link)
+download.file(url = chipps_link,
+              destfile = paste0(figures_folder, "migtiming",report_year,"_chipps.png"),
+              mode="wb")
+```
+
+
+```{r chipps-timing-fig,fig.cap = "Delta Exit (Chipps Island) Migration Timing", out.width = "150%"}
+knitr::include_graphics(here(paste0(figures_folder,"migtiming",report_year,
+                                    "_chipps.png")))
 ```
 
 ---

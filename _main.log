@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.3.17)  17 MAR 2025 18:46
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.3.17)  19 MAR 2025 00:02
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1017,7 +1017,15 @@ File: _main_files/figure-latex/JPI-fig-1.pdf Graphic file (type pdf)
 [36]
 
 [37]
-Overfull \hbox (199.07002pt too wide) in paragraph at lines 1525--1560
+File: figures/migtiming2021_rbdd.png Graphic file (type bmp)
+<figures/migtiming2021_rbdd.png>
+
+Overfull \hbox (172.53282pt too wide) in paragraph at lines 1515--1515
+[][] 
+ []
+
+
+Overfull \hbox (199.07002pt too wide) in paragraph at lines 1529--1564
  [][] 
  []
 
@@ -1031,18 +1039,18 @@ File: _main_files/figure-latex/rbdd-flhist-fig-1.pdf Graphic file (type pdf)
 
 [39]
 
-[40
-
-]
+[40]
 Chapter 5.
 
 
-[41]
+[41
+
+]
 
 [42]
 
 [43]
-Overfull \hbox (0.91pt too wide) in paragraph at lines 1759--1778
+Overfull \hbox (0.91pt too wide) in paragraph at lines 1763--1782
  [][] 
  []
 
@@ -1061,22 +1069,22 @@ File: _main_files/figure-latex/jpeH-fig-1.pdf Graphic file (type pdf)
 File: _main_files/figure-latex/smoltsurvival-fig-1.pdf Graphic file (type pdf)
 <use _main_files/figure-latex/smoltsurvival-fig-1.pdf>
 
-Underfull \hbox (badness 10000) in paragraph at lines 1906--1908
+Underfull \hbox (badness 10000) in paragraph at lines 1910--1912
 [][]
  []
 
 
-Overfull \hbox (200.15001pt too wide) in paragraph at lines 1915--2020
+Overfull \hbox (200.15001pt too wide) in paragraph at lines 1919--2024
  [][] 
  []
 
 
-LaTeX Warning: Float too large for page by 111.44969pt on input line 2020.
+LaTeX Warning: Float too large for page by 111.44969pt on input line 2024.
 
 File: _main_files/figure-latex/juvtiming-fig-1.pdf Graphic file (type pdf)
 <use _main_files/figure-latex/juvtiming-fig-1.pdf>
 
-Overfull \hbox (48.407pt too wide) in paragraph at lines 2027--2029
+Overfull \hbox (48.407pt too wide) in paragraph at lines 2031--2033
 \TU/lmr/m/n/10 Sac Trawls [] 
  []
 
@@ -1088,10 +1096,29 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 [47]
 
 [48]
+File: figures/migtiming2021_knights.png Graphic file (type bmp)
+<figures/migtiming2021_knights.png>
+
+Overfull \hbox (172.53282pt too wide) in paragraph at lines 2039--2039
+[][] 
+ []
+
+File: figures/migtiming2021_sactrawl.png Graphic file (type bmp)
+<figures/migtiming2021_sactrawl.png>
+
+Overfull \hbox (172.53282pt too wide) in paragraph at lines 2043--2043
+[][] 
+ []
+
+
 
 [49]
 
-[50
+[50]
+
+[51]
+
+[52
 
 ]
 Chapter 6.
@@ -1101,10 +1128,6 @@ File: _main_files/figure-latex/macro-fig-1.pdf Graphic file (type pdf)
 <use _main_files/figure-latex/macro-fig-1.pdf>
 
 
-[51]
-
-[52]
-
 [53]
 
 [54]
@@ -1112,20 +1135,31 @@ File: _main_files/figure-latex/macro-fig-1.pdf Graphic file (type pdf)
 [55]
 
 [56]
-Overfull \hbox (197.74002pt too wide) in paragraph at lines 2363--2404
+
+[57]
+
+[58]
+Overfull \hbox (197.74002pt too wide) in paragraph at lines 2375--2416
  [][] 
  []
 
 
 
-[57]
-Underfull \hbox (badness 10000) in paragraph at lines 2442--2444
+[59]
+Underfull \hbox (badness 10000) in paragraph at lines 2454--2456
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2454--2456
+Underfull \hbox (badness 10000) in paragraph at lines 2466--2468
 
+ []
+
+File: figures/migtiming2021_chipps.png Graphic file (type bmp)
+<figures/migtiming2021_chipps.png>
+
+Overfull \hbox (172.53282pt too wide) in paragraph at lines 2487--2487
+[][] 
  []
 
 File: _main_files/figure-latex/survival-fig-1.pdf Graphic file (type pdf)
@@ -1135,63 +1169,67 @@ Underfull \vbox (badness 1442) has occurred while \output is active []
 
 
 
-[58]
+[60]
+
+[61]
 File: _main_files/figure-latex/routing-fig-1.pdf Graphic file (type pdf)
 <use _main_files/figure-latex/routing-fig-1.pdf>
 File: _main_files/figure-latex/salvage_fl-fig-1.pdf Graphic file (type pdf)
 <use _main_files/figure-latex/salvage_fl-fig-1.pdf>
 
 
-[59]
+[62]
 File: _main_files/figure-latex/chipps_fl-fig-1.pdf Graphic file (type pdf)
 <use _main_files/figure-latex/chipps_fl-fig-1.pdf>
 
 
-[60]
+[63]
 
-[61]
+[64]
 
-[62]
+[65]
+
+[66
+
+]
 Chapter 7.
 
 
-[63
+[67]
 
-]
-
-[64
+[68
 
 ]
 Chapter 8.
 
-Underfull \hbox (badness 2884) in paragraph at lines 2633--2634
+Underfull \hbox (badness 2884) in paragraph at lines 2649--2650
 []\TU/lmr/m/n/10 CDFW Carcass Data ([]$[][][][][] [] [] [] [][][] [] [][][] [] [][][][][][][][][][] [] [][][] [] [][][][][][][][][][] []
  []
 
 
 
-[65]
+[69]
 
-[66]
+[70]
 Chapter 9.
 
-Underfull \hbox (badness 1859) in paragraph at lines 2710--2711
+Underfull \hbox (badness 1859) in paragraph at lines 2726--2727
 []\TU/lmr/m/n/10 Add an unnumbered part: \TU/lmtt/m/n/10 # (PART\*) Act one {-} \TU/lmr/m/n/10 (followed by \TU/lmtt/m/n/10 # A
  []
 
 
 
-[67
+[71
 
 ]
 
-[68]
-Overfull \hbox (17.937pt too wide) in paragraph at lines 2786--2787
+[72]
+Overfull \hbox (17.937pt too wide) in paragraph at lines 2802--2803
 []\TU/lmr/m/n/10 To label an un-numbered heading, use: \TU/lmtt/m/n/10 # Hello world {-#nice-label}
  []
 
 
-Underfull \hbox (badness 2512) in paragraph at lines 2789--2790
+Underfull \hbox (badness 2512) in paragraph at lines 2805--2806
 []\TU/lmr/m/n/10 Next, reference the labeled heading anywhere in the text using
  []
 
@@ -1199,28 +1237,28 @@ File: _main_files/figure-latex/nice-fig-1.pdf Graphic file (type pdf)
 <use _main_files/figure-latex/nice-fig-1.pdf>
 
 
-[69]
+[73]
 
-[70]
-Underfull \hbox (badness 10000) in paragraph at lines 2903--2904
+[74]
+Underfull \hbox (badness 10000) in paragraph at lines 2919--2920
 [][]$[][][][][] [] [] [] [][][] [] [][][][][][][][][] [] [][][] [] [][][][] [] [][][][][] [][] [][][][] [][] [][][][] [][] [][][][][][] [][] [][][] [][] [][][][][][][] [][]
  []
 
 
 
-[71]
+[75]
 
-[72]
+[76]
 Chapter 10.
 (./_main.bbl
 
-[73
+[77
 
 ]
 
-[74])
+[78])
 
-[75
+[79
 
 ] (./_main.aux)
  ***********
@@ -1232,12 +1270,12 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 19061 strings out of 475847
- 354551 string characters out of 5773439
- 910005 words of memory out of 5000000
- 41678 multiletter control sequences out of 15000+600000
+ 19141 strings out of 475847
+ 357447 string characters out of 5773439
+ 910269 words of memory out of 5000000
+ 41754 multiletter control sequences out of 15000+600000
  565434 words of font info for 95 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  90i,9n,114p,590b,504s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on _main.pdf (75 pages).
+Output written on _main.pdf (79 pages).

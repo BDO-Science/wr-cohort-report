@@ -440,14 +440,27 @@ Median Passage Dates
 
 Migration Timing
 
-```{r knights-timing-fig, fig.cap = "Knights Landing Timing"}
-# knights_link <- paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt.php?species=CHN%3AWinter&loc=KNL&years=10&typeData=raw&histYear=", report_year,"&outputFormat=hrtplotOnly")
-# knitr::include_graphics(knights_link)
+```{r }
+sactrawl_link <- paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt.php?species=CHN%3AWinter&loc=SR055&years=10&typeData=raw&histYear=", report_year,"&outputFormat=hrtplotOnly")
+knights_link <- paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt.php?species=CHN%3AWinter&loc=KNL&years=10&typeData=raw&histYear=", report_year,"&outputFormat=hrtplotOnly")
+
+download.file(url = sactrawl_link,
+              destfile = paste0(figures_folder, "migtiming",report_year,"_sactrawl.png"),
+              mode="wb")
+
+download.file(url = knights_link,
+              destfile = paste0(figures_folder,"migtiming",report_year,"_knights.png"),
+              mode="wb")
 ```
 
-```{r sactrawl-timing-fig, fig.cap = "Sac Trawl Timing"}
-# sactrawl_link <- paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt.php?species=CHN%3AWinter&loc=SR055&years=10&typeData=raw&histYear=", report_year,"&outputFormat=hrtplotOnly")
-# knitr::include_graphics(sactrawl_link)
+```{r knights-timing-fig, fig.cap = "Knights Landing Rotary Screw Trap Migration Timing", out.width = "150%"}
+knitr::include_graphics(here(paste0(figures_folder,"migtiming",report_year,
+                                    "_knights.png")))
+```
+
+```{r sactrawl-timing-fig, fig.cap = "Sacramento Trawl Timing", out.width = "150%"}
+knitr::include_graphics(here(paste0(figures_folder,"migtiming",report_year,
+                                    "_sactrawl.png")))
 ```
 
 ---

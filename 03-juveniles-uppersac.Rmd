@@ -22,6 +22,7 @@ library(flextable)
 library(CDECRetrieve)
 source("functions.R")
 source("parameters.R")
+
 ```
 
 ## Habitat Attributes
@@ -382,10 +383,17 @@ Passage at RBDD:
     - BY`r report_year`: `r format(rbdd_by$last_passage_date, "%B %d, %Y")`
     - 10-year median: `r format(rbdd_median$last_passage_date, "%B %d")` 
 
+```{r}
+rbdd_link <- paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt.php?species=CHN%3AWinter&loc=RBDD&years=10&typeData=raw&histYear=", report_year, "&outputFormat=hrtplotOnly")
 
-```{r rbdd-timing-fig, fig.cap = "RBDD Timing"}
-# rbdd_link <- paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt.php?species=CHN%3AWinter&loc=RBDD&years=10&typeData=raw&histYear=", report_year, "&outputFormat=hrtplotOnly")
-# knitr::include_graphics(rbdd_link)
+download.file(url = rbdd_link,
+              destfile = paste0(figures_folder,"migtiming",report_year,"_rbdd.png"),
+              mode="wb")
+```
+
+```{r rbdd-timing-fig, out.width = "150%", fig.cap = "Red Bluff Diversion Dam Migration Timing"}
+knitr::include_graphics(here(paste0(figures_folder,"migtiming",report_year,
+                                    "_rbdd.png")))
 ```
 
 ---

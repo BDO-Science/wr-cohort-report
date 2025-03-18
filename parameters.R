@@ -18,3 +18,6 @@ theme_plots <- theme_bw() + theme(axis.text = element_text(size = 12),
                                   legend.title = element_blank(),
                                   legend.position = "top",
                                   axis.text.x = element_text(angle = 45, hjust = 0.5, vjust = 0.5))
+
+
+figures_folder = "figures/"
