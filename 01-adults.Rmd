@@ -1,10 +1,10 @@
-# Adults
+# Spawning Adults
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(message = FALSE, warning = FALSE, echo = FALSE)
 ```
 
-This section describes environmental attributes associated with and responses during the adult life stage (ocean harvest, migration, spawning)
+This section describes environmental attributes associated with and responses during the spawning adult life stage
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library(ggplot2) 
@@ -24,19 +24,12 @@ source("functions.R")
 source("parameters.R")
 ```
 
---- 
-
-## Habitat Attributes
-
-1.  Hatchery Influence (Proportion of hatchery return)
-
-2.  Spawning Habitat Capacity (SIT model)
 
 ---
 
 ## Environmental Drivers {#wq}
 
-`r report_year` was a `r wytype` water year type and `r report_year-1` was a `r wytype_prev` water year type.
+`r report_year` was a **`r wytype`** water year type and `r report_year-1` was a **`r wytype_prev`** water year type.
 
 ### Storage and Flow
 
@@ -150,10 +143,6 @@ The temperature compliance point (location of compliance to daily average temper
 ```{r tempthresholdanalysis-fig,fig.cap = "2021 Sacramento River Temperature Threshold Analysis between Keswick Dam and Bend Bridge"}
 # knitr::include_graphics("https://www.cbr.washington.edu/sacramento/tmp/tc_sacramento_1704298322_382_temp.png")
 ```
-
-**Summary**
-
--   The compliance point at X was met X percent of days (\@ref(fig:tempthresholdanalysis-fig)).
 
 #### Water Temperature at Balls Ferry Bridge and Clear Creek
 
@@ -405,9 +394,8 @@ ggplot(esc_reach) + geom_col(aes(Year, Escapement, fill = Reach_text)) +
   theme(legend.position = "top")
 ```
 
-Placeholder for Annual Replacement Rate Plot
 
-```{r cohortreplacement-fig, fig.cap = "Cohort Replacement Rate. Current year spawners are divided by number of spawners from 3 years ago. Horizontal line is at 1.0."}
+```{r cohortreplacement-fig, fig.cap = "Cohort Replacement Rate. Current year female spawners are divided by number of female spawners from 3 years ago. Horizontal line is at 1.0."}
 
 annualreplacement = carcass %>%
   filter(spawn == "Spawned",
@@ -419,6 +407,7 @@ annualreplacement = carcass %>%
 
 ggplot(annualreplacement) + 
   geom_col(aes(factor(year), replacement), fill = "olivedrab4") + 
+  labs(y = "Cohort Replacement Rate")+
   geom_hline(yintercept = 1, linetype = "dashed") +
   theme_bw()
 ```
@@ -431,7 +420,7 @@ esc_reach_wide <- esc_reach %>%
   rowwise() %>%
   mutate(Total = sum(`Downstream RBDD`, `Upstream RBDD`, `Clear Creek`, `Battle Creek`, na.rm = TRUE))
 
-colnames(do_kwk_ccr_monthly) <- stringr::str_to_title(colnames(do_kwk_ccr_monthly))
+# colnames(do_kwk_ccr_monthly) <- stringr::str_to_title(colnames(do_kwk_ccr_monthly))
 
 kable(esc_reach_wide,
       label = NA,
@@ -489,15 +478,6 @@ kable(carcass_size_table,
       caption = "Carcass Data Summary. Fork length cutoffs are 610 mm for Females and 680 mm for Males based on Killam 2021",
       valign = "t") %>%
   kable_classic(html_font = "Cambria")
-
-# flextable(carcass_size_table) %>%
-#   add_footer_lines() %>%
-#   add_header_lines() %>%
-#   width(width = 1.2, unit = "in") %>%
-#   vline()%>%
-#   border_outer() %>%
-#   bold(part = "header") %>%
-#   align(align = "center", part = "header") 
 ```
 
 ```{r carcassFL-fig,fig.cap = "Carcass Data Fork Length Distribution. Plots are separated by Sex."}
@@ -513,6 +493,8 @@ ggplot(carcass_current) + geom_histogram(aes(forklength, fill = sex), color = "b
 
 ### Migration and Spawn Timing
 
+WRCS migration usually occurs between December through April, while spawning occurs between April and September. 
+
 #### Spawn Timing
 
 ```{r}
@@ -524,7 +506,7 @@ dates <- data.frame(date = seq(ymd(min(carcass_hist$dummy_date)), ymd(max(carcas
 
 # classify data into specific weeks
 spawn_timing <- carcass_current %>%
-  filter(sex == "F") %>%
+  filter(sex == "F", spawn == "Spawned") %>%
   mutate(count = 1,
          total = nrow(.)) %>%
   mutate(week = lubridate::week(surveydate)) %>%
@@ -536,19 +518,42 @@ spawn_timing <- carcass_current %>%
 
 
 spawn_timing_hist <- carcass_hist %>%
+  filter(spawn == "Spawned") %>%
+  group_by(year) %>%
   mutate(count = 1,
-         total = nrow(.)) %>%
+         total = sum(count)) %>%
+  ungroup() %>%
   mutate(week = lubridate::week(dummy_date)) %>%
   left_join(dates) %>%
   group_by(year, week, datestart, total) %>%
-  summarize(count = sum(count)) %>%
+  summarize(counts = sum(count)) %>%
   ungroup() %>%
-  mutate(percent = count/total*100,
+  mutate(percent = counts/total*100,
          year_fac = factor(year),
          current = if_else(year == report_year, "Y", "N"))
 
+median_spawn <- 
+  spawn_timing_hist %>%
+  group_by(year) %>%
+  slice(1) 
+
+
+
+peak_spawning <- spawn_timing_hist %>%
+  arrange(desc(percent)) %>%
+  group_by(year_fac) %>%
+  slice(1)
+
 ```
 
+- First redd observed by aerial survey: 
+- Spawning start week: `r format(min(spawn_timing$datestart), "%B %d")` (Week `r min(spawn_timing$week)`)
+  - Historical Median: Week `r min(spawn_timing_hist$year)` to `r report_year`): `r median(median_spawn$week)`  
+- Peak spawning week: `r format(spawn_timing$datestart[spawn_timing$percent == max(spawn_timing$percent)]," %B %d")` (Week `r spawn_timing$week[spawn_timing$percent == max(spawn_timing$percent)]`)
+  ‒	10-Year median: 
+  ‒	20-Year median:
+  
+  
 ```{r spawntiming-fig, fig.cap = paste("Spawn Timing, 2017 through", report_year)}
 ggplot(spawn_timing_hist)+
   geom_line(aes(datestart, percent, color = year_fac, linetype = current), size = 1) +
@@ -559,16 +564,10 @@ ggplot(spawn_timing_hist)+
   theme_plots
 ```
 
-Add 10-year and 20-year average to this plot.
+Add 10-year and 20-year average to this plot if we have access to the data.
 
 ```{r spawnweek-fig,fig.cap = paste("Peak Spawning Week from 2000 to " , report_year)}
 # Peak spawning week - line plot of peak spawning week by year (annual, rolling 5-year avg, 10-year avg)
-
-peak_spawning <- spawn_timing_hist %>%
-  group_by(year_fac) %>%
-  arrange(desc(percent)) %>%
-  slice(1)
-
 ggplot(peak_spawning) + geom_point(aes(year_fac, week), fill = "steelblue4", size = 3, shape = 23, color = "navy" ) +
   geom_hline(yintercept = median(peak_spawning$week), linetype = "dashed") +
   labs(y = "Peak Spawning Week") +

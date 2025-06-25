@@ -35,7 +35,7 @@ source("parameters.R")
 
 ### Flow
 
-```{r KWKBNDflowjuv-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Flows (cfs) at Sacramento River at Keswick (KWK) and Sacramento River at Bend Bridge (BND) in July through September",report_year, "and over the 10-year average"), fig.width = 8, fig.height = 6}
+```{r KWKBNDflowjuv-fig, fig.cap = paste("Daily Flows (cfs) at Sacramento River at Keswick (KWK) and Sacramento River at Bend Bridge (BND) in July through September",report_year, "and over the 10-year average"), fig.width = 8, fig.height = 6}
 flow_kwk_bnd_juv <- readRDS(paste0("data_raw/flow_kwk_bnd_plot_data_", year(start), "-", year(end), ".rds")) %>%
   filter(month %in% c("July", "August", "September", "October", "November", "December"))
 
@@ -101,7 +101,7 @@ max_mean_flow_bnd_month_us <- monthly_bnd_us %>% filter(mean == max_mean_flow_bn
 
 ### Water Temperature
 
-```{r wtempBND-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Water Temperature (degF) at Sacramento River at Bend (BND) in",report_year,"and 10-year average between July and December.") , fig.width = 8, fig.height = 4.5}
+```{r wtempBND-fig,  fig.cap = paste("Daily Water Temperature (degF) at Sacramento River at Bend (BND) in",report_year,"and 10-year average between July and December.") , fig.width = 8, fig.height = 4.5}
 
 wtemp_bnd_plot_data <- readRDS(paste0("data_raw/wtemp_BND_plot_data_", year(start), "-", year(end), ".rds")) %>%
   filter(month >=7 & month<=12)
@@ -144,7 +144,7 @@ kable(wtemp_bnd_monthly_us_t,
 #   set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (degF)", max = "Max (degF)", min =  "Min (degF)")
 ```
 
-```{r echo = FALSE}
+```{r }
 monthly_wtemp_bnd_us <- wtemp_bnd_monthly_us %>% filter(station == "BND")
 max_wtemp_bnd_us <- max(monthly_wtemp_bnd_us$max)
 max_mean_wtemp_bnd_us <- max(monthly_wtemp_bnd_us$mean)
@@ -161,7 +161,7 @@ max_mean_wtemp_bnd_us_month <- monthly_wtemp_bnd_us %>% filter(mean == max_mean_
 
 ### Dissolved Oxygen
 
-```{r doBNDjuv-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Dissolved Oxygen (mg/L) at Sacramento River at Bend Bridge (BND) in July through December",report_year,"and 10-year average."), fig.width = 8, fig.height = 4.5}
+```{r doBNDjuv-fig, fig.cap = paste("Daily Dissolved Oxygen (mg/L) at Sacramento River at Bend Bridge (BND) in July through December",report_year,"and 10-year average."), fig.width = 8, fig.height = 4.5}
 
 do_bnd_plot_data <- readRDS(paste0("data_raw/do_BND_plot_data_", year(start), "-", year(end2), ".rds")) %>%
   filter(month >=7 & month<=12)
@@ -210,7 +210,7 @@ kable(do_bnd_monthly_us_t,
 #   set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (cfs)", max = "Max (mg/L)", min =  "Min (mg/L)", flag_days = "Days < 6 mg/L")
 ```
 
-```{r echo = FALSE}
+```{r }
 monthly_bnd_us <- do_bnd_monthly_us %>% filter(station == "BND")
 min_do_bnd_us <- min(monthly_bnd_us$min)
 min_mean_do_bnd_us <- min(monthly_bnd_us$mean)
@@ -225,7 +225,7 @@ min_mean_do_bnd_us_month <- monthly_bnd_us %>% filter(mean == min_mean_do_bnd_us
 ---
 
 ### Turbidity
-```{r TurbBNDRDB-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Daily Turbidity at Sacramento River at Bend Bridge (BND) and Red Bluff Diversion Dam (RDB) in",report_year, "and 10-year average between July and December. Turbidity data have not undergone QC, other than values filtered to less than 300 NTU."), fig.width = 8, fig.height = 5}
+```{r TurbBNDRDB-fig, fig.cap = paste("Daily Turbidity at Sacramento River at Bend Bridge (BND) and Red Bluff Diversion Dam (RDB) in",report_year, "and 10-year average between July and December. Turbidity data have not undergone QC, other than values filtered to less than 300 NTU."), fig.width = 8, fig.height = 5}
 
 turb_bnd_rdb_plot_data <- readRDS(paste0("data_raw/turb_BND_RDB_plot_data_", year(start), "-", year(end), ".rds")) %>%
   filter(Turbidity < 300)%>%
@@ -273,7 +273,7 @@ kable(turb_bnd_rdb_monthly_us_t,
 #   set_header_labels(month = "Month", station = "Station", mean = "Mean (cfs)", max = "Max (cfs)", min =  "Min (cfs)")
 ```
 
-```{r echo = FALSE}
+```{r }
 monthly_bnd_turb_us <- turb_bnd_rdb_monthly_us %>% filter(station == "BND")
 min_turb_bnd_us <- min(monthly_bnd_turb_us$min)
 min_mean_turb_bnd_us <- min(monthly_bnd_turb_us$mean)
@@ -301,16 +301,13 @@ min_mean_turb_rdb_us_month <- monthly_rdb_turb_us %>% filter(mean == min_mean_tu
 
 ### Fry abundance 
 
-#### Estimated Fry Passage at RBDD - Placeholder - use Report or raw data?
-* Percent Fry Passage at RBDD (fry/fry+smolts)
-```{r}
-
-```
-
+Fry abundance (JPI) is calculated by Red Bluff USFWS by calculating the sum of: 
+- fry passage from rotary screw trap data, and
+- estimated smolts and pre-smolts that pass RBDD, which are converted to fry-equivalents by applying the inverse of the fry-to-smolt survival rate (new method used as of BY2019; Voss and Poytress 2022). 
 
 #### Fry-equivalent JPI
 
-```{r JPI-fig, message = FALSE, warning = FALSE, echo = FALSE,fig.cap = paste("Annual JPI from 2002 to",report_year)}
+```{r}
 
 library(scales)
 jpi <- read.csv("data_raw/JPI_2002_2023.csv") %>%
@@ -325,7 +322,31 @@ jpi <- read.csv("data_raw/JPI_2002_2023.csv") %>%
 
 avg.JPI = mean(jpi$JPI)
 current.JPI = jpi$JPI[1]
+```
 
+Information from the RBDD Annual Report: 
+
+```{r }
+dir_jpi <- ifelse(current.JPI<avg.JPI, "below", "above")
+```
+
+- Fry-to-smolt survival rate: 
+- Estimated Passage:
+  - Fry-sized juveniles: 
+  - Pre-smolts and smolt passage: 
+- Percent fry passage to juvenile passage (fry/fry+smolts):
+  - **10-year average:**
+  - **20-year average:**
+- Fry-equivalent JPI: 
+  -  **Juvenile Production Index** JPI in `r report_year` was `r dir_jpi` the average JPI between 2002 and `r report_year` at `r current.JPI`.
+  - **10-year average:**
+  - **20-year average:**
+
+```{r, echo = FALSE}
+# Figure of Estimated Percent Fry Passage
+```
+
+```{r JPI-fig, fig.cap = paste("Annual JPI from 2002 to",report_year)}
 (plot_jpi <- ggplot(jpi) + 
   geom_col(aes(BY, JPI), fill = "#C69214", alpha = 0.8, width = 0.8) +
   geom_text(aes(BY, JPI+0.15, label = JPI_lab), size = 3) + 
@@ -338,24 +359,17 @@ current.JPI = jpi$JPI[1]
         axis.title.x = element_blank()))
 ```
 
-* By year
-* RBDD RST Data 
-
-```{r echo = FALSE}
-dir_jpi <- ifelse(current.JPI<avg.JPI, "below", "above")
-```
-
--   **Juvenile Production Index** JPI in `r report_year` was `r dir_jpi` the average JPI between 2002 and `r report_year` at `r current.JPI`.
 
 
-2. Condition/ Growth
-* Fork length by year
+---
 
-3. Migration Timing
-* RBDD RST Data
+### Telemetry Studies
 
-4. Fry-to-Smolt Survival
-* Model?
+Include a subset of the data
+
+Table of telemetry release groups
+Reach-specific survival to below RBDD
+
 
 ---
 
@@ -455,27 +469,84 @@ kable(stranding_current,
 ### Condition
 
 #### RBDD Size
-```{r rbdd-fl-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Fork Length Distribution over Time, RBDD RST" }
+```{r}
+# Range Fork Lengths
 fl_rbdd <- read.csv("data_raw/rbdd_juv_fl.csv") %>%
-  mutate(date = ymd(date_yyyy_mm_dd))
+  mutate(date = ymd(date_yyyy_mm_dd)) %>%
+  mutate(year = year(date),
+         month = month(date),
+         day = day(date),
+         date2 = date)
 
-ggplot(fl_rbdd) + 
-  geom_errorbar(aes(date, ymin = length_min, ymax = length_max)) +
-  geom_point(aes(date, length), color = "steelblue3")+
-  scale_x_date(date_breaks = "1 month", date_labels = "%b %Y") + 
+
+# Raw Fork Lengths
+fl_raw_rbdd <- read.csv("data_raw/raw_wr_rbdd.csv") %>%
+  mutate(date = ymd(start_date))
+
+fl_raw_rbdd_avg <- fl_raw_rbdd %>%
+  mutate(year = year(date),
+         month = month(date),
+         day = day(date),
+         by = if_else(month %in% c(1,2,3,4,5,6), year-1, year)) %>%
+  filter(by>report_year-10 & by <= report_year) %>%
+  mutate(year_type = if_else(by == report_year, as.character(report_year), "10-year average")) %>%
+  mutate(date2 = if_else(month %in% c(1,2,3,4,5,6), ymd(paste0(report_year+1, "-", month, "-", day)),ymd(paste0(report_year, "-", month, "-", day)))) %>%
+  group_by(year_type, date2) %>%
+  summarize(fork_length = mean(fork_length,na.rm = TRUE))
+  
+fl_raw_rbdd_current <- fl_raw_rbdd %>%
+  filter(date >= ymd(paste0(report_year, "07-01"))& date<ymd(paste0(report_year+1,"06-01" ))) %>%
+  mutate(month = month(date)) %>%
+  mutate(period = case_when(month %in% c(7,8) ~ "early",
+                            date >= rbdd_by$x25_percent_passage_date & date <rbdd_by$x75_percent_passage_date ~ "middle 50%",
+                            month %in% c(3,4,5) ~ "late"))
+
+fl_raw_current_avg <- fl_raw_rbdd_current %>%
+  group_by(period) %>%
+  summarize(min = round(min(fork_length)),
+            max = round(max(fork_length)),
+            mean = round(mean(fork_length)))
+
+p_fry <- fl_raw_rbdd_current %>%
+  mutate(fry = if_else(fork_length<46, "yes", "no")) %>%
+  group_by(fry) %>%
+  summarize(total = sum(count))
+
+percent_fry <- round(p_fry$total[2]/sum(p_fry$total) *100)
+
+fl_avg_table <- fl_raw_rbdd_avg %>%
+  group_by(year_type) %>%
+  summarize(min = min(fork_length),
+            max = max(fork_length))
+```
+
+
+- **Average daily fork length** 
+    - Early migration (July to August): `r fl_raw_current_avg$min[1]` to `r fl_raw_current_avg$max[1]` mm
+    - Middle 50% of cumulative (`r format(rbdd_by$x25_percent_passage_date, "%B %d")` to `r format(rbdd_by$x75_percent_passage_date, "%B %d")`): `r fl_raw_current_avg$min[2]` to `r fl_raw_current_avg$max[2]` mm
+    - Late migration: `r fl_raw_current_avg$min[2]` to `r fl_raw_current_avg$max[2]` mm
+- `r percent_fry` % of fish migrated past RBDD as fry (<46 mm FL)
+- Average daily fork length in `r report_year` was `r fl_avg_table$min[2]` to `r fl_avg_table$max[2]`mm compared with the 10-year average daily fork length (`r fl_avg_table$min[1]` to `r fl_avg_table$max[1]` mm)
+
+
+```{r rbdd-fl-fig, fig.cap = paste0("Fork Length Distribution in ",report_year, " and 10-year average at RBDD RST. The yellow line at 45 mm indicates the length transition from fry to smolt.") }
+ggplotly(ggplot(fl_rbdd) + 
+ 
+  geom_point(data = fl_raw_rbdd_avg, aes(date2, fork_length,color = year_type), size = 1)+
+   geom_errorbar(data = fl_rbdd, aes(date2, ymin = length_min, ymax = length_max), alpha = 0.6) +
+    geom_hline(yintercept = 45, color = "gold2") +
+    scale_x_date(date_breaks = "1 month", date_labels = "%b %Y") + 
+    scale_color_manual(values = c("steelblue4", "black" )) +
   labs(y = "Fork Length (mm)")+
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90),
-        axis.title.x = element_blank())
+        axis.title.x = element_blank()))
 ```
 
-```{r rbdd-flhist-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Fork Length Distribution over Time, RBDD RST" }
-fl_rbdd <- read.csv("data_raw/raw_wr_rbdd.csv") %>%
-  mutate(date = ymd(start_date)) %>%
-  filter(year(date) >=report_year & year(date) < report_year +2)
-
-ggplot(fl_rbdd) + 
-  geom_histogram(aes(fork_length), color = "black") +
+```{r rbdd-flhist-fig, fig.cap = "Fork Length Distribution over Time, RBDD RST" }
+ggplot(fl_raw_rbdd) + 
+  geom_histogram(aes(fork_length), color = "black", fill = "forestgreen", binwidth = 5) +
+  labs(y = "Count", x = "Fork Length (mm)")+
   theme_bw()
 ```
 

@@ -176,7 +176,7 @@ twentyyear = eggs %>% filter(brood_year > report_year-20 & brood_year<= report_y
 
 ```{r}
 # Read JPI data from SacPAS
-jpi_sacpas <- read.delim("https://www.cbr.washington.edu/sacramento/data/php/rpt/jpe.php?sc=1&year=all")%>%
+jpi_sacpas <- read_delim("https://www.cbr.washington.edu/sacramento/data/php/rpt/jpe.php?sc=1&year=all")%>%
   filter(component == "Fry equivalents of juvenile production at RBDD",
          !is.na(value)) %>%
   mutate(brood_year = as.numeric(brood_year),
@@ -206,7 +206,7 @@ jpi_tenyear <- jpi_sacpas %>% filter(brood_year >= report_year-10 & brood_year <
 ```{r}
 jpi <- read_csv("data_raw/JPI_2002_2023.csv") %>%
   clean_names() %>%
-  # filter(by == report_year) %>%
+  filter(by <= report_year) %>%
   rename(JPI = fry_equivalent_jpi,
          ETF_Survival = etf_survival_rate_percent) %>%
   select(BY=by, JPI, ETF_Survival) %>%
@@ -215,23 +215,24 @@ jpi <- read_csv("data_raw/JPI_2002_2023.csv") %>%
          ETF_Survival_lab = round(ETF_Survival)) %>%
   mutate(BY_fac = factor(BY))
 
-tdm <- read.csv("data_raw/ETF_TDM_2002_2023.csv") %>%
-  mutate(unexplained_mortality = 100-ETF_Survival-TDM_NOAA_percent) %>%
-  rename(ETF_survival = ETF_Survival) %>%
-  filter(Brood.Year <= report_year) %>%
-  mutate(BY = Brood.Year) %>%
-  mutate(Brood.Year = factor(Brood.Year))%>%
-  mutate(color = case_when(Sac.Val.Year.Type == "C" ~ "#D55E00",
-                           Sac.Val.Year.Type == "D" ~ "#E69F00",
-                           Sac.Val.Year.Type == "AN" ~ "#009E73",
-                           Sac.Val.Year.Type == "BN" ~  "black",
-                           Sac.Val.Year.Type == "W" ~ "#0072B2")) %>%
-  mutate(Brood.Year.Type = paste0(Brood.Year, " (", Sac.Val.Year.Type, ")" ))
+tdm <- read_csv("data_raw/ETF_TDM_2002_2023.csv") %>%
+  clean_names() %>%
+  filter(brood_year <= report_year) %>%
+  mutate(unexplained_mortality = 100-etf_survival-tdm_noaa_percent) %>%
+  filter(brood_year <= report_year) %>%
+  mutate(BY = brood_year) %>%
+  mutate(brood_year = factor(brood_year))%>%
+  mutate(color = case_when(sac_val_year_type == "C" ~ "#D55E00",
+                           sac_val_year_type == "D" ~ "#E69F00",
+                           sac_val_year_type == "AN" ~ "#009E73",
+                           sac_val_year_type == "BN" ~  "black",
+                           sac_val_year_type == "W" ~ "#0072B2")) %>%
+  mutate(brood_year_type = paste0(brood_year, " (", sac_val_year_type, ")" ))
 
 tdm_long <- tdm %>%
-  select(Brood.Year.Type, color,
-         `Temperature Attributed Mortality` = TDM_NOAA_percent, 
-         `Egg-to-Fry Survival` = ETF_survival, 
+  select(brood_year_type, color,
+         `Temperature Attributed Mortality` = tdm_noaa_percent, 
+         `Egg-to-Fry Survival` = etf_survival, 
          `Unattributed Mortality` = unexplained_mortality) %>%
   pivot_longer(cols = `Temperature Attributed Mortality`:`Unattributed Mortality`, names_to = "Fate", values_to = "Percent") %>%
   mutate(Percent_label = round(Percent)) 
@@ -241,23 +242,30 @@ tdm_long <- tdm %>%
 avg.ETF = mean(jpi$ETF_Survival)
 current.ETF = jpi$ETF_Survival[1]
 
-dir_etf <- ifelse(current.ETF<avg.ETF, "below", "above")
+tenyear_etf = jpi %>% filter(BY > report_year-10 & BY<= report_year)
+tenyear_etf_avg = mean(tenyear_etf$ETF_Survival)
+twentyyear_etf = jpi %>% filter(BY > report_year-20 & BY<= report_year)
+twentyyear_etf_avg = mean(twentyyear_etf$ETF_Survival)
+
+dir_etf1 <- ifelse(current.ETF<tenyear_etf_avg, "below", "above")
+dir_etf2 <- ifelse(current.ETF<twentyyear_etf_avg, "below", "above")
 ```
+
+
+Right now reading from internal spreadsheet and JPE letter SacPAS page. Final ETF survival is in USFWS RBDD spreadsheet. 
 
 **Egg-to-Fry Metrics**
 
 -   **Total potential eggs:** `r paste(scales::comma(eggs$value[eggs$brood_year == report_year]), "eggs")`
     -   **10-year average:** `r paste(scales::comma(mean(tenyear$value, na.rm=TRUE)), "eggs")`
     -   **20-year average:** `r paste(scales::comma(mean(twentyyear$value, na.rm=TRUE)), "eggs")`
--   **Fry-equivalents at RBDD (JPE Letter):** `r scales::comma(as.numeric(jpi$value[jpi$brood_year == report_year]))`. 
+-   **Fry-equivalents at RBDD (JPE Letter):** `r scales::comma(as.numeric(jpi_sacpas$value[jpi_sacpas$brood_year == report_year]))`. 
     -   **10-year average:** `r scales::comma(mean(as.numeric(jpi_tenyear$value), na.rm = TRUE))` including 2011, 2014-2017, 2021
--   **Egg to Fry Survival (ETF Survival):** ETF Survival in `r report_year` was `r dir_etf` the average ETF between 2002 and `r report_year` at `r current.ETF`% (Figure \@ref(fig:ETFSurv-fig)). 
-    -   The average ETF from `r min(year(jpi$BY))` to `r report_year` was `r round(avg.ETF,1)`%
+-   **Egg to Fry Survival (ETF Survival; JPI-based):** ETF Survival in `r report_year` was `r dir_etf1` the 10-year average ETF and `r dir_etf2` the 20-year average ETF (Figure \@ref(fig:ETFSurv-fig)). 
+    - **10-year average:** `r round(tenyear_etf_avg,1)`%
+    - **20-year average:** `r round(twentyyear_etf_avg,1)`%
 
 ```{r ETFSurv-fig, fig.cap = "Egg to Fry Survival" }
-tenyear_etf = jpi %>% filter(BY > report_year-10 & BY<= report_year)
-twentyyear_etf = jpi %>% filter(BY > report_year-20 & BY<= report_year)
-
 (plot_etf <- ggplot() + 
   geom_col(data = jpi, aes(BY, ETF_Survival), fill = "#007396", alpha = 0.8, width = 0.8) +
   geom_text(data = jpi, aes(BY, ETF_Survival +1, label = ETF_Survival_lab), size =  3) + 
@@ -277,8 +285,18 @@ twentyyear_etf = jpi %>% filter(BY > report_year-20 & BY<= report_year)
         axis.title.x = element_blank()))
 ```
 
+---
 
-#### SacPAS Fish Model 
+#### SacPAS Fish Model
+
+The SacPAS Fish Model was developed by the University of Washington Columbia Basin Research center. The model, along with additional method and usage details, are available on: ["the SacPAS website"](https://www.cbr.washington.edu/sacramento/fishmodel/).
+
+The user-selected inputs to the model include:
+
+- `r report_year` carcass survey, temperature, and flow data
+- Stage-dependent, spatially-dependent survival (Anderson 2018) model 
+- Observed Keswick (KWK) flows redd dewatering option
+
 
 ```{r sacpasfishmodel}
 fish_model_params <- read_csv(here("data_raw", "fish_model_parameters_2021_hatchmort_dbcarcass.csv")) %>%
@@ -295,7 +313,9 @@ fish_model_summary <- read_csv(here("data_raw", "fish_model_summary.csv"))%>%
 ```
 
 
--   Redds exposed to Tcritical = **11.82°C (53.28°F)** are shown in Figure \@ref(fig:fishmodel-hatching-fig).
+**Results**
+
+    -   Redds exposed to Tcritical = **11.82°C (53.28°F)** are shown in Figure \@ref(fig:fishmodel-hatching-fig).
     -   **Pre-hatching exposure:** `r fish_model_params$prehatch_exposure_percent`%
     -   **Pre-emergence exposure:** `r fish_model_params$pre_emerge_exposure_percent`%
 -   **Estimated total egg-to-fry emergence survival:** `r fish_model_params$incubation_survival`%
@@ -335,7 +355,7 @@ ggplot(eggs) +
 ```{r TDM-etf-fig, message = FALSE, warning = FALSE, echo = FALSE, fig.cap = paste0("Annual Percent of Egg to Fry Survival, Temperature-Dependent Mortality, and Unattributed Survival from 2002 to ",report_year, ". Labels in parentheses indicate Water Year Type.")}
 yrcolors <- rev(tdm$color)
 
-(plot_tdm <- ggplot(tdm_long, aes(Brood.Year.Type, Percent, fill = Fate)) + 
+(plot_tdm <- ggplot(tdm_long, aes(brood_year_type, Percent, fill = Fate)) + 
   geom_col(width = 0.65, alpha = 0.9) +
   geom_text(aes(label = Percent_label), position = position_stack(vjust = 0.5), size = 4.5) +
   scale_fill_manual(values = c("goldenrod","steelblue" ,"gray70")) + 
