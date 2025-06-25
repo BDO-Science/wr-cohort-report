@@ -16,7 +16,9 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 1992,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
 1992,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 1992,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+1992,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 1992,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+1992,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 1992,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
 1993,66536,Total natural production entering the Delta,Natural,1993-10-01,NA,NA,NA,NA
 1993,271,Total Sacramento River escapement,Natural,1993-10-01,NA,"CDFW, USFWS",NA,NA
@@ -35,7 +37,9 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 1993,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
 1993,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 1993,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+1993,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 1993,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+1993,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 1993,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
 1994,31491,Total natural production entering the Delta,Natural,1995-02-21,NA,NA,NA,NA
 1994,129,Total Sacramento River escapement,Natural,1995-02-21,NA,"CDFW, USFWS",NA,NA
@@ -54,7 +58,9 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 1994,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
 1994,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 1994,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+1994,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 1994,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+1994,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 1994,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
 1995,338107,Total natural production entering the Delta,Natural,1995-10-20,NA,NA,NA,NA
 1995,1251,Total Sacramento River escapement,Natural,1995-10-20,NA,"CDFW, USFWS",NA,NA
@@ -72,8 +78,10 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 1995,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 1995,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
 1995,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
-1995,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+1995,6762,Natural Incidental Take Limit,Natural,1995-10-20,NA,NA,NA,NA
+1995,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 1995,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+1995,1200,LSNFH Incidental Take Limit,Natural,1995-10-20,NA,NA,NA,NA
 1995,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
 1996,165069,Total natural production entering the Delta,Natural,1997-02-10,NA,NA,NA,NA
 1996,611,Total Sacramento River escapement,Natural,1997-02-10,NA,"CDFW, USFWS",NA,NA
@@ -91,8 +99,10 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 1996,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 1996,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
 1996,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
-1996,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+1996,3301,Natural Incidental Take Limit,Natural,1997-02-10,NA,NA,NA,NA
+1996,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 1996,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+1996,100,LSNFH Incidental Take Limit,Natural,1997-02-10,NA,NA,NA,NA
 1996,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
 1997,138316,Total natural production entering the Delta,Natural,1998-04-27,NA,NA,NA,NA
 1997,480,Total Sacramento River escapement,Natural,1998-04-27,NA,"CDFW, USFWS",NA,NA
@@ -110,8 +120,10 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 1997,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 1997,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
 1997,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
-1997,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+1997,2766,Natural Incidental Take Limit,Natural,1998-04-27,NA,NA,NA,NA
+1997,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 1997,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+1997,840,LSNFH Incidental Take Limit,Natural,1998-04-27,NA,NA,NA,NA
 1997,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
 1998,454792,Total natural production entering the Delta,Natural,1999-02-26,NA,NA,NA,NA
 1998,1682,Total Sacramento River escapement,Natural,1999-02-26,NA,"CDFW, USFWS",NA,NA
@@ -129,8 +141,10 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 1998,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 1998,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
 1998,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
-1998,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+1998,9095,Natural Incidental Take Limit,Natural,1999-02-26,NA,NA,NA,NA
+1998,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 1998,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+1998,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 1998,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
 1999,289724,Total natural production entering the Delta,Natural,2000-01-01,NA,NA,NA,NA
 1999,1072,Total Sacramento River escapement,Natural,2000-01-01,NA,"CDFW, USFWS",NA,NA
@@ -148,8 +162,10 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 1999,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 1999,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
 1999,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
-1999,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+1999,5794,Natural Incidental Take Limit,Natural,2000-01-01,NA,NA,NA,NA
+1999,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 1999,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+1999,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 1999,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
 2000,370221,Total natural production entering the Delta,Natural,2001-01-29,NA,NA,NA,NA
 2000,1059,Total Sacramento River escapement,Natural,2001-01-29,NA,"CDFW, USFWS",NA,NA
@@ -167,8 +183,10 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 2000,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 2000,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
 2000,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
-2000,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2000,7404,Natural Incidental Take Limit,Natural,2001-01-29,NA,NA,NA,NA
+2000,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2000,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2000,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2000,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
 2001,1864802,Total natural production entering the Delta,Natural,2002-02-22,NA,NA,NA,NA
 2001,7572,Total Sacramento River escapement,Natural,2002-02-22,"1/ Based on DFG carcass survey (Jolly-Seber model), includes hatchery and grilse","CDFW, USFWS",NA,NA
@@ -187,7 +205,9 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 2001,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
 2001,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 2001,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2001,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2001,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2001,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2001,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
 2002,2136747,Total natural production entering the Delta,Natural,2003-02-19,NA,NA,NA,NA
 2002,7337,Total Sacramento River escapement,Natural,2003-02-19,"1/ 2002 CDFG Carcass Survey (Jolly-Seber) Estimate from 1/24/03, includes hatchery returns and grilse.","CDFW, USFWS",NA,NA
@@ -205,8 +225,10 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 2002,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 2002,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
 2002,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
-2002,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
-2002,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2002,42735,Natural Incidental Take Limit,Natural,2003-02-19,NA,NA,NA,NA
+2002,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2002,1216,LSNFH Incidental Take Limit,Hatchery,2003-02-19,NA,NA,NA,NA
+2002,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2002,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
 2003,1896649,Total natural production entering the Delta,Natural,2004-01-21,NA,NA,NA,NA
 2003,NA,Total Sacramento River escapement,Natural,NA,NA,NA,NA,NA
@@ -224,8 +246,10 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 2003,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 2003,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
 2003,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
-2003,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
-2003,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2003,37933,Natural Incidental Take Limit,Natural,2004-01-21,NA,NA,NA,NA
+2003,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2003,1144,LSNFH Incidental Take Limit,Hatchery,2004-01-21,NA,NA,NA,NA
+2003,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2003,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
 2004,881719,Total natural production entering the Delta,Natural,2005-02-08,NA,NA,NA,NA
 2004,8635,Total Sacramento River escapement,Natural,2005-02-08,NA,"CDFW, USFWS",NA,NA
@@ -243,8 +267,10 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 2004,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 2004,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
 2004,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
-2004,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
-2004,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2004,17634,Natural Incidental Take Limit,Natural,2005-02-08,NA,NA,NA,NA
+2004,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2004,927,LSNFH Incidental Take Limit,Hatchery,2005-02-08,NA,NA,NA,NA
+2004,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2004,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
 2005,3831286,Total natural production entering the Delta,Natural,2006-02-10,NA,NA,NA,NA
 2005,15730,Total Sacramento River escapement,Natural,2006-02-10,"1/ 2005 carcass survey estimate (Jolly-Seber) from DFG letter, 1/13/06, includes both wild and hatchery origin.","CDFW, USFWS",NA,NA
@@ -262,8 +288,10 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 2005,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 2005,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
 2005,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
-2005,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
-2005,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2005,76626,Natural Incidental Take Limit,Natural,2006-02-10,NA,NA,NA,NA
+2005,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2005,949,LSNFH Incidental Take Limit,Hatchery,2006-02-10,NA,NA,NA,NA
+2005,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2005,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
 2006,3739069,Total natural production entering the Delta,Natural,2007-02-15,NA,NA,NA,NA
 2006,17205,Total Sacramento River escapement,Natural,2007-02-15,"1/ 2006 carcass survey (DFG letter dated 12/7/06), Jolly-Seber est. includes both wild and hatchery origin.","CDFW, USFWS",NA,NA
@@ -281,8 +309,10 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 2006,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 2006,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
 2006,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
-2006,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
-2006,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2006,74781,Natural Incidental Take Limit,Natural,2007-02-15,NA,NA,NA,NA
+2006,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2006,1072,LSNFH Incidental Take Limit,Hatchery,2007-02-15,NA,NA,NA,NA
+2006,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2006,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
 2008,617783,Total natural production entering the Delta,Natural,2009-01-12,NA,NA,NA,NA
 2008,2850,Total Sacramento River escapement,Natural,2009-01-12,"1/ Based on DFG official estimate, letter to NMFS received 11/25/08, includes hatchery broodstock.","CDFW, USFWS",NA,NA
@@ -300,8 +330,10 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 2008,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 2008,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
 2008,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
-2008,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
-2008,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2008,12356,Natural Incidental Take Limit,Natural,2009-01-12,NA,NA,NA,NA
+2008,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2008,821,LSNFH Incidental Take Limit,Hatchery,2009-01-12,NA,NA,NA,NA
+2008,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2008,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
 2009,1179633,Total natural production entering the Delta,Natural,2010-02-24,NA,NA,NA,NA
 2009,4537,Total Sacramento River escapement,Natural,2010-02-24,"1/ Based on DFG letter dated 1/14/10, includes hatchery broodstock.","CDFW, USFWS",NA,NA
@@ -319,8 +351,10 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 2009,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 2009,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
 2009,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
-2009,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
-2009,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2009,23593,Natural Incidental Take Limit,Natural,2010-02-24,NA,NA,NA,NA
+2009,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2009,1087,LSNFH Incidental Take Limit,Hatchery,2010-02-24,NA,NA,NA,NA
+2009,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2009,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
 2010,332012,Total natural production entering the Delta,Natural,2011-01-12,NA,NA,NA,NA
 2010,1533,Total Sacramento River escapement,Natural,2011-01-12,"1/ Based on DFG letter to Rod McInnis 12/08/10, in-river spawners minus hatchery broodstock.","CDFW, USFWS",NA,NA
@@ -338,8 +372,10 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 2010,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 2010,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
 2010,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
-2010,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
-2010,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2010,6640,Natural Incidental Take Limit,Natural,2011-01-12,NA,NA,NA,NA
+2010,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2010,667,LSNFH Incidental Take Limit,Hatchery,2011-01-12,NA,NA,NA,NA
+2010,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2010,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
 2011,162051,Total natural production entering the Delta,Natural,2012-01-26,NA,NA,NA,NA
 2011,824,Total Sacramento River escapement,Natural,2012-01-26,"1/ total in-river escapement using Jolly-Seber model, includes fish taken for hatchery broodstock (738 +86 =824) from DFG letter 12/6/11.","CDFW, USFWS",NA,NA
@@ -350,15 +386,17 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 2011,0.25,Estimated egg-to-fry survival rate,Natural,2012-01-26,"6/ This is measured at Red Bluff based on female spawners, carcass survey females, JPI/female spawner, and fecundity data (J. Smith, FWS, 12/7/11 WRPWT notes)","CDFW, LSNFH, USFWS",NA,NA
 2011,0.59,Fry-to-smolt survival,Natural,2012-01-26,7/ This number (0.59) previously had been multiplied into the estimated survival- Egg to Smolt,NA,NA,NA
 2011,0.53625,Estimated smolt survival term,Natural,2012-01-26,"8/ Average of ocean recoveries of paired Late-Fall releases from Coleman NFH released at Battle Cr.and Delta locations from 1994-2001 (USFWS, unpubl. data, Chipps Table 2005)",NA,NA,NA
-2011,302193,Number of smolts at RBDD,Natural,2012-01-26,NA,USFWS,NA,NA
-2011,512192,Fry equivalents of juvenile production at RBDD,Natural,2012-01-26,NA,NA,NA,NA
+2011,NA,Number of smolts at RBDD,Natural,NA,NA,NA,NA,NA
+2011,NA,Fry equivalents of juvenile production at RBDD,Natural,NA,NA,NA,NA,NA
 2011,96525,Total LSNFH production entering the Delta,Hatchery,2012-01-26,NA,NA,NA,NA
 2011,194734,LSNFH Hatchery release,Hatchery,2012-01-26,9/ LSNFH release scheduled for 2/4/12 (all tagged & clipped).,LSNFH,NA,NA
 2011,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 2011,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
 2011,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
-2011,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
-2011,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2011,3241,Natural Incidental Take Limit,Natural,2012-01-26,NA,NA,NA,NA
+2011,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2011,965,LSNFH Incidental Take Limit,Hatchery,2012-01-26,NA,NA,NA,NA
+2011,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2011,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
 2012,532809,Total natural production entering the Delta,Natural,2013-01-31,NA,NA,NA,NA
 2012,2581,Total Sacramento River escapement,Natural,2013-01-31,"1/ Total in-river escapement (90% CI) using modified Cormack Jolly-Seber (CJS) model, includes 803 hatchery fish from CDFW letter 1/4/13, but does not include 93 removed for LSNFH.","CDFW, USFWS",NA,NA
@@ -369,15 +407,17 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 2012,0.25,Estimated egg-to-fry survival rate,Natural,2013-01-31,"6/ Survival measured at Red Bluff based on JPI/female spawners in carcass survey, and fecundity data (J. Smith, USFWS, 12/7/11 WRPWT notes)","CDFW, LSNFH, USFWS",NA,NA
 2012,0.59,Fry-to-smolt survival,Natural,2013-01-31,7/ This survival rate (0.59) previously had been multiplied into the Egg to Smolt survival,NA,NA,NA
 2012,0.53625,Estimated smolt survival term,Natural,2013-01-31,"8/ Average of ocean recoveries of paired Late-Fall releases from Coleman NFH released at Battle Creek and Delta locations from 1994-2001 (USFWS, unpubl. data, Chipps Table 2005)",NA,NA,NA
-2012,993583,Number of smolts at RBDD,Natural,2013-01-31,NA,USFWS,NA,NA
-2012,1684039,Fry equivalents of juvenile production at RBDD,Natural,2013-01-31,NA,NA,NA,NA
+2012,NA,Number of smolts at RBDD,Natural,NA,NA,NA,NA,NA
+2012,NA,Fry equivalents of juvenile production at RBDD,Natural,NA,NA,NA,NA,NA
 2012,96525,Total LSNFH production entering the Delta,Hatchery,2013-01-31,NA,NA,NA,NA
 2012,180000,LSNFH Hatchery release,Hatchery,2013-01-31,"9/ LSNFH release numbers from USFWS, 12/19/12 (100% tagged & clipped).",LSNFH,NA,NA
 2012,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 2012,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
 2012,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
-2012,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
-2012,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2012,10656,Natural Incidental Take Limit,Natural,2013-01-31,NA,NA,NA,NA
+2012,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2012,965,LSNFH Incidental Take Limit,Hatchery,2013-01-31,NA,NA,NA,NA
+2012,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2012,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
 2013,1196387,Total natural production entering the Delta,Natural,2014-02-21,NA,NA,NA,NA
 2013,5958,Total Sacramento River escapement,Natural,2014-02-21,"1/ Total in-river escapement from Cormack-Jolly-Seber (CJS) model (90% CI), includes natural and hatchery origin, but not 117 collected at Keswick trap for LSNFH (CDFW letter 1/7/14).","CDFW, USFWS",NA,NA
@@ -395,8 +435,10 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 2013,NA,Total Jumpstart production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 2013,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
 2013,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
-2013,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
-2013,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2013,23928,Natural Incidental Take Limit,Natural,2014-02-21,NA,NA,NA,NA
+2013,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2013,309,LSNFH Incidental Take Limit,Hatchery,2014-02-21,NA,NA,NA,NA
+2013,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2013,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
 2014,124521,Total natural production entering the Delta,Natural,2015-01-16,NA,NA,NA,NA
 2014,2627,Total Sacramento River escapement,Natural,2015-01-16,1/ Total in-river escapement from Cormack-Jolly Seber (CIS) model includes natural and hatchery origin,"CDFW, USFWS",NA,NA
@@ -415,7 +457,9 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 2014,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
 2014,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 2014,2490,Natural Incidental Take Limit,Natural,2015-01-16,NA,NA,NA,NA
+2014,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2014,1885,LSNFH Incidental Take Limit,Hatchery,2015-01-16,NA,NA,NA,NA
+2014,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2014,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
 2015,101716,Total natural production entering the Delta,Natural,2016-01-28,NA,NA,NA,NA
 2015,3182,Total Sacramento River escapement,Natural,2016-01-28,"1/ Total in-river escapement from Cormack-Jolly Seber (CJS) model includes natural and hatchery origin, but not hatchery fish retained for brood stock at Livingston Stone National Fish Hatchery.","CDFW, USFWS",NA,NA
@@ -434,7 +478,9 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 2015,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
 2015,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 2015,1017,Natural Incidental Take Limit,Natural,2016-01-28,NA,NA,NA,NA
+2015,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2015,1554,LSNFH Incidental Take Limit,Hatchery,2016-01-28,NA,NA,NA,NA
+2015,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2015,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
 2016,166189,Total natural production entering the Delta,Natural,2017-02-03,NA,NA,NA,NA
 2016,1409,Total Sacramento River escapement,Natural,2017-02-03,"1/ Total in-river escapement from CDFW Cormack-Jolly Seber (CJS) model includes natural and hatchery origin, but not hatchery fish retained for brood stock at LSNFH.","CDFW, USFWS",NA,NA
@@ -453,7 +499,9 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 2016,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
 2016,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 2016,1662,Natural Incidental Take Limit,Natural,2017-02-03,NA,NA,NA,NA
+2016,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2016,582,LSNFH Incidental Take Limit,Hatchery,2017-02-03,NA,NA,NA,NA
+2016,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2016,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
 2017,201409,Total natural production entering the Delta,Natural,2018-01-08,NA,NA,NA,NA
 2017,795,Total Sacramento River escapement,Natural,2018-01-08,"1/ Total in-river escapement from CDFW Cormack-Jolly Seber (CJS) model includes natural and hatchery origin, but not hatchery fish retained for brood stock at LSNFH.","CDFW, USFWS",NA,NA
@@ -472,7 +520,9 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 2017,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
 2017,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 2017,2014,Natural Incidental Take Limit,Natural,2018-01-08,NA,NA,NA,NA
+2017,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2017,932,LSNFH Incidental Take Limit,Hatchery,2018-01-08,NA,NA,NA,NA
+2017,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2017,909,Jumpstart Incidental Take Limit,Hatchery,2018-01-08,NA,NA,NA,NA
 2018,433176,Total natural production entering the Delta,Natural,2019-02-01,NA,NA,NA,NA
 2018,2458,Total Sacramento River escapement,Natural,2019-02-01,"1/ Total in-river escapement from CDFW Cormack-Jolly Seber (CJS) model includes natural and hatchery origin, but not hatchery fish retained for brood stock at LSNFH.","CDFW, USFWS",NA,NA
@@ -491,9 +541,11 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 2018,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
 2018,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 2018,4332,Natural Incidental Take Limit,Natural,2019-02-01,NA,NA,NA,NA
+2018,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2018,867,LSNFH Incidental Take Limit,Hatchery,2019-02-01,NA,NA,NA,NA
+2018,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2018,824,Jumpstart Incidental Take Limit,Hatchery,2019-02-01,NA,NA,NA,NA
-2019,1054722,Total natural production entering the Delta,Natural,2020-01-23,NA,NA,301002,1408880
+2019,854941,Total natural production entering the Delta,Natural,2020-01-23,NA,"Method 2 (O’Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",301002,1408880
 2019,7852,Total Sacramento River escapement,Natural,2020-01-23,"1/ Total in-river escapement from CDFW Cormack-Jolly Seber (CJS) model includes natural and hatchery origin, but not hatchery fish retained for brood stock at LSNFH.","CDFW, USFWS",NA,NA
 2019,4947,Adult female estimate,Natural,2020-01-23,"2/ The number of adult females is derived from carcass surveys, and the number of males is derived using sex ratio at Keswick trap.","CDFW, USFWS",NA,NA
 2019,4883,AFE minus pre-spawn mortality,Natural,2020-01-23,3/ Pre-spawn mortality was estimated from carcass surveys of females (CDFW).,"CDFW, USFWS",NA,NA
@@ -501,7 +553,7 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 2019,26485392,Total eggs,Natural,2020-01-23,NA,"CDFW, LSNFH, USFWS",NA,NA
 2019,0.1798,Estimated egg-to-fry survival rate,Natural,2020-01-23,5/ Back calculated estimated survival between eggs laid in-river and fry production estimates at RBDD based on numbers of fry equivalents (JPI) using the 0.4651 fry-to-smolt survival rate estimate based on method described in O’Farrell et al. (2018).,"CDFW, LSNFH, USFWS",NA,NA
 2019,0.4651,Fry-to-smolt survival,Natural,2020-01-23,7/ Estimate of fry-to-smolt survival rate based on O’Farrell et al. (2018).,"Method 2 (O’Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",NA,NA
-2019,0.386,Estimated smolt survival term,Natural,2020-01-23,"8/ Variance-weighted mean survival rate of acoustically tagged winter-run from 2013 to 2019 between RBDD and I-80/Tower Bridge in Sacramento. Survival is estimated from the Salt Creek receiver site, located 3 miles downstream of RBDD, to estimate survival from RBDD for acoustic tag studies. See Smolt Survival section for an explanation of the different values displayed here.","Method 2 (O’Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",NA,NA
+2019,0.4762,Estimated smolt survival term,Natural,2020-01-23,"8/ Variance-weighted mean survival rate of acoustically tagged winter-run from 2013 to 2019 between RBDD and I-80/Tower Bridge in Sacramento. Survival is estimated from the Salt Creek receiver site, located 3 miles downstream of RBDD, to estimate survival from RBDD for acoustic tag studies. See Smolt Survival section for an explanation of the different values displayed here.","Southwest Fisheries Science Center, NMFS, NOAA; and University of California Santa Cruz.",NA,NA
 2019,2214872,Number of smolts at RBDD,Natural,2020-01-23,NA,USFWS,NA,NA
 2019,4762142,Fry equivalents of juvenile production at RBDD,Natural,2020-01-23,"6/ Preliminary number of fry equivalents estimated on December 31, 2019 plus 3.1% interpolation to account for remainder of estimated passage for the 2019 brood year at RBDD; using 0.4651 fry-to-smolt survival rate estimate (Bill Poytress, USFWS, pers. comm.).","Voss and Poytress (2022a), USFWS",NA,NA
 2019,NA,Total LSNFH production entering the Delta,Hatchery,NA,NA,NA,NA,NA
@@ -510,7 +562,9 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 2019,NA,Battle Creek Hatchery release,Hatchery,NA,NA,NA,NA,NA
 2019,94528,Total hatchery production entering the Delta,Hatchery,2020-01-23,10/ Variance-weighted mean survival rate of acoustically tagged winter-run from 2013 to 2019 between release location and I-80/Tower Bridge in Sacramento.,LSNFH,NA,NA
 2019,8549,Natural Incidental Take Limit,Natural,2020-01-23,NA,NA,NA,NA
+2019,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2019,945,LSNFH Incidental Take Limit,Hatchery,2020-01-23,NA,NA,NA,NA
+2019,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2019,673,Jumpstart Incidental Take Limit,Hatchery,2020-01-23,NA,NA,NA,NA
 2020,330130,Total natural production entering the Delta,Natural,2021-01-15,NA,"Method 2 (O’Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",145088,515172
 2020,6195,Total Sacramento River escapement,Natural,2021-01-15,"1/ Total Sacramento River in-river escapement from CDFW Cormack-Jolly Seber (CJS) model includes natural and hatchery origin, but not hatchery fish retained for brood stock at LSNFH.","CDFW, USFWS",NA,NA
@@ -529,7 +583,9 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 2020,237148,Battle Creek Hatchery release,Hatchery,2021-01-15,"11/ Estimated Battle Creek Jumpstart release as of January 11, 2021 (100% tagged and marked)",USFWS,NA,NA
 2020,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 2020,4292,Natural Incidental Take Limit,Natural,2021-01-15,NA,NA,NA,NA
+2020,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2020,783,LSNFH Incidental Take Limit,Hatchery,2021-01-15,NA,NA,NA,NA
+2020,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2020,298,Jumpstart Incidental Take Limit,Hatchery,2021-01-15,NA,NA,NA,NA
 2021,125038,Total natural production entering the Delta,Natural,2022-01-14,NA,"Method 2 (O’Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",59064,191013
 2021,9956,Total Sacramento River escapement,Natural,2022-01-14,"1/ Total Sacramento River in-river escapement from CDFW Cormack-Jolly Seber (CJS) model includes natural- and hatchery-origin winter-run Chinook Salmon, but not hatchery fish retained for brood stock at LSNFH.","CDFW, USFWS",NA,NA
@@ -548,7 +604,9 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 2021,139000,Battle Creek Hatchery release,Hatchery,2022-01-14,"11/ Estimated Battle Creek Jumpstart release as of January 14, 2022 (100% tagged and marked).",USFWS,NA,NA
 2021,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 2021,1625,Natural Incidental Take Limit,Natural,2022-01-14,NA,NA,NA,NA
+2021,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2021,1212,LSNFH Incidental Take Limit,Hatchery,2022-01-14,NA,NA,NA,NA
+2021,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2021,58,Jumpstart Incidental Take Limit,Hatchery,2022-01-14,NA,NA,NA,NA
 2022,49924,Total natural production entering the Delta,Natural,2023-01-13,NA,"Method 2 (O’Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",32298,67550
 2022,5443,Total Sacramento River escapement,Natural,2023-01-13,"1/ Total Sacramento River in-river escapement from CDFW Cormack-Jolly Seber (CJS) model includes natural- and hatchery-origin winter-run Chinook Salmon, but not hatchery fish retained for brood stock at LSNFH.","CDFW, USFWS",NA,NA
@@ -567,7 +625,9 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 2022,193000,Battle Creek Hatchery release,Hatchery,2023-01-13,"11/ Estimated Battle Creek Jumpstart release as of December 15, 2022 (100% tagged and marked).",USFWS,NA,NA
 2022,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 2022,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2022,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2022,1174,LSNFH Incidental Take Limit,Hatchery,2023-01-13,NA,NA,NA,NA
+2022,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2022,40,Jumpstart Incidental Take Limit,Hatchery,2023-01-13,NA,NA,NA,NA
 2023,234896,Total natural production entering the Delta,Natural,2024-01-12,NA,"Method 2 (O'Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",159951,309841
 2023,1920,Total Sacramento River escapement,Natural,2024-01-12,"1/ Total Sacramento River in-river escapement from CDFW Cormack-Jolly Seber (CJS) model includes natural- and hatchery-origin winter-run Chinook Salmon, but not hatchery fish retained for brood stock at LSNFH.","CDFW, USFWS",NA,NA
@@ -586,5 +646,28 @@ brood_year,value,component,origin,JPE_letter_date,footnote,references_contributo
 2023,140530,Battle Creek Hatchery release,Hatchery,2024-01-12,"11/ Estimated Battle Creek Jumpstart release as of January 09, 2024 (100% tagged and marked).",USFWS,NA,NA
 2023,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
 2023,1776,Natural Incidental Take Limit,Natural,2024-01-12,NA,NA,NA,NA
+2023,NA,Natural Genetic Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2023,1430,LSNFH Incidental Take Limit,Hatchery,2024-01-12,NA,NA,NA,NA
+2023,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
 2023,34,Jumpstart Incidental Take Limit,Hatchery,2024-01-12,NA,NA,NA,NA
+2024,98893,Total natural production entering the Delta,Natural,2025-01-10,NA,"Method 2 (O'Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",NA,NA
+2024,1024,Total Sacramento River escapement,Natural,2025-01-10,"1/ Total Sacramento River in-river escapement from CDFW Cormack-Jolly Seber (CJS) model includes natural- and hatchery-origin winter-run Chinook Salmon, but not hatchery fish retained for brood stock at LSNFH.","CDFW, USFWS",NA,NA
+2024,392,Adult female estimate,Natural,2025-01-10,2/ The number of adult females is derived from carcass surveys on the Sacramento River. Naturally spawning winter-run Chinook Salmon in Battle Creek are not included.,"CDFW, USFWS",NA,NA
+2024,375,AFE minus pre-spawn mortality,Natural,2025-01-10,"3/ Pre-spawn mortality was estimated from carcass surveys of females (Doug Killam, CDFW, pers. comm.).","CDFW, USFWS",NA,NA
+2024,5430,Average fecundity,Natural,2025-01-10,"4/ Preliminary (subject to change) average number of eggs per female from fish spawned (n=120) at LSNFH (Kaitlin Dunham, USFWS pers. comm.).",LSNFH,NA,NA
+2024,2036250,Total eggs,Natural,2025-01-10,NA,"CDFW, LSNFH, USFWS",NA,NA
+2024,0.2884,Estimated egg-to-fry survival rate,Natural,2025-01-10,5/ Back calculated estimated survival between eggs laid in-river and fry production estimates at RBDD based on numbers of fry equivalents (JPI) using the 0.5149 fry-to-smolt survival rate estimate based on method described in O’Farrell et al. (2018),"CDFW, LSNFH, USFWS",NA,NA
+2024,0.5149,Fry-to-smolt survival,Natural,2025-01-10,"7/ Estimate of fry-to-smolt survival rate based on O'Farrell et al. (2018), updated using data from BY 1998-2017.","Method 2 (O'Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",NA,NA
+2024,0.3271,Estimated smolt survival term,Natural,2025-01-10,"8/ Variance-weighted mean survival rate of acoustically tagged hatchery winter-run Chinook Salmon from 2013 to 2024 between RBDD and at or below I-80/Tower Bridge in Sacramento (based on O’Farrell et al. 2018). Survival is estimated from the Salt Creek receiver site, located 3 miles downstream of RBDD, to estimate survival from RBDD for natural-origin smolts.","Method 2 (O'Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",NA,NA
+2024,302332,Number of smolts at RBDD,Natural,2025-01-10,NA,USFWS,NA,NA
+2024,587167,Fry equivalents of juvenile production at RBDD,Natural,2025-01-10,"6/ Preliminary number of fry equivalents estimated on December 31, 2024 plus 3.12% interpolation to account for remainder of estimated passage for the 2024 brood year at RBDD; using 0.5149 fry-to-smolt survival rate estimate (Bill Poytress, USFWS, pers. comm.). This estimate includes and does not differentiate the number of fry equivalents outmigrating from the McCloud River, Battle Creek, and the Sacramento River.",USFWS,NA,NA
+2024,135342,Total LSNFH production entering the Delta,Hatchery,2025-01-10,NA,"Method 2 (O'Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",NA,NA
+2024,515000,LSNFH Hatchery release,Hatchery,2025-01-10,"9/ Estimated LSNFH production release as of January 7, 2025 (100% tagged and adipose clipped).",LSNFH,NA,NA
+2024,2868,Total Jumpstart production entering the Delta,Hatchery,2025-01-10,NA,"Method 2 (O'Farrell et al 2018) with data from USFWS, UC Santa Cruz, and SWFSC",NA,NA
+2024,120000,Battle Creek Hatchery release,Hatchery,2025-01-10,"11/ Estimated Battle Creek Jumpstart release as of January 6, 2025 (100% tagged and marked).",USFWS,NA,NA
+2024,NA,Total hatchery production entering the Delta,Hatchery,NA,NA,NA,NA,NA
+2024,NA,Natural Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2024,554,Natural Genetic Incidental Take Limit,Natural,2025-01-10,NA,NA,NA,NA
+2024,NA,LSNFH Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA
+2024,NA,LSNFH Incidental Take Limit,Natural,NA,NA,NA,NA,NA
+2024,NA,Jumpstart Incidental Take Limit,Hatchery,NA,NA,NA,NA,NA

@@ -125,6 +125,9 @@ write_csv(redd, "data_raw/redd_data.csv")
 
 url_jpe <- "https://www.cbr.washington.edu/sacramento/data/jpe/jpedata_all.txt"
 jpe_data <- read.delim(url_jpe, header = TRUE, sep = "|", dec = ".")
+
+url_jpe <- "https://www.cbr.washington.edu/sacramento/data/php/rpt/jpe.php?sc=1&year=all"
+jpe_data <- read_delim(url_jpe)
 unique(jpe_data$component)
 write_csv(jpe_data, "data_raw/jpe_data.csv")
 
