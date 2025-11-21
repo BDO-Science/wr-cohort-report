@@ -402,6 +402,32 @@ daily_salvage <- salvage_wr %>%
 
 write_csv(daily_salvage,"data_raw/delta_loss.csv")
 
+
+
+# % of JPE data
+
+# This file is downloaded from Caitlin O'Brien at: "https://github.com/Columbia-Basin-Research-CBR/track-a-cohort/blob/main/data"
+load(here("data_raw/jpe_genetic_loss_data.rda"))
+genetic_total_loss_data <- jpe_genetic_loss_data$genetic_total_loss_data
+
+load(here("data_raw/jpe_lad_loss_data.rda"))
+lad_total_loss_data <- jpe_lad_loss_data$lad_total_loss_data
+
+# Merge genetic and LAD loss data
+jpe_genetic_lad_data <- genetic_total_loss_data %>%
+  mutate(method = "Genetic") %>%
+  bind_rows(lad_total_loss_data %>%
+              mutate(method = "LAD") %>%
+              filter(between(WY, 1996, 2024))) %>% # filter to match genetic data years provided by BOR
+  pivot_longer(
+    cols = c(pct_total_loss, total_loss),
+    names_to = "value_type",
+    values_to = "value"
+  ) %>%
+  filter(WY <= report_year+1)
+
+write_csv(jpe_genetic_lad_data, "data_output/lad_genetic_loss_percent_jpe.csv")
+
 ### STARS ------------------------------
 
 #load STARS data
@@ -542,11 +568,11 @@ delta <- bind_rows(seines_timing, chipps_timing)
 write_csv(delta, "data_raw/migration_timing_seines_chipps.csv")
 
 ### Salvage Timing ----------
-salvage_timing <- read_csv(paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt_salvage.php?species=LAD%3A1%3AWinter%3Af&years=10&histYear=", report_year,"&outputFormat=csv")) %>%
+salvage_timing <- read_csv(paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt_salvage.php?species=LAD%3A1%3AWinter%3Af&years=10&histYear=", report_year+1,"&outputFormat=csv")) %>%
   filter(!is.na(FirstPassageDate)) %>%
   clean_names() %>%
   mutate(Survey = "Salvage")
-salvage_dna_timing <- read_csv(paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt_salvage.php?species=DNA%3A1%3AWinter%3Af&years=10&outputFormat=csv&histYear=",report_year,"&outputFormat=csv")) %>%
+salvage_dna_timing <- read_csv(paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt_salvage.php?species=DNA%3A1%3AWinter%3Af&years=10&outputFormat=csv&histYear=",report_year+1,"&outputFormat=csv")) %>%
   filter(!is.na(FirstPassageDate)) %>%
   clean_names() %>%
   mutate(Survey = "Salvage DNA")
