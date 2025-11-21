@@ -24,7 +24,6 @@ library(janitor)
 
 library(kableExtra)
 library(flextable)
-library(CDECRetrieve)
 source("functions.R")
 source("parameters.R")
 ```
@@ -315,7 +314,7 @@ fish_model_summary <- read_csv(here("data_raw", "fish_model_summary.csv"))%>%
 
 **Results**
 
-    -   Redds exposed to Tcritical = **11.82°C (53.28°F)** are shown in Figure \@ref(fig:fishmodel-hatching-fig).
+-   Redds exposed to Tcritical = **11.82°C (53.28°F)** are shown in Figure \@ref(fig:fishmodel-hatching-fig).
     -   **Pre-hatching exposure:** `r fish_model_params$prehatch_exposure_percent`%
     -   **Pre-emergence exposure:** `r fish_model_params$pre_emerge_exposure_percent`%
 -   **Estimated total egg-to-fry emergence survival:** `r fish_model_params$incubation_survival`%

@@ -17,6 +17,7 @@ library(sharpshootR)
 library(plotly)
 library(readr)
 library(here)
+library(curl)
 
 library(kableExtra)
 library(flextable)
@@ -444,11 +445,11 @@ Migration Timing
 sactrawl_link <- paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt.php?species=CHN%3AWinter&loc=SR055&years=10&typeData=raw&histYear=", report_year,"&outputFormat=hrtplotOnly")
 knights_link <- paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt.php?species=CHN%3AWinter&loc=KNL&years=10&typeData=raw&histYear=", report_year,"&outputFormat=hrtplotOnly")
 
-download.file(url = sactrawl_link,
+curl_download(url = sactrawl_link,
               destfile = paste0(figures_folder, "migtiming",report_year,"_sactrawl.png"),
               mode="wb")
 
-download.file(url = knights_link,
+curl_download(url = knights_link,
               destfile = paste0(figures_folder,"migtiming",report_year,"_knights.png"),
               mode="wb")
 ```
