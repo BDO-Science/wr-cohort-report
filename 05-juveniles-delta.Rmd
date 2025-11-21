@@ -16,6 +16,8 @@ library(plotly)
 library(here)
 library(readr)
 library(ggridges)
+library(janitor)
+library(curl)
 
 library(kableExtra)
 library(flextable)
@@ -36,7 +38,7 @@ source("parameters.R")
 
 ### Food Availability
 
-```{r meso-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Zooplankton Abundance in the Delta, December ", report_year, "-", "June ", report_year+1, " and 10-year average CPUE")}
+```{r}
 
 mesos <- read_csv("data_raw/zooper_meso.csv") %>%
   filter(!is.na(Region)) %>%
@@ -44,6 +46,15 @@ mesos <- read_csv("data_raw/zooper_meso.csv") %>%
                     levels = c("Dec", "Jan", "Feb", "Mar", "Apr","May", "Jun")),
         Region= factor(Region, levels = c("Far West", "West", "North", "South")))
 
+macros <- read_csv("data_raw/zooper_macro.csv") %>%
+  filter(!is.na(Region)) %>%
+ mutate(Month_fac = factor(Month_fac,
+                    levels = c("Dec", "Jan", "Feb", "Mar", "Apr","May", "Jun")),
+        Region= factor(Region, levels = c("Far West", "West", "North", "South")))
+```
+
+
+```{r meso-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Zooplankton Abundance in the Delta, December ", report_year, "-", "June ", report_year+1, " and 10-year average CPUE")}
 ggplot(mesos) + 
   geom_col(aes(Month_fac, meanCPUE, fill = Year_type), position = position_dodge(), width = 0.6) + theme_bw() + 
   labs(y= "CPUE", x= "Month") + 
@@ -53,15 +64,8 @@ ggplot(mesos) +
   theme(legend.position = "top")
 ```
 
-Macrozooplankton currently lacking 2022 data
 
-```{r macro-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Amphipod and Mysid Abundance in the Delta, December ", report_year, "-", "June " , report_year+1, " and 10-year average CPUE")}
-
-macros <- read_csv("data_raw/zooper_macro.csv") %>%
-  filter(!is.na(Region)) %>%
- mutate(Month_fac = factor(Month_fac,
-                    levels = c("Dec", "Jan", "Feb", "Mar", "Apr","May", "Jun")),
-        Region= factor(Region, levels = c("Far West", "West", "North", "South")))
+```{r macro-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Amphipod and Mysid Abundance in the Delta, December ", report_year, "and 10-year average CPUE. Data currently include only EMP data from December ", report_year)}
 
 ggplot(macros) + 
   geom_col(aes(Month_fac, meanCPUE, fill = Year_type), position = position_dodge(), width = 0.6) + theme_bw() + 
@@ -80,7 +84,7 @@ ggplot(macros) +
 
 ### Sacramento River Flow and Delta Outflow
 
-```{r deltaflow-tab}
+```{r}
 flow_fpt_monthly <- readRDS(paste0("data_raw/flow_fpt_monthly_", year(start), "-", year(end2), ".rds")) %>%
   filter(month_num %in% c(12, 1, 2, 3, 4, 5, 6))
 flow_OMR_monthly <- readRDS(paste0("data_raw/omr_OMR_monthly_", year(start), "-", year(end2), ".rds")) %>%
@@ -90,9 +94,11 @@ outflow_monthly <- readRDS(paste0("data_raw/outflow_monthly_", year(start), "-",
 
 flow_delta_monthly <- rbind(flow_fpt_monthly, outflow_monthly,flow_OMR_monthly) %>%
   select(-month_num)
+```
 
+
+```{r deltaflow-tab}
 flow_delta_monthly_t <- flow_delta_monthly
-
 colnames(flow_delta_monthly_t) <- stringr::str_to_title(colnames(flow_delta_monthly_t))
 
 kable(flow_delta_monthly_t,
@@ -102,41 +108,42 @@ kable(flow_delta_monthly_t,
       valign = "t") %>%
   kable_classic(html_font = "Cambria") %>%
       row_spec(c(7,14,21),extra_css = "border-bottom: 1px solid;")
-
-
 ```
 
 ```{r FPTflow-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Freeport (FPT) Average Flows (cfs) in",report_year, "and over the 10-year average"), fig.width = 8, fig.height = 4.5}
 flow_fpt <- readRDS(paste0("data_raw/flow_fpt_plot_data_", year(start), "-", year(end2), ".rds")) %>%
-  filter(month %in% c(12, 1, 2, 3, 4, 5, 6))
+  filter(month %in% c(12, 1, 2, 3, 4, 5, 6)) %>%
+  mutate(label = "Sacramento River at Freeport")
 
 ggplotly(ggplot(flow_fpt) + 
   geom_line(aes(date, flow, color = plot_year, linetype = plot_year)) +
   scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
   scale_color_manual(values = c("black", "steelblue")) +
   scale_linetype_manual(values = c("dashed", "solid")) +
-  facet_wrap(~station, nrow = 2) + 
+  facet_wrap(~label, nrow = 2) + 
   labs(y = "Flow (cfs)") +
   theme_plots )
 ```
 
 ```{r DTOflow-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("Delta Outflow (DTO) in",report_year, "and over the 10-year average"), fig.width = 8, fig.height = 4.5}
 outflow<- readRDS(paste0("data_raw/outflow_plot_data_", year(start), "-", year(end2), ".rds")) %>%
-  filter(month %in% c(12, 1, 2, 3, 4, 5, 6))
+  filter(month %in% c(12, 1, 2, 3, 4, 5, 6)) %>%
+  mutate(label = "Delta Outflow")
 
 ggplotly(ggplot(outflow) + 
   geom_line(aes(date, Outflow, color = plot_year, linetype = plot_year)) +
   scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
   scale_color_manual(values = c("black", "steelblue")) +
   scale_linetype_manual(values = c("dashed", "solid")) +
-  facet_wrap(~station, nrow = 2) + 
+  facet_wrap(~label, nrow = 2) + 
   labs(y = "Flow (cfs)") +
   theme_plots )
 ```
 
 ```{r OMRflow-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = paste("OMR Flow (OMR) (cfs) in",report_year, "and over the 10-year average"), fig.width = 8, fig.height = 4.5}
 omr<- readRDS(paste0("data_raw/omr_OMR_plot_data_", year(start), "-", year(end2), ".rds")) %>%
-  filter(month %in% c(12, 1, 2, 3, 4, 5, 6))
+  filter(month %in% c(12, 1, 2, 3, 4, 5, 6)) %>%
+  mutate(label = "Old and Middle River")
 
 ggplotly(ggplot(omr) + 
   geom_line(aes(date, omr, color = plot_year, linetype = plot_year)) +
@@ -144,12 +151,9 @@ ggplotly(ggplot(omr) +
   scale_x_date(date_breaks = "1 month", date_labels = "%b %d") +
   scale_color_manual(values = c("black", "steelblue")) +
   scale_linetype_manual(values = c("dashed", "solid")) +
-  facet_wrap(~station, nrow = 2) + 
+  facet_wrap(~label) + 
   labs(y = "Flow (cfs)") +
   theme_plots )
-
-# plotly::ggplotly(omr_plot) %>%
-#   layout(legend = list(orientation = "h"))
 ```
 
 ```{r calculate_env_juv_delta,echo = FALSE}
@@ -178,7 +182,7 @@ min_mean_flow_omr_month <- monthly_omr %>% filter(mean == min_mean_flow_omr) %>%
 
 -   **Delta Outflow:** Peak Delta outflow was **`r max_flow_dto`** cfs and occurred in **`r max_flow_dto_month[1]`**. The highest mean Delta outflow was **`r max_mean_flow_dto`** cfs and occurred in **`r max_mean_flow_dto_month`**. Flow was generally lower than average.
 
--   **OMR:** The most negative OMR flows were **`r min_flow_omr`** cfs and occurred in **`r min_flow_omr_month[1]`**. The most negative mean OMR flows were **`r min_mean_flow_omr`** cfs and occurred in **`r min_mean_flow_omr_month`**. OMR was generally similar to average.
+-   **Old and Middle River:** The most negative OMR flows were **`r min_flow_omr`** cfs and occurred in **`r min_flow_omr_month[1]`**. The most negative mean OMR flows were **`r min_mean_flow_omr`** cfs and occurred in **`r min_mean_flow_omr_month`**. OMR was generally similar to average.
 
 ---
 
@@ -193,8 +197,16 @@ wtemp_delta_monthly <- f_monthly_extrayear_thresh_greater(wtemp_delta_df, WaterT
   select(-month_num) %>%
   arrange(station) 
 
-wtemp_delta_monthly_t <- wtemp_delta_monthly %>%
-  rename("Days < 63 degF" = flag_days)
+wtemp_delta_monthly2 <- f_monthly_extrayear_thresh_greater(wtemp_delta_df, WaterTemp, 57.2) %>%
+  mutate(station = factor(station, levels = c("FPT", "SUS", "SWE", "GSS" ,"MAL"))) %>%
+  filter(month_num %in% c(12, 1, 2, 3, 4, 5,6)) %>%
+  select(-month_num) %>%
+  arrange(station) %>%
+  rename(flag_days2 = flag_days)
+
+wtemp_delta_monthly_t <- wtemp_delta_monthly2 %>% left_join(wtemp_delta_monthly) %>%
+  rename("Days > 63 degF" = flag_days,
+         "Days > 57.2 degF" = flag_days2)
 
 colnames(wtemp_delta_monthly_t) <- stringr::str_to_title(colnames(wtemp_delta_monthly_t))
 
@@ -205,17 +217,6 @@ kable(wtemp_delta_monthly_t,
       valign = "t") %>%
   kable_classic(html_font = "Cambria") %>%
       row_spec(c(7,14,21,28),extra_css = "border-bottom: 1px solid;")
-
-# flextable(wtemp_delta_monthly)%>%
-#   add_footer_lines() %>%
-#   add_header_lines() %>%
-#   width(width = 1, unit = "in") %>%
-#   hline(i = c(7, 14, 21, 28), part = 'body') %>%
-#   vline()%>%
-#   border_outer() %>%
-#   bold(part = "header") %>%
-#   colformat_num(j = "year", big.mark = "") %>%
-#   set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (°F)", max = "Max (°F)", min =  "Min (°F)", flag_days = "Days > 63°F") 
 ```
 
 ```{r calculate_temps_juv_delta, echo = FALSE}
@@ -242,20 +243,36 @@ max_wtemp_mal_delta <- max(monthly_wtemp_mal_delta$max)
 max_mean_wtemp_mal_delta <- max(monthly_wtemp_mal_delta$mean)
 max_wtemp_mal_delta_month <- monthly_wtemp_mal_delta %>% filter(max == max_wtemp_mal_delta) %>% select(month)
 max_mean_wtemp_mal_delta_month <- monthly_wtemp_mal_delta %>% filter(mean == max_mean_wtemp_mal_delta) %>% select(month)
+
+t_exceed1 <- wtemp_delta_monthly_t %>%
+  clean_names() %>% filter(days_57_2_degf >= 14) %>%
+  group_by(station) %>% slice(1) %>% ungroup()
+
+t_exceed2 <- wtemp_delta_monthly_t %>%
+  clean_names() %>% filter(days_63_degf >= 1) %>%
+  group_by(station) %>% slice(1) %>% ungroup()
 ```
 
 **Summary**
 
--   Maximum water temperature was **`r max_wtemp_fpt_delta`** degrees F and occurred in **`r max_wtemp_fpt_delta_month`**. The highest mean water temperature was **`r max_mean_wtemp_fpt_delta`** degrees F and occurred in **`r max_mean_wtemp_fpt_delta_month`**.
--   Maximum water temperature was **`r max_wtemp_sus_delta`** degrees F and occurred in **`r max_wtemp_sus_delta_month`**. The highest mean water temperature was **`r max_mean_wtemp_sus_delta`** degrees F and occurred in **`r max_mean_wtemp_sus_delta_month`**.
--   Maximum water temperature was **`r max_wtemp_gss_delta`** degrees F and occurred in **`r max_wtemp_gss_delta_month`**. The highest mean water temperature was **`r max_mean_wtemp_gss_delta`** degrees F and occurred in **`r max_mean_wtemp_gss_delta_month`**.
--   Maximum water temperature was **`r max_wtemp_mal_delta`** degrees F and occurred in **`r max_wtemp_mal_delta_month`**. The highest mean water temperature was **`r max_mean_wtemp_mal_delta`** degrees F and occurred in **`r max_mean_wtemp_mal_delta_month`**.
+-   Maximum water temperature was **`r max_wtemp_fpt_delta`** °F and occurred in **`r max_wtemp_fpt_delta_month`**. The highest mean water temperature was **`r max_mean_wtemp_fpt_delta`** °F and occurred in **`r max_mean_wtemp_fpt_delta_month`**.
+-   Maximum water temperature was **`r max_wtemp_sus_delta`** °F and occurred in **`r max_wtemp_sus_delta_month`**. The highest mean water temperature was **`r max_mean_wtemp_sus_delta`** °F and occurred in **`r max_mean_wtemp_sus_delta_month`**.
+-   Maximum water temperature was **`r max_wtemp_gss_delta`** °F and occurred in **`r max_wtemp_gss_delta_month`**. The highest mean water temperature was **`r max_mean_wtemp_gss_delta`** °F and occurred in **`r max_mean_wtemp_gss_delta_month`**.
+-   Maximum water temperature was **`r max_wtemp_mal_delta`** °F and occurred in **`r max_wtemp_mal_delta_month`**. The highest mean water temperature was **`r max_mean_wtemp_mal_delta`** °F and occurred in **`r max_mean_wtemp_mal_delta_month`**.
+
+- **Temperature Exceedances:**
+  - **57.2°F:** Upper range of optimal rearing temperature for juvenile Chinook Salmon (Windell et al. 2017)
+  - **63°F:** Temperature at which smolt development is inhibited (Windell et al. 2017)
+  - Water temperature exceeded optimal rearing temperature consistently (14 days or more) starting in `r t_exceed1$month[1]` for **`r t_exceed1$station[1]`**, 
+`r t_exceed1$month[2]` for **`r t_exceed1$station[2]`**, `r t_exceed1$month[3]` for **`r t_exceed1$station[3]`**, `r t_exceed1$month[4]` for **`r t_exceed1$station[4]`**, and `r t_exceed1$month[5]` for **`r t_exceed1$station[5]`**
+  - Water temperature reached temperature at which smolt development is inhibited consistently starting in `r `r t_exceed2$month[1]` for **`r t_exceed2$station[1]`**, 
+`r t_exceed2$month[2]` for **`r t_exceed2$station[2]`**, `r t_exceed2$month[3]` for **`r t_exceed2$station[3]`**, `r t_exceed2$month[4]` for **`r t_exceed2$station[4]`**, and `r t_exceed2$month[5]` for **`r t_exceed2$station[5]`**
 
 ---
 
 ### Dissolved Oxygen
 
-```{r SRHSXSBLPMALDO-tab}
+```{r}
 do_delta_df <- readRDS(paste0("data_raw/do_cdec_SRH_SXS_BLP_MAL_", year(start), "-", year(end2), ".rdsxz")) 
 
 do_delta_monthly <- f_monthly_extrayear_thresh(do_delta_df, DO, 6) %>%
@@ -263,7 +280,10 @@ do_delta_monthly <- f_monthly_extrayear_thresh(do_delta_df, DO, 6) %>%
   filter(month_num %in% c(12, 1, 2, 3, 4, 5,6)) %>%
   select(-month_num) %>%
   arrange(station) 
+```
 
+
+```{r SRHSXSBLPMALDO-tab}
 do_delta_monthly_t <- do_delta_monthly %>%
   rename("Days < 6 mg/L" = flag_days)
 
@@ -276,53 +296,44 @@ kable(do_delta_monthly_t,
       valign = "t") %>%
   kable_classic(html_font = "Cambria") %>%
       row_spec(c(7,14,21,28),extra_css = "border-bottom: 1px solid;")
-
-
-  
-# flextable(do_delta_monthly)%>%
-#   add_footer_lines() %>%
-#   add_header_lines() %>%
-#   width(width = 1, unit = "in") %>%
-#   hline(i = c(7, 14, 21, 28), part = 'body') %>%
-#   vline()%>%
-#   border_outer() %>%
-#   bold(part = "header") %>%
-#   colformat_num(j = "year", big.mark = "") %>%
-#   set_header_labels(year = "Year", month = "Month", station = "Station", mean = "Mean (mg/L)", max = "Max (mg/L)", min =  "Min (mg/L)", flag_days = "Days < 6 mg/L") 
 ```
 
 ```{r calculate_do_juv_delta, echo = FALSE}
 monthly_do_srh_delta <- do_delta_monthly %>% filter(station == "SRH")
-max_do_srh_delta <- max(monthly_do_srh_delta$max)
-max_mean_do_srh_delta <- max(monthly_do_srh_delta$mean)
-max_do_srh_delta_month <- monthly_do_srh_delta %>% filter(max == max_do_srh_delta) %>% select(month)
-max_mean_do_srh_delta_month <- monthly_do_srh_delta %>% filter(mean == max_mean_do_srh_delta) %>% select(month)
+min_do_srh_delta <- min(monthly_do_srh_delta$min)
+min_mean_do_srh_delta <- min(monthly_do_srh_delta$mean)
+min_do_srh_delta_month <- monthly_do_srh_delta %>% filter(min == min_do_srh_delta) %>% select(month)
+min_mean_do_srh_delta_month <- monthly_do_srh_delta %>% filter(mean == min_mean_do_srh_delta) %>% select(month)
+srh_below_do <- if_else(min_do_srh_delta<6, "did", "did not")
 
 monthly_do_sxs_delta <- do_delta_monthly %>% filter(station == "SXS")
-max_do_sxs_delta <- max(monthly_do_sxs_delta$max)
-max_mean_do_sxs_delta <- max(monthly_do_sxs_delta$mean)
-max_do_sxs_delta_month <- monthly_do_sxs_delta %>% filter(max == max_do_sxs_delta) %>% select(month)
-max_mean_do_sxs_delta_month <- monthly_do_sxs_delta %>% filter(mean == max_mean_do_sxs_delta) %>% select(month)
+min_do_sxs_delta <- min(monthly_do_sxs_delta$min)
+min_mean_do_sxs_delta <- min(monthly_do_sxs_delta$mean)
+min_do_sxs_delta_month <- monthly_do_sxs_delta %>% filter(min == min_do_sxs_delta) %>% select(month)
+min_mean_do_sxs_delta_month <- monthly_do_sxs_delta %>% filter(mean == min_mean_do_sxs_delta) %>% select(month)
+sxs_below_do <- if_else(min_do_srh_delta<6, "did", "did not")
 
 monthly_do_blp_delta <- do_delta_monthly %>% filter(station == "BLP")
-max_do_blp_delta <- max(monthly_do_blp_delta$max)
-max_mean_do_blp_delta <- max(monthly_do_blp_delta$mean)
-max_do_blp_delta_month <- monthly_do_blp_delta %>% filter(max == max_do_blp_delta) %>% select(month)
-max_mean_do_blp_delta_month <- monthly_do_blp_delta %>% filter(mean == max_mean_do_blp_delta) %>% select(month)
+min_do_blp_delta <- min(monthly_do_blp_delta$min)
+min_mean_do_blp_delta <- min(monthly_do_blp_delta$mean)
+min_do_blp_delta_month <- monthly_do_blp_delta %>% filter(min == min_do_blp_delta) %>% select(month)
+min_mean_do_blp_delta_month <- monthly_do_blp_delta %>% filter(mean == min_mean_do_blp_delta) %>% select(month)
+blp_below_do <- if_else(min_do_srh_delta<6, "did", "did not")
 
 monthly_do_mal_delta <- do_delta_monthly %>% filter(station == "MAL")
-max_do_mal_delta <- max(monthly_do_mal_delta$max)
-max_mean_do_mal_delta <- max(monthly_do_mal_delta$mean)
-max_do_mal_delta_month <- monthly_do_mal_delta %>% filter(max == max_do_mal_delta) %>% select(month)
-max_mean_do_mal_delta_month <- monthly_do_mal_delta %>% filter(mean == max_mean_do_mal_delta) %>% select(month)
+min_do_mal_delta <- min(monthly_do_mal_delta$min)
+min_mean_do_mal_delta <- min(monthly_do_mal_delta$mean)
+min_do_mal_delta_month <- monthly_do_mal_delta %>% filter(min == min_do_mal_delta) %>% select(month)
+min_mean_do_mal_delta_month <- monthly_do_mal_delta %>% filter(mean == min_mean_do_mal_delta) %>% select(month)
+mal_below_do <- if_else(min_do_srh_delta<6, "did", "did not")
 ```
 
 **Summary**
 
--   Maximum water temperature was **`r max_do_srh_delta`** degrees F and occurred in **`r max_do_srh_delta_month`**. The highest mean water temperature was **`r max_mean_do_srh_delta`** degrees F and occurred in **`r max_mean_do_srh_delta_month`**.
--   Maximum water temperature was **`r max_do_sxs_delta`** degrees F and occurred in **`r max_do_sxs_delta_month[1,]`** and **`r max_do_sxs_delta_month[2,]`**. The highest mean water temperature was **`r max_mean_do_sxs_delta`** degrees F and occurred in **`r max_mean_do_sxs_delta_month`**.
--   Maximum water temperature was **`r max_do_blp_delta`** degrees F and occurred in **`r max_do_blp_delta_month`**. The highest mean water temperature was **`r max_mean_do_blp_delta`** degrees F and occurred in **`r max_mean_do_blp_delta_month`**.
--   Maximum water temperature was **`r max_do_mal_delta`** degrees F and occurred in **`r max_do_mal_delta_month`**. The highest mean water temperature was **`r max_mean_do_mal_delta`** degrees F and occurred in **`r max_mean_do_mal_delta_month`**.
+-   Minimum dissolved oxygen was **`r min_do_srh_delta`** mg/L and occurred in **`r min_do_srh_delta_month`**. The lowest mean dissolved oxygen was **`r min_mean_do_srh_delta`** mg/L and occurred in **`r min_mean_do_srh_delta_month`**. DO **`r srh_below_do`** reach values below 6mg/L.
+-   Minimum dissolved oxygen was **`r min_do_sxs_delta`** mg/L and occurred in **`r min_do_sxs_delta_month[1,]`** and **`r min_do_sxs_delta_month[2,]`**. The lowest mean dissolved oxygen was **`r min_mean_do_sxs_delta`** mg/L and occurred in **`r min_mean_do_sxs_delta_month`**. DO **`r sxs_below_do`** reach values below 6mg/L.
+-   Minimum dissolved oxygen was **`r min_do_blp_delta`** mg/L and occurred in **`r min_do_blp_delta_month`**. The lowest mean dissolved oxygen was **`r min_mean_do_blp_delta`** mg/L and occurred in **`r min_mean_do_blp_delta_month`**. DO **`r blp_below_do`** reach values below 6mg/L.
+-   Minimum dissolved oxygen was **`r min_do_mal_delta`** mg/L and occurred in **`r min_do_mal_delta_month`**. The lowest mean dissolved oxygen was **`r min_mean_do_mal_delta`** mg/L and occurred in **`r min_mean_do_mal_delta_month`**. DO **`r mal_below_do`** reach values below 6mg/L.
 
 ---
 
@@ -332,7 +343,9 @@ max_mean_do_mal_delta_month <- monthly_do_mal_delta %>% filter(mean == max_mean_
 
 ### Survival
 
-```{r hatcherydelta-tab}
+#### Hatchery Releases
+
+```{r }
 hatchery_release <- read_csv("data_raw/hatchery_release_data.csv") %>%
   mutate(rel_date = factor(rel_date)) %>%
   filter(!is.na(reach_start))
@@ -344,24 +357,23 @@ hatchery_table_delta <- hatchery_release %>%
          rkm_start = round(rkm_start)) %>%
   select(rel_date, reach_start, reach_end, rkm_start, ReachSurvival, CumulativeSurvival, count)
 
+```
+
+Hatchery WRCS are released each year from Caldwell Park. Releases for BY `r report_year` occurred in `r month(min(ymd(hatchery_table_delta$rel_date)), label = TRUE, abbr = FALSE)` and `r month(max(ymd(hatchery_table_delta$rel_date)), label = TRUE, abbr = FALSE)`. 
+- Cumulative survival from release to Benicia Bridge (\@ref(tab:hatcherydelta-tab))
+  - Release 1: Reach survival estimates ranged from `r hatchery_release %>% filter(rel_date == "2022-02-10") %>% summarize(min(reach_survival_est))` to `r hatchery_release %>% filter(rel_date == "2022-02-10") %>% summarize(max(reach_survival_est))`
+  - Release 2: Reach survival estimates ranged from `r hatchery_release %>% filter(rel_date == "2022-03-02") %>% summarize(min(reach_survival_est))` to `r hatchery_release %>% filter(rel_date == "2022-02-10") %>% summarize(max(reach_survival_est))`
+
+
+```{r hatcherydelta-tab}
 kable(hatchery_table_delta,
       label = NA,
       vline = "",
       caption = "Table of Hatchery WR Juvenile Survival",
       valign = "t") %>%
   kable_classic(html_font = "Cambria") 
-
-# flextable(hatchery_table_delta)%>%
-#   add_footer_lines() %>%
-#   add_header_lines() %>%
-#   width(width = 1, unit = "in") %>%
-#   hline(i = 9, part = 'body') %>%
-#   vline()%>%
-#   border_outer() %>%
-#   bold(part = "header") %>%
-#   # colformat_num(j = "year", big.mark = "") %>%
-#   set_header_labels(CumulativeSurvival = "Cumulative Survival", ReachSurvival = "Reach Survival", rkm_start = "River Kilometer", rel_date = "Release Date")
 ```
+
 
 ```{r hatcherysurvival-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap ="Cumulative Survival by River Kilometer"}
 
@@ -380,70 +392,15 @@ plotly::ggplotly(ggplot(hatchery_release) +
 
 ---
 
-### Abundance
+#### Modeled Survival and Routing (STARS)
 
-Catch for all surveys
-
-```{r catch_surveys, echo = FALSE}
-index <- read_csv("data_raw/cohort_juv_index_data_cumulative_currentyear_long.csv")
-abund_delta_surveys <-  index %>%
-  group_by(Survey) %>%
-  summarize(Abund = max(Catch))
-
-juvdates <- read_csv("data_raw/cohort_juv_data_cumulative_currentyear.csv")
-delta_entry_first <- format(juvdates$date[match(FALSE, cummax(juvdates$`Sac Trawls`) == 0)], "%B %d, %Y")
-delta_entry_median <- format(juvdates$date[match(TRUE, juvdates$`Sac Trawls`== median(juvdates$`Sac Trawls`))], "%B %d, %Y")
-delta_entry_last <- format(juvdates$date[match(TRUE, juvdates$`Sac Trawls`== max(juvdates$`Sac Trawls`))], "%B %d, %Y")
-delta_exit_first <- format(juvdates$date[match(FALSE, cummax(juvdates$`Chipps Island Trawls`) == 0)], "%B %d, %Y")
-delta_exit_median <- format(juvdates$date[match(TRUE, juvdates$`Chipps Island Trawls`== median(juvdates$`Chipps Island Trawls`))], "%B %d, %Y")
-delta_exit_last <- format(juvdates$date[match(TRUE, juvdates$`Chipps Island Trawls`== max(juvdates$`Chipps Island Trawls`))], "%B %d, %Y")
-```
-
-**Summary**
-
--   Juvenile WRCS cumulative total catch: 
-    - Sacramento Trawls at Sherwood Harbor: **`r abund_delta_surveys$Abund[abund_delta_surveys$Survey == "Sac Trawls"]`** (Index = **`r abund_delta_surveys$Abund[abund_delta_surveys$Survey == "Sac Trawls Index"]`**)
-    - Sacramento Beach Seines: **`r abund_delta_surveys$Abund[abund_delta_surveys$Survey == "Sac Beach Seines"]`** (Index = **`r abund_delta_surveys$Abund[abund_delta_surveys$Survey == "Sac Beach Seines Index"]`**)
-    - Chipps Island Trawl: **`r abund_delta_surveys$Abund[abund_delta_surveys$Survey == "Chipps Island Trawls"]`**
--   Migration Timing: 
-    - Delta Entry (Sacramento Trawls at Sherwood Harbor): 
-      - First: **`r delta_entry_first`**    
-      - Median: **`r delta_entry_median`**
-      - Last: **`r delta_entry_last`**
-    - Delta Exit (Chipps Island Trawl): 
-      - First: **`r delta_exit_first`**    
-      - Median: **`r delta_exit_median`**
-      - Last: **`r delta_exit_last`**
-
----
-
-### Migration Timing
-
-Sac Trawl Data (Raw Catch by Day or Week?)
-
-SacPAS Migration Timing Table - LAD Median Dates, 10 Year Comparison Sacramento Beach Seines, Trawls, Chipps Island Trawls
-
-
-```{r}
-chipps_link <- paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt.php?species=CHN%3AWinter&loc=SB018&years=10&typeData=index&histYear=",report_year,"&outputFormat=hrtplotOnly")
-
-download.file(url = chipps_link,
-              destfile = paste0(figures_folder, "migtiming",report_year,"_chipps.png"),
-              mode="wb")
-```
-
-
-```{r chipps-timing-fig,fig.cap = "Delta Exit (Chipps Island) Migration Timing", out.width = "150%"}
-knitr::include_graphics(here(paste0(figures_folder,"migtiming",report_year,
-                                    "_chipps.png")))
-```
-
----
-
-### STARS Survival and Routing
 ```{r survival-routing-data, echo = FALSE}
 year_specific_data <- read_csv("data_raw/STARS_data.csv")
 ```
+
+- Survival summary
+- Routing summary
+
 
 ```{r survival-fig}
 # Define colors for each route
@@ -509,6 +466,79 @@ colors <- c("Overall" = "black", "Yolo" = "lightblue", "Sutter" = "blue", "Steam
 
   ))
 ```
+
+---
+
+### Abundance
+
+Catch for all surveys
+
+```{r catch_surveys, echo = FALSE}
+index <- read_csv("data_raw/cohort_juv_index_data_cumulative_currentyear_long.csv")
+abund_delta_surveys <-  index %>%
+  group_by(Survey) %>%
+  summarize(Abund = max(Catch))
+
+juvdates <- read_csv("data_raw/cohort_juv_data_cumulative_currentyear.csv")
+delta_entry_first <- format(juvdates$date[match(FALSE, cummax(juvdates$`Sac Trawls`) == 0)], "%B %d, %Y")
+delta_entry_median <- format(juvdates$date[match(TRUE, juvdates$`Sac Trawls`== median(juvdates$`Sac Trawls`))], "%B %d, %Y")
+delta_entry_last <- format(juvdates$date[match(TRUE, juvdates$`Sac Trawls`== max(juvdates$`Sac Trawls`))], "%B %d, %Y")
+delta_exit_first <- format(juvdates$date[match(FALSE, cummax(juvdates$`Chipps Island Trawls`) == 0)], "%B %d, %Y")
+delta_exit_median <- format(juvdates$date[match(TRUE, juvdates$`Chipps Island Trawls`== median(juvdates$`Chipps Island Trawls`))], "%B %d, %Y")
+delta_exit_last <- format(juvdates$date[match(TRUE, juvdates$`Chipps Island Trawls`== max(juvdates$`Chipps Island Trawls`))], "%B %d, %Y")
+```
+
+**Summary**
+
+-   Juvenile WRCS cumulative total catch: 
+    - Sacramento Trawls at Sherwood Harbor: **`r abund_delta_surveys$Abund[abund_delta_surveys$Survey == "Sac Trawls"]`** (Index = **`r abund_delta_surveys$Abund[abund_delta_surveys$Survey == "Sac Trawls Index"]`**)
+    - Sacramento Beach Seines: **`r abund_delta_surveys$Abund[abund_delta_surveys$Survey == "Sac Beach Seines"]`** (Index = **`r abund_delta_surveys$Abund[abund_delta_surveys$Survey == "Sac Beach Seines Index"]`**)
+    - Chipps Island Trawl: **`r abund_delta_surveys$Abund[abund_delta_surveys$Survey == "Chipps Island Trawls"]`**
+-   Migration Timing: 
+    - Delta Entry (Sacramento Trawls at Sherwood Harbor): 
+      - First: **`r delta_entry_first`**    
+      - Median: **`r delta_entry_median`**
+      - Last: **`r delta_entry_last`**
+    - Delta Exit (Chipps Island Trawl): 
+      - First: **`r delta_exit_first`**    
+      - Median: **`r delta_exit_median`**
+      - Last: **`r delta_exit_last`**
+
+---
+
+### Migration Timing
+
+Sac Trawl Data (Raw Catch by Day or Week?)
+
+SacPAS Migration Timing Table - LAD Median Dates, 10 Year Comparison Sacramento Beach Seines, Trawls, Chipps Island Trawls
+
+
+```{r}
+chipps_link <- paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt.php?species=CHN%3AWinter&loc=SB018&years=10&typeData=index&histYear=",report_year+1,"&outputFormat=hrtplotOnly")
+
+seine_link <- paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt.php?loc=beach&species=CHN%3AWinter&years=15&typeData=raw&histYear=", report_year+1, "&outputFormat=hrtplotOnly")
+
+download.file(url = chipps_link,
+              destfile = paste0(figures_folder, "migtiming",report_year,"_chipps.png"),
+              mode="wb")
+
+download.file(url = seine_link,
+              destfile = paste0(figures_folder, "migtiming",report_year,"_seine.png"),
+              mode="wb")
+```
+
+```{r beachseine-timing-fig,fig.cap = "Combined Beach Seines Migration Timing", out.width = "150%"}
+knitr::include_graphics(here(paste0(figures_folder,"migtiming",report_year,
+                                    "_chipps.png")))
+```
+
+
+```{r chipps-timing-fig,fig.cap = "Delta Exit (Chipps Island) Migration Timing", out.width = "150%"}
+knitr::include_graphics(here(paste0(figures_folder,"migtiming",report_year,
+                                    "_seine.png")))
+```
+
+
 
 ---
 
@@ -583,33 +613,197 @@ ggplot() +
 
 ---
 
-### Loss
+### Entrainment and Loss
+
+- Describe take levels based off JPE letter
+- Describe trigger levels
+- Describe loss 
+
+```{r}
+jpe_genetic_lad_data <- read_csv(here("data_output/lad_genetic_loss_percent_jpe.csv"))
+lad_avg_loss <- jpe_genetic_lad_data %>%
+  filter(WY <= report_year + 1 & WY > report_year -9) %>%
+  filter(method == "LAD")
+
+genetic_avg_loss <- jpe_genetic_lad_data %>%
+  filter(WY <= report_year + 1 & WY > report_year -9) %>%
+  filter(method == "Genetic")
+
+lad_mean10_loss <- mean(lad_avg_loss %>% filter(value_type == "total_loss") %>% pull(value))
+lad_report_loss <- lad_avg_loss %>% filter(value_type == "total_loss", WY == report_year+1) %>% pull(value)
+lad_loss_dir <- if_else(lad_report_loss < lad_mean10_loss, "lower than", if_else(lad_report_loss == lad_mean10_loss, "the same as", "higher than"))
+
+gen_mean10_loss <- mean(genetic_avg_loss %>% filter(value_type == "total_loss") %>% pull(value))
+gen_report_loss <- genetic_avg_loss %>% filter(value_type == "total_loss", WY == report_year+1) %>% pull(value) %>% { if(length(.) == 0) 0 else . }
+gen_loss_dir <- if_else(gen_report_loss < gen_mean10_loss, "lower than", if_else(gen_report_loss == gen_mean10_loss, "the same as", "higher than"))
+```
+
+```{r}
+salvage_timing <- read_csv("data_raw/salvage_timing.csv")
+salvage_by_lad <- salvage_timing %>% 
+  filter(water_year == report_year+1) %>%
+  mutate_at(vars(first_passage_date:last_passage_date), as_date, format = "%m/%d/%Y") %>%
+  filter(Survey == "Salvage")
+salvage_median_lad <- salvage_timing %>%
+  filter(stringr::str_detect(water_year, "Median"))%>%
+  mutate_at(vars(first_passage_date:last_passage_date), as_date, format = "%m/%d") %>%
+  filter(Survey == "Salvage")
+
+salvage_by_dna <- salvage_timing %>% 
+  filter(water_year == report_year+1) %>%
+  mutate_at(vars(first_passage_date:last_passage_date), as_date, format = "%m/%d/%Y")%>%
+  filter(Survey == "Salvage DNA")
+salvage_median_dna <- salvage_timing %>%
+  filter(stringr::str_detect(water_year, "Median"))%>%
+  mutate_at(vars(first_passage_date:last_passage_date), as_date, format = "%m/%d")%>%
+  filter(Survey == "Salvage DNA")
+```
+
+
+    
+**Summary**
+
+- Total LAD loss for BY `r report_year` was `r jpe_genetic_lad_data %>% filter(WY == report_year + 1,method == "LAD", value_type == "total_loss") %>% pull(value)`, which was  `r jpe_genetic_lad_data %>% filter(WY == report_year + 1, method == "LAD", value_type == "pct_total_loss") %>% pull(value) %>% format()`% of the JPE. Loss was `r lad_loss_dir` the 10-year average of `r round(lad_mean10_loss,2)` (Figure \@ref(fig:hist-loss-fig)).
+
+- Total Genetic loss for BY `r report_year` was `r jpe_genetic_lad_data %>%filter(WY == report_year + 1, method == "Genetic", value_type == "total_loss") %>%pull(value) %>%{ if(length(.) == 0) 0 else . }`, which was `r jpe_genetic_lad_data %>%filter(WY == report_year + 1, method == "Genetic", value_type == "pct_total_loss") %>%pull(value) %>%{ if(length(.) == 0) 0 else . }`% of the JPE. Loss was `r gen_loss_dir` the 10-year average of `r round(gen_mean10_loss,2)` (Figure \@ref(fig:hist-pct-of-jpe-loss-fig)).
+
+- Median salvage timing occurred (Figure \@ref(fig:salvage-timing-fig))
+
 
 ```{r}
 daily_salvage <- read_csv("data_raw/delta_loss.csv")
 
 ggplotly(ggplot(daily_salvage) + 
-  geom_line(aes(Date, cumLoss, color = Facility), size = 1.1) +
-  geom_point(aes(Date, Expanded.Salvage, color = Facility), size = 0.9) + 
+  geom_line(aes(Date, cumLoss, color = Facility), linewidth = 1.1) +
+  # geom_point(aes(Date, Expanded.Salvage, color = Facility), size = 0.9) + 
   scale_color_manual(values = c("blue", "goldenrod3"))+
+    scale_x_date(date_breaks = "1 month") + 
   labs(y = "Cumulative Loss") + 
   theme_bw())
 ```
 
-Winter-run Current and Historic Cumulative Salvage (Line plots)
 
-```{r}
+```{r hist-loss-fig, fig.cap = paste0("Genetic vs Length-At-Date (LAD) Winter Run Chinook Salmon Loss through ", report_year, ". Genetic loss data provided by USBR before WY 2020.\nLAD and genetic loss after 2020 sourced from CDFW Salvage Database.")}
 
+plot_loss <- jpe_genetic_lad_data %>%
+  filter(value_type == "total_loss") %>%
+  ggplot(aes(x = as.factor(WY), y = value, fill = method)) +
+  geom_bar(stat = "identity", position = position_dodge(.7, preserve = "single")) +
+  labs(
+    x = "Water Year",
+    y = "Total loss",
+    fill = NULL
+  ) +
+  scale_y_continuous(expand = c(0, 100), labels = scales::comma_format()) +
+  scale_fill_manual(
+    values = c("#00BFFF", "#0072B2"),
+    # breaks = c("count_gen", "count_lad"),
+    labels = c("Genetic", "LAD")
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom", 
+        axis.text.x = element_text(angle = 90, vjust = .5, hjust = 1), 
+        text = element_text(size = 15),
+        panel.grid.major.y = element_line(linetype = "dotted"),
+        panel.border = element_rect(colour = "black", fill = NA, size = 1),
+        axis.ticks = element_line(size = 0.5),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.major.x = element_blank()
+     )
+ggplotly(plot_loss)
 ```
 
-Current + Historic Percent of JPE
+#### Loss as a Percent of JPE
 
-```{r}
-
+```{r hist-pct-of-jpe-loss-fig, fig.cap = paste0("Genetic vs Length-At-Date (LAD) Winter Run Chinook Salmon Percent Loss of JPE through ", report_year, ". Genetic loss data provided by USBR before WY 2020.\nLAD and genetic loss after 2020 sourced from CDFW Salvage Database.")}
+plot_pct_loss <- jpe_genetic_lad_data %>%
+  filter(value_type == "pct_total_loss") %>%
+  ggplot(aes(x = as.factor(WY), y = value, fill = method)) +
+  geom_bar(stat = "identity", position = position_dodge(.7, preserve = "single")) +
+  labs(
+    x = "Water Year",
+    y = "Percent Loss",
+    fill = NULL
+  ) +
+  scale_y_continuous(labels = scales::percent_format(), limits = c(0, .06), expand = c(0, 0)) +
+  scale_fill_manual(
+    values = c("#00BFFF", "#0072B2"),
+    # breaks = c("pct_gen", "pct_lad"),
+    labels = c("Genetic", "LAD")
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom", 
+        axis.text.x = element_text(angle = 90, vjust = .5, hjust = 1), 
+        text = element_text(size = 15),
+        panel.grid.major.y = element_line(linetype = "dotted"),
+        panel.border = element_rect(colour = "black", fill = NA, size = 1),
+        axis.ticks = element_line(size = 0.5),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.major.x = element_blank()
+       )
+ggplotly(plot_pct_loss)
 ```
 
-Monitoring Sources for abundance, growth/size, migration timing/duration
+```{r}
+salvage_link <- paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt_salvage.php?species=LAD%3A1%3AWinter%3Af&years=10&histYear=", report_year+1, "&outputFormat=hrtplotOnly")
 
+download.file(url = salvage_link,
+              destfile = paste0(figures_folder, "migtiming",report_year,"_salvage.png"),
+              mode="wb")
+
+
+curl_download(salvage_link, destfile = paste0(figures_folder, "migtiming",report_year,"_salvage.png"), mode = "wb")
+
+salvage_gen_link <- paste0("https://www.cbr.washington.edu/sacramento/data/php/rpt/hrt_salvage.php?species=DNA%3A1%3AWinter%3Af&years=10&outputFormat=csv&histYear=", report_year+1, "&outputFormat=hrtplotOnly")
+
+curl_download(url = salvage_gen_link,
+              destfile = paste0(figures_folder, "migtiming",report_year,"_salvage_gen.png"),
+              mode="wb")
+```
+
+
+#### Salvage Timing
+
+*FOR LAD WRCS:* 
+
+- **First:** 
+    - BY`r report_year`: `r format(salvage_by_lad$first_passage_date, "%B %d, %Y")`
+    - 10-year median: `r format(salvage_median_lad$first_passage_date, "%B %d")`
+- **Middle 50% (25% to 75%):**
+    - BY`r report_year`: `r format(salvage_by_lad$x25_percent_passage_date, "%B %d, %Y")` to `r format(salvage_by_lad$x75_percent_passage_date, "%B %d, %Y")`
+    - 10-year median: `r format(salvage_median_lad$x25_percent_passage_date, "%B %d")` to `r format(salvage_median_lad$x75_percent_passage_date, "%B %d")`
+- **Last:**
+    - BY`r report_year`: `r format(salvage_by_lad$last_passage_date, "%B %d, %Y")`
+    - 10-year median: `r format(salvage_median_lad$last_passage_date, "%B %d")`
+
+*For genetic WRCS:*
+
+- **First:** 
+    - BY`r report_year`: `r format(salvage_by_dna$first_passage_date, "%B %d, %Y")`
+    - 10-year median: `r format(salvage_median_dna$first_passage_date, "%B %d")`
+- **Middle 50% (25% to 75%):**
+    - BY`r report_year`: `r format(salvage_by_dna$x25_percent_passage_date, "%B %d, %Y")` to `r format(salvage_by_dna$x75_percent_passage_date, "%B %d, %Y")`
+    - 10-year median: `r format(salvage_median_dna$x25_percent_passage_date, "%B %d")` to `r format(salvage_median_dna$x75_percent_passage_date, "%B %d")`
+- **Last:**
+    - BY`r report_year`: `r format(salvage_by_dna$last_passage_date, "%B %d, %Y")`
+    - 10-year median: `r format(salvage_median_dna$last_passage_date, "%B %d")`
+    
+```{r salvage-timing-fig,fig.cap = "Salvage Timing for LAD WRCS.", out.width = "150%"}
+knitr::include_graphics(here(paste0(figures_folder,"migtiming",report_year,
+                                    "_salvage.png")))
+```
+
+```{r salvage-genetic-timing-fig,fig.cap = "Salvage Timing for Genetic WRCS, starting WY2020.", out.width = "150%"}
+knitr::include_graphics(here(paste0(figures_folder,"migtiming",report_year,
+                                    "_salvage_gen.png")))
+```
+
+
+
+
+Monitoring Sources for abundance, growth/size, 
 -   Sac Trawl
 -   Tisdale Weir
 -   Knights Landing
@@ -618,30 +812,6 @@ Monitoring Sources for abundance, growth/size, migration timing/duration
 -   Yolo Bypass
 -   Chipps Island Trawl (Exit)
 -   Genetic (Chipps, SWP/CVP, Knights Landing, Yolo Bypass)
-
-1.  Abundance (Count) (IEP Monitoring)
-
-2.  Condition (IEP Monitoring)
-
--   FL
-
-3.  Migration Timing (IEP Monitoring)
-
--   SacPAS style plots of historical and current year?
-
-*Chipps Trawl Timing*
-
-*Sac Trawl Timing*
-
-*Sac Beach Seine Timing*
-
-4.  Migration Duration
-
--   Calfish Track/ERDDAP
-
-5.  Migration Routing
-
-6.  Survival
 
 -   Hatchery real-time: Calfish Track/ERDDAP
 -   Natural Origin Smolt survival (O Farell et al. 2018)
